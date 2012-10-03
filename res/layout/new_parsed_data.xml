@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:minWidth="280dip"
+    android:layout_height="wrap_content">
+ 
+	<LinearLayout
+		android:layout_height="wrap_content" android:layout_width="match_parent">
+		<EditText android:layout_height="wrap_content" android:text="TextView"
+			android:id="@+id/new_spend" android:layout_margin="5dip"
+			android:textSize="18dp" android:layout_width="match_parent"
+			android:layout_weight="4"></EditText>
+		<TextView android:layout_height="wrap_content" android:text="TextView"
+			android:id="@+id/new_date" android:layout_margin="5dip"
+			android:textSize="18dp" android:layout_width="match_parent"
+			android:layout_weight="3"></TextView>
+	</LinearLayout>
+	<LinearLayout
+		android:layout_height="wrap_content" android:layout_width="match_parent">
+		<Spinner android:layout_weight="3" android:id="@+id/new_category"
+			android:layout_height="wrap_content" android:layout_width="match_parent"
+			android:prompt="@string/category_prompt"></Spinner>
+		<EditText android:layout_height="wrap_content" android:id="@+id/new_detail"
+			android:textSize="20dp" android:layout_width="match_parent"
+			android:layout_weight="2" android:editable="true" android:text="@string/select"
+			android:gravity="center" android:layout_gravity="center"></EditText>
+	</LinearLayout>
+</LinearLayout>

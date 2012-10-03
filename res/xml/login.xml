@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory android:title="Login"></PreferenceCategory><EditTextPreference 
+		android:key="custId" 
+		android:summary="@string/custId_body" 
+		android:title="@string/custId_title">
+	</EditTextPreference>
+	
+	<EditTextPreference
+		android:key="passwd"
+		android:summary="@string/passwd_body"
+		android:title="@string/passwd_title"
+		android:password="true">
+	</EditTextPreference>
+
+</PreferenceScreen>

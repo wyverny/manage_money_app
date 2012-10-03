@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<LinearLayout android:id="@+id/linearLayout1"
+		android:layout_width="match_parent" android:layout_height="wrap_content"
+		android:gravity="top" android:layout_margin="3dip">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_marginRight="10dip"
+			android:id="@+id/calendar_year"></TextView>
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_marginRight="10dip"
+			android:id="@+id/calendar_month"></TextView>
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/calendar_day"></TextView>
+
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_marginRight="10dip"
+			android:id="@+id/calendar_month_n"></TextView>
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/calendar_day_n"></TextView>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/calendarLayout"
+		android:layout_width="match_parent" android:orientation="vertical"
+		android:layout_gravity="center" android:layout_height="match_parent"
+		android:layout_weight="6" android:layout_margin="5dip"></LinearLayout>
+	<LinearLayout android:layout_width="match_parent"
+		android:orientation="horizontal" android:gravity="bottom"
+		android:layout_gravity="bottom" android:layout_height="wrap_content"
+		android:layout_weight="1" android:layout_margin="1dip">
+		<!-- <Button android:layout_width="wrap_content" android:layout_height="wrap_content" 
+			android:text="" android:layout_weight="1" android:id="@+id/pre_year_button"></Button> -->
+		<Button android:layout_height="wrap_content"
+			android:layout_weight="1" android:id="@+id/pre_month_button"
+			android:text="@string/pastmonth" android:layout_width="match_parent" android:padding="2dip"></Button>
+		<Button android:layout_height="wrap_content"
+			android:layout_weight="1" android:id="@+id/post_month_button"
+			android:text="@string/nextmonth" android:layout_width="match_parent" android:padding="2dip"></Button>
+		<!-- <Button android:layout_width="wrap_content" android:layout_height="wrap_content" 
+			android:text="" android:layout_weight="1" android:id="@+id/post_year_button"></Button> -->
+	</LinearLayout>
+
+</LinearLayout>

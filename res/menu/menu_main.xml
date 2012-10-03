@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">    
+    <item android:id="@+id/options_menu_main_setting" 
+    android:icon="@android:drawable/ic_menu_preferences" 
+    android:title="@string/menu_setting" />   
+
+    <item android:id="@+id/options_menu_main_sms" 
+    android:icon="@android:drawable/ic_menu_set_as" 
+    android:title="@string/menu_load_sms" />
+    
+    <item android:id="@+id/options_menu_main_exit" 
+    android:icon="@android:drawable/ic_menu_close_clear_cancel" 
+    android:title="@string/menu_exit" />
+</menu>

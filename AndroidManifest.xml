@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.lcm.smsSmini"
+	android:versionCode="1"
+	android:versionName="1.0">
+	<application
+		android:icon="@drawable/icon"
+		android:label="@string/app_name">
+
+		<activity
+			android:name="com.lcm.data.sms.InboxListActivity">
+
+		</activity>
+		<receiver
+			android:name="com.lcm.data.sms.SmsReceiver">
+			<intent-filter>
+				<action
+					android:name="android.provider.Telephony.SMS_RECEIVED"></action>
+				<category
+					android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</receiver>
+		<activity
+			android:screenOrientation="portrait" android:name="com.lcm.view.MainActivity">
+			<intent-filter>
+				<action
+					android:name="android.intent.action.MAIN" />
+				<category
+					android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name="com.lcm.data.sms.HandleReceivedSms"
+			android:windowSoftInputMode="adjustPan"></activity>
+		<activity android:name="com.lcm.view.GsCalendar"></activity>
+		<activity android:name="com.lcm.data.SettingsPreference"></activity>
+		<activity android:name="com.lcm.view.HandleParsedData"></activity>
+		<receiver android:name="com.lcm.widget.MonetaWidget">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
+			</intent-filter>
+			<meta-data android:name="android.appwidget.provider"
+			android:resource="@xml/widget_configuration"/>
+		</receiver>
+		<receiver android:name="com.lcm.view.NotiInfoRunner" android:process=".remote">
+			<intent-filter>
+			    <action android:name="ACTION.Restart.PersistentService"></action>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
+			</intent-filter>	    
+		</receiver>
+		<service android:name="com.lcm.view.NotiInfo"></service>
+
+	</application>
+
+	<uses-sdk
+		android:minSdkVersion="10" />
+
+	<uses-permission
+		android:name="android.permission.READ_SMS"></uses-permission>
+	<uses-permission
+		android:name="android.permission.RECEIVE_SMS"></uses-permission>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+	<uses-permission
+		android:name="android.permission.INTERNET"></uses-permission>
+</manifest> 

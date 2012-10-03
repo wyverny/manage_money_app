@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<include android:id="@+id/_indicator" layout="@layout/indicator"/>
+	<com.google.android.apps.iosched.ui.widget.Workspace
+		android:id="@+id/workspace" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:scrollbars="horizontal"
+		android:fadeScrollbars="true">
+		
+		<LinearLayout android:layout_weight="1"
+					android:gravity="top" android:layout_height="match_parent"
+					android:layout_width="match_parent" android:orientation="horizontal" android:id="@+id/analyseTab">
+		</LinearLayout>
+		<LinearLayout android:layout_weight="1"
+					android:gravity="top" android:layout_width="match_parent"
+					android:layout_height="match_parent" android:orientation="horizontal" android:id="@+id/calendarTab">
+		</LinearLayout>
+	</com.google.android.apps.iosched.ui.widget.Workspace>
+<!-- 
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/textInfoLayout"
+		android:orientation="vertical">
+		<EditText android:inputType="textMultiLine"
+			android:layout_height="wrap_content" android:layout_width="match_parent"
+			android:id="@+id/generalInfoEditText"></EditText>
+		<ProgressBar android:id="@+id/expenseProgressBar"
+			android:layout_marginRight="10dip" android:layout_marginLeft="10dip"
+			android:layout_height="wrap_content" android:progress="1"
+			android:max="100" style="?android:attr/progressBarStyleHorizontal"
+			android:layout_width="match_parent" android:layout_margin="4dip"></ProgressBar>
+	</LinearLayout> -->
+</LinearLayout>

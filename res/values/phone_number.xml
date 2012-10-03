@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="phone_no">
+        <item>15447200</item>
+    </integer-array>
+    <string-array name="Debit">
+        <item>Shinhan</item>
+        <item>Hana</item>
+        <item>KB</item>
+    </string-array>
+    <string-array name="Category">
+        <item>Credit</item>
+        <item>Debit</item>
+    </string-array>
+    <string-array name="Credit">
+        <item>Shinhan</item>
+        <item>Hana</item>
+        <item>KB</item>
+    </string-array>
+    <string-array name="Contains">
+        <item>신한체크</item>
+        <item>신한카드정상승인</item>
+    </string-array>
+</resources>

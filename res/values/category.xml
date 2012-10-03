@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+    	<item>기타</item>
+        <item>식비</item>
+        <item>주거통신</item>
+        <item>생활용품</item>
+        <item>의복</item>
+        <item>건강문화</item>
+        <item>교육</item>
+        <item>교통차량</item>
+        <item>세금</item>
+        <item>경조사</item>
+    </string-array>
+</resources>

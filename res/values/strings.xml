@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main">SMS to Mmini</string>
+    <string name="app_name">생활비 모니터</string>
+<string name="extractText">SMS 가져오기</string>
+<string name="receiveSMS">moneta upload</string>
+<string name="registerNo">Phone No regist</string>
+<string name="select">선택</string>
+<string name="load">SMS 읽어오기</string>
+<string name="custId_title">ID</string>
+<string name="passwd_title">PASSWORD</string>
+<string name="custId_body">moneta ID</string>
+<string name="passwd_body">moneta password</string>
+<string name="category_prompt">카테고리 선택</string>
+<string name="detail_dialog_title">세부내역 수정</string>
+<string name="menu_load_sms">SMS 불러오기</string>
+<string name="menu_setting">세팅</string>
+<string name="menu_exit">종료</string>
+<string name="current_use">생활비 총 사용량</string>
+<string name="setting_essential">기본 세팅</string>
+<string name="setting_optional">부가 세팅</string>
+<string name="pastmonth">지난달</string>
+<string name="nextmonth">다음달</string>
+<string name="percent">%</string>
+</resources>

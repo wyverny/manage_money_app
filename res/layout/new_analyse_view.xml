@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<ScrollView android:layout_height="wrap_content" android:id="@+id/scrollView1"
+		android:layout_width="match_parent">
+		<LinearLayout
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+		    <TextView
+				android:layout_marginTop="0dip" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"
+				android:text="이번달 사용량 분석" android:layout_marginLeft="15dip"></TextView>
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="@drawable/rounded_corner"
+			    android:orientation="vertical" >
+		    	
+			    <ProgressBar
+			        android:id="@+id/budget_used"
+			        style="?android:attr/progressBarStyleHorizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_margin="10dip"
+			        android:progressDrawable="@drawable/progressbar_expenses" />
+			    <TextView android:layout_width="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_height="wrap_content" android:layout_gravity="right" android:layout_marginRight="15dip"
+				android:layout_marginTop="-10dip" android:layout_marginBottom="-10dip" android:id="@+id/budget_info" android:text="70만 / 70만"></TextView>
+
+			    <ProgressBar
+			        android:id="@+id/time_passed"
+			        style="?android:attr/progressBarStyleHorizontal"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_margin="10dip"
+			        android:maxHeight="5dip"
+			        android:minHeight="5dip"
+			        android:layout_marginTop="-15dip"
+			        android:progressDrawable="@drawable/progressbar_expenses" />
+			    <TextView android:layout_width="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_height="wrap_content" android:layout_gravity="right" android:layout_marginRight="15dip"
+				android:layout_marginTop="-10dip" android:id="@+id/time_info" android:text="70만 / 70만"></TextView>
+
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:padding="5dip" >
+					
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent"
+			            android:layout_weight="0"
+			            android:background="@drawable/rounded_corner"
+			            android:gravity="center|center_horizontal"
+			            android:minWidth="55dip" >
+
+				        <TextView
+				            android:id="@+id/expected_percent"
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:gravity="center"
+				            android:text="87"
+				            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:text="@string/percent"
+				            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+					</LinearLayout>
+
+			        <TextView
+			            android:id="@+id/expected_detail"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="20"
+			            android:minHeight="60dip"
+			            android:padding="1dip"
+			            android:text="예상 사용량 대비 25000원 덜 사용했습니다."
+			            android:textAppearance="?android:attr/textAppearanceMedium" />
+			        
+			    </LinearLayout>
+			    
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:padding="5dip" >
+					
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent"
+			            android:layout_weight="0"
+			            android:background="@drawable/rounded_corner"
+			            android:gravity="center|center_horizontal"
+			            android:minWidth="55dip" >
+
+				        <TextView
+				            android:id="@+id/trend_percent"
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:gravity="center"
+				            android:text="87"
+				            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:text="@string/percent"
+				            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+					</LinearLayout>
+
+			        <TextView
+			            android:id="@+id/trend_detail"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="20"
+			            android:minHeight="60dip"
+			            android:padding="5dip"
+			            android:text="예상 사용량 대비 25000원 덜 사용했습니다."
+			            android:textAppearance="?android:attr/textAppearanceMedium" />
+			        
+			    </LinearLayout>
+
+			</LinearLayout>
+			<TextView
+				android:layout_marginTop="10dip" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge"
+				android:text="오늘 사용량 분석" android:layout_marginLeft="15dip"></TextView>
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="10dip"
+			    android:layout_marginRight="10dip"
+			    android:background="@drawable/rounded_corner"
+			    android:orientation="vertical" >
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:padding="5dip" >
+					
+			        <LinearLayout
+			            android:layout_width="wrap_content"
+			            android:layout_height="match_parent"
+			            android:layout_weight="0"
+			            android:background="@drawable/rounded_corner"
+			            android:gravity="center|center_horizontal"
+			            android:minWidth="55dip" >
+
+				        <TextView
+				            android:id="@+id/today_expected_percent"
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:gravity="center"
+				            android:text="0"
+				            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+				        <TextView
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+				            android:text="@string/percent"
+				            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+					</LinearLayout>
+
+			        <TextView
+			            android:id="@+id/today_expected_detail"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="20"
+			            android:minHeight="60dip"
+			            android:padding="5dip"
+			            android:text="예상 사용량 대비 25000원 덜 사용했습니다."
+			            android:textAppearance="?android:attr/textAppearanceMedium" />
+			    </LinearLayout>
+
+		    	<TextView
+		    	    android:id="@+id/wday_expense"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_marginBottom="5dip"
+		    	    android:layout_marginLeft="10dip"
+		    	    android:text="주중 생활비: 20,000"
+		    	    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		    	<TextView
+		    	    android:id="@+id/wend_expense"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_marginBottom="5dip"
+		    	    android:layout_marginLeft="10dip"
+		    	    android:text="주말 생활비: 50,000"
+		    	    android:textAppearance="?android:attr/textAppearanceLarge" />
+			    
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
