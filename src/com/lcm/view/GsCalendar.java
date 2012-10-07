@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -155,7 +156,7 @@ public class GsCalendar {
 		// / 화면의 크기에 따른 보정값
 		m_displayScale = context.getResources().getDisplayMetrics().density;
 
-		m_topTextSize = m_displayScale * 12.0f;
+		m_topTextSize = m_displayScale * 11.0f;
 		m_textSize = m_displayScale * 10.0f;
 
 		m_colorParam = new gsCalendarColorParam();
@@ -366,12 +367,12 @@ public class GsCalendar {
 					LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
 							LayoutParams.FILL_PARENT,
 							LayoutParams.FILL_PARENT);
+					
 					param.weight = 1;
 					// param.setMargins( 1, 1, 1, 1 ) ; /// 마진을 1씩 줘서 라인을 그린다.
 					m_cellLy[cellnum].setLayoutParams(param);
+					m_cellLy[cellnum].setOrientation(LinearLayout.VERTICAL);
 					// / 한칸한칸 들어가는 버튼
-					m_cellTextBtn[cellnum].setGravity(Gravity.CENTER);
-					m_cellStatBtn[cellnum].setGravity(Gravity.BOTTOM);
 
 					// / 이하는 배경색 글씨색 글씨 크기 설정하는 부분
 
@@ -425,10 +426,12 @@ public class GsCalendar {
 //										m_cWidth, m_cHeight));
 						m_cellStatBtn[cellnum]
 					            .setLayoutParams(new LinearLayout.LayoutParams(
-				            		    m_cWidth, m_cHeight));
+				            		    m_cWidth, m_cHeight,1f));
 						m_cellTextBtn[cellnum]
 						              .setLayoutParams(new LinearLayout.LayoutParams(
-						            		  m_cWidth, (int)(((double)m_cHeight)*3.0/5.0)));
+						            		  m_cWidth, m_cHeight, 2f)); //(int)(((double)m_cHeight)*3.0/5.0),3f));
+						m_cellTextBtn[cellnum].setGravity(Gravity.TOP);
+						m_cellStatBtn[cellnum].setGravity(Gravity.BOTTOM);
 //						m_cellStatBtn[cellnum]
 //						              .setLayoutParams(new LinearLayout.LayoutParams(
 //						            		  m_cWidth, (int)(((double)m_cHeight)*1.0/4.0)));
@@ -461,7 +464,7 @@ public class GsCalendar {
 						}
 
 						// / 글씨 크기
-						m_cellTextBtn[cellnum].setTextSize(m_textSize);
+						m_cellTextBtn[cellnum].setTextSize(m_textSize*0.9f);
 						m_cellStatBtn[cellnum].setTextSize(m_textSize*0.6f);
 					}
 
