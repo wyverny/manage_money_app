@@ -57,7 +57,7 @@ public class MonthlyData {
 
 //		nextFromGregorianCalendar =	new GregorianCalendar(from.getYear(), (from.getMonth()<11)? (from.getMonth()+1) : 0, from.getDate());
 		
-		totalDays = fromDays - from.getDate() + to.getDate();
+		totalDays = fromDays - from.get(Calendar.DAY_OF_MONTH) + to.get(Calendar.DAY_OF_MONTH);
 		/**
 		 * so the date starts from the 'From' date, say 25. then it gets the end of that month, the 'Turning' date, say 31.
 		 * then it goes to the next month and the date goes from 1 to the 'To' date, 24.
@@ -66,14 +66,15 @@ public class MonthlyData {
 		
 		// getting date for each index
 		eachDate = new int[totalDays];
-		if(DEBUG) Log.e(TAG,"TotalDays: " + totalDays + ", " + fromDays + ", " + from.getDate() + ", "+to.getDate());
+		if(DEBUG) Log.e(TAG,"TotalDays: " + totalDays + ", " + fromDays + ", " +
+				from.get(Calendar.DAY_OF_MONTH) + ", "+to.get(Calendar.DAY_OF_MONTH));
 		int index=0;
-		beginingMonth = from.getMonth()+1;
-		for(int j=from.getDate(); j<=fromDays; j++) {
+		beginingMonth = from.get(Calendar.MONTH)+1;
+		for(int j=from.get(Calendar.DAY_OF_MONTH); j<=fromDays; j++) {
 			eachDate[index] = j;
 			index++;
 		}
-		for(int j=1; j<=to.getDate()-1; j++) {
+		for(int j=1; j<=to.get(Calendar.DAY_OF_MONTH)-1; j++) {
 			eachDate[index] = j;
 			index++;
 		}
@@ -122,7 +123,7 @@ public class MonthlyData {
 			return;
 		}
 //		int day = 100*(parsedData.getDate().getMonth()+1)+ parsedData.getDate().getDate();
-		int day = parsedData.getDate().getDate();
+		int day = parsedData.getDate().get(Calendar.DAY_OF_MONTH);
 		if(DEBUG) Log.e(TAG,"Getting day: " + day);
 		eachDaysData.get(day).add(parsedData);
 	}
@@ -149,9 +150,9 @@ public class MonthlyData {
 	 */
 	public int[] accumulateExpense() {
 		int day = 0;
-		Date date = new Date();
+		Calendar date = new GregorianCalendar();
 		if(date.compareTo(from)<0||date.compareTo(to)>0) {
-			day = date.getDate();
+			day = date.get(Calendar.DAY_OF_MONTH);
 		}
 		int[] accumExpense = new int[eachExpense.length];
 		accumExpense[0] = eachExpense[0];

@@ -20,7 +20,7 @@ public class ParsedData implements Parcelable {
 	
 	private int spent;
 	private String category;
-	private Date date;
+	private Calendar date;
 	private String detail;
 	private Location location;
 	private String bank;
@@ -41,7 +41,8 @@ public class ParsedData implements Parcelable {
 		installment = parcel.readInt();
 		category = parcel.readString();
 		category = "unknown";//parcel.readString();
-		date = new Date(parcel.readLong());
+		date = new GregorianCalendar();
+		date.setTime(new Date(parcel.readLong()));
 		detail = parcel.readString();
 		location = parcel.readParcelable(Location.class.getClassLoader());
 		bank = parcel.readString();
@@ -52,7 +53,7 @@ public class ParsedData implements Parcelable {
 //		new ParsedData(spent, category,new Date(date), detail, location, bank);
 	}
 	
-	public ParsedData(int spent, int installment, String category,Date date,String detail,Location location, String bank, int sms_id) {
+	public ParsedData(int spent, int installment, String category, Calendar date,String detail,Location location, String bank, int sms_id) {
 		this.spent = spent;
 		this.installment = installment;
 		this.category = category;
@@ -65,7 +66,7 @@ public class ParsedData implements Parcelable {
 		flag = false;
 	}
 
-	public ParsedData(int spent, int installment, String category, Date date,String detail,String bank, int sms_id) {
+	public ParsedData(int spent, int installment, String category, Calendar date,String detail,String bank, int sms_id) {
 		this.spent = spent;
 		this.installment = installment;
 		this.category = "unknown";
@@ -77,7 +78,7 @@ public class ParsedData implements Parcelable {
 		flag = false;
 	}
 
-	public ParsedData(int spent, int installment, String category,Date date,String detail) {
+	public ParsedData(int spent, int installment, String category, Calendar date,String detail) {
 		this.spent = spent;
 		this.installment = installment;
 		this.category = category;
@@ -89,7 +90,7 @@ public class ParsedData implements Parcelable {
 		flag = false;
 	}
 
-	public ParsedData(int spent, int installment, String category,Date date) {
+	public ParsedData(int spent, int installment, String category, Calendar date) {
 		this.spent = spent;
 		this.installment = installment;
 		this.category = category;
@@ -129,10 +130,10 @@ public class ParsedData implements Parcelable {
 	public void setPlace(String place) {
 		this.detail = place;
 	}
-	public Date getDate() {
+	public Calendar getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(Calendar date) {
 		this.date = date;
 	}
 
@@ -184,7 +185,7 @@ public class ParsedData implements Parcelable {
 		dest.writeInt(spent);
 		dest.writeInt(installment);
 		dest.writeString(category);
-		dest.writeLong(date.getTime());
+		dest.writeLong(date.getTime().getTime());
 		dest.writeString(detail);
 		dest.writeParcelable(location, flags);
 		dest.writeString(bank);
@@ -212,13 +213,13 @@ public class ParsedData implements Parcelable {
 		SharedPreferences sPref = context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
 		
-		Calendar eachDate = new GregorianCalendar(date.getYear()+1900,date.getMonth(),accountingDate);
-		Date eachDay = date; //new Date(eachDate.getTimeInMillis());
+		Calendar eachDate = new GregorianCalendar(date.get(Calendar.YEAR)+1900,date.get(Calendar.MONTH),accountingDate);
+		Calendar eachDay = date; //new Date(eachDate.getTimeInMillis());
 		for(int i=0; i<installment; i++) {
 			result.add(new InstallmentDatePrice(eachDay, eachPrice));
-			Log.e(TAG,"Year:" + eachDay.getYear() + " Month:" + (eachDay.getMonth()+1) + "Date:" + eachDay.getDate());
+			Log.e(TAG,"Year:" + eachDay.get(Calendar.YEAR) + " Month:" + (eachDay.get(Calendar.MONTH)+1) + "Date:" + eachDay.get(Calendar.DAY_OF_MONTH));
 			eachDate.add(Calendar.MONTH, 1);
-			eachDay = eachDate.getTime();
+			eachDay = eachDate;
 		}
 		return result;
 	}
@@ -228,14 +229,14 @@ public class ParsedData implements Parcelable {
 	}
 
 	public class InstallmentDatePrice {
-		private Date installmentDate;
+		private Calendar installmentDate;
 		private int installmentPrice;
 		
-		public InstallmentDatePrice(Date inst, int price) {
+		public InstallmentDatePrice(Calendar inst, int price) {
 			installmentDate = inst;
 			installmentPrice = price;
 		}
-		public Date getInstallmentDate() {
+		public Calendar getInstallmentDate() {
 			return installmentDate;
 		}
 		public int getInstallmentPrice() {

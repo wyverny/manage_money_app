@@ -1,5 +1,6 @@
 package com.lcm.data;
 
+import java.util.Calendar;
 import java.util.Date;
 import android.content.ContentValues;
 import android.content.Context;
@@ -80,15 +81,15 @@ public class ExpenditureDBAdaptor {
 	}
 	
 	// when data is inserted manually
-	public long insertDB(int spend, String category, Date date, String detail, double loc_long, double loc_lati, String bank) {
+	public long insertDB(int spend, String category, Calendar date, String detail, double loc_long, double loc_lati, String bank) {
 		ContentValues cv = new ContentValues();
 		cv.put(KEY_SPEND, spend);
 		if(category!=null) cv.put(KEY_CATEGORY, category);
 		else cv.put(KEY_CATEGORY, UNKNOWN);
 		
-		cv.put(KEY_YEAR, date.getYear());
-		cv.put(KEY_MONTH, date.getMonth());
-		cv.put(KEY_DAY, date.getDay());
+		cv.put(KEY_YEAR, date.get(Calendar.YEAR));
+		cv.put(KEY_MONTH, date.get(Calendar.MONTH));
+		cv.put(KEY_DAY, date.get(Calendar.DAY_OF_MONTH));
 		cv.put(KEY_TIME, ""+date.getTime());
 		
 		if(detail!=null) cv.put(KEY_DETAIL, detail);
@@ -102,13 +103,13 @@ public class ExpenditureDBAdaptor {
 	}
 	
 	//when data is inserted using sms data
-	public long insertDB(int spend, Date date, String detail, String bank, int sms_id) {
+	public long insertDB(int spend, Calendar date, String detail, String bank, int sms_id) {
 		ContentValues cv = new ContentValues();
 		cv.put(KEY_SPEND, spend);
 		
-		cv.put(KEY_YEAR, date.getYear());
-		cv.put(KEY_MONTH, date.getMonth());
-		cv.put(KEY_DAY, date.getDay());
+		cv.put(KEY_YEAR, date.get(Calendar.YEAR));
+		cv.put(KEY_MONTH, date.get(Calendar.MONTH));
+		cv.put(KEY_DAY, date.get(Calendar.DAY_OF_MONTH));
 		cv.put(KEY_TIME, ""+date.getTime());
 		
 		cv.put(KEY_DETAIL, detail);
@@ -125,10 +126,10 @@ public class ExpenditureDBAdaptor {
 //				, null) > 0;
 //	}
 	
-	public boolean deleteDB(Date date) {
+	public boolean deleteDB(Calendar date) {
 		return mDb.delete(DATABASE_TABLE, 
-				KEY_YEAR + "=" + date.getYear() + " AND " + KEY_MONTH + "=" + date.getMonth() + " AND " +  
-				KEY_DAY + "=" + date.getDay() + " AND " + KEY_TIME + "=" + date.getTime()
+				KEY_YEAR + "=" + date.get(Calendar.YEAR) + " AND " + KEY_MONTH + "=" + date.get(Calendar.MONTH) + " AND " +  
+				KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTime()
 				, null) > 0;
 	}
 	
@@ -159,13 +160,13 @@ public class ExpenditureDBAdaptor {
 //		return mCursor;
 //	}
 	
-	public Cursor fetchDB(Date date) throws SQLException {
+	public Cursor fetchDB(Calendar date) throws SQLException {
 		Cursor mCursor = mDb.query(true, DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
 						KEY_BANK, KEY_SMS_ID}, 
-				KEY_YEAR + "=" + date.getYear() + " AND " + KEY_MONTH + "=" + date.getMonth() + " AND " +  
-						KEY_DAY + "=" + date.getDay() + " AND " + KEY_TIME + "=" + date.getTime(),
+				KEY_YEAR + "=" + date.get(Calendar.YEAR) + " AND " + KEY_MONTH + "=" + date.get(Calendar.MONTH) + " AND " +  
+						KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTime(),
 				null, null, null,null,null);
 		if(mCursor!=null) {
 			mCursor.moveToFirst();

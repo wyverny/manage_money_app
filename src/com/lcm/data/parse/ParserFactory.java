@@ -1,6 +1,8 @@
 package com.lcm.data.parse;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.lcm.data.CategoryDBAdaptor;
 import com.lcm.data.ParsedData;
@@ -28,6 +30,8 @@ public class ParserFactory {
 		// confer to values.phone_number
 		String[] contains = mContext.getResources().getStringArray(R.array.Contains);
 		String[] data;
+		Calendar dateCalendar = new GregorianCalendar();
+		dateCalendar.setTime(date);
 		for(int i=0;i<contains.length; i++) {
 			if(input.contains(contains[i])) {
 				index = i;
@@ -46,7 +50,9 @@ public class ParserFactory {
 		}
 		// if Date is not null, put that into parsedData so that we can get more precise data
 //		Log.e("ShinhanCheckSmsParser", date.toString()+", "+data[0]+", "+data[1]);
-		ParsedData parsedData = new ParsedData(Integer.parseInt(data[0].replace(",", "")),Integer.parseInt(data[2].trim()),getCategory(data[1]), date, data[1], contains[index], IS_SMS);
+		ParsedData parsedData = new ParsedData(Integer.parseInt(data[0].replace(",", "")),
+				Integer.parseInt(data[2].trim()),getCategory(data[1]),
+				dateCalendar, data[1], contains[index], IS_SMS);
 		return parsedData;
 	}
 

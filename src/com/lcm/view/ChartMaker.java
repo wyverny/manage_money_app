@@ -1,6 +1,7 @@
 package com.lcm.view;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ChartMaker {
 		parsedDataManager = ParsedDataManager.getParsedDataManager(context);
 	}
 	
-	protected AbstractChart drawDoughnutChart(Date from, Date to, Date turning) {
+	protected AbstractChart drawDoughnutChart(Calendar from, Calendar to, Calendar turning) {
 		// TODO: these data need to come from the database
 //		Date to = new Date();
 //		Log.e(TAG,"To: " + to);
@@ -69,7 +70,7 @@ public class ChartMaker {
 				titles, values), renderer);
 	}
 
-	protected AbstractChart drawLineChart(Date from, Date to, Date turning) {
+	protected AbstractChart drawLineChart(Calendar from, Calendar to, Calendar turning) {
 		// TODO: these data need to come from the database
 		
 		int[] expenseInt = null;

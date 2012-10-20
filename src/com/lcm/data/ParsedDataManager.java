@@ -1,7 +1,9 @@
 package com.lcm.data;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -118,8 +120,9 @@ public class ParsedDataManager {
 		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
 		exDBAdaptor.open();
 		
-		exDBAdaptor.updateDB(parsedData.getDate().getYear(), parsedData.getDate().getMonth(), parsedData.getDate().getDay(), 
-				parsedData.getDate().getTime(), parsedData.getSpent(), parsedData.getCategory(),
+		exDBAdaptor.updateDB(parsedData.getDate().get(Calendar.YEAR), parsedData.getDate().get(Calendar.MONTH), 
+				parsedData.getDate().get(Calendar.DAY_OF_MONTH), 
+				parsedData.getDate().getTimeInMillis(), parsedData.getSpent(), parsedData.getCategory(),
 				parsedData.getDetail(), parsedData.getBank());
 		
 		exDBAdaptor.close();
@@ -132,8 +135,9 @@ public class ParsedDataManager {
 		exDBAdaptor.open();
 		
 		for(ParsedData parsedData:parsedDatas) {
-			exDBAdaptor.updateDB(parsedData.getDate().getYear(), parsedData.getDate().getMonth(), parsedData.getDate().getDay(), 
-					parsedData.getDate().getTime(), parsedData.getSpent(), parsedData.getCategory(),
+			exDBAdaptor.updateDB(parsedData.getDate().get(Calendar.YEAR), parsedData.getDate().get(Calendar.MONTH), 
+					parsedData.getDate().get(Calendar.DAY_OF_MONTH), 
+					parsedData.getDate().getTimeInMillis(), parsedData.getSpent(), parsedData.getCategory(),
 					parsedData.getDetail(), parsedData.getBank());
 		}
 		
@@ -165,13 +169,13 @@ public class ParsedDataManager {
 	}
 	
 	// retrieving data
-	public Cursor getParsedDataList(Date from, Date to) {
+	public Cursor getParsedDataList(Calendar from, Calendar to) {
 		Cursor cursor;
 		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
 		exDBAdaptor.open();
 		
 //		cursor = exDBAdaptor.fetchAllDB();
-		cursor = exDBAdaptor.fetchDB(from.getTime(), to.getTime());
+		cursor = exDBAdaptor.fetchDB(from.getTime().getTime(), to.getTime().getTime());
 		if(DEBUG) Log.e(TAG,"from: " + from + " to: " + to);
 		if(DEBUG) Log.e(TAG,"getParsedDataList: " + cursor.getCount());
 		
@@ -203,17 +207,17 @@ public class ParsedDataManager {
 	
 	private ArrayList<ParsedData> getParsedDataFromDatabase(int year, int month) {
 		// you can confer from http://zbmon.com/moin.cgi/DateUtil.java
-		return getParsedDataFromDatabase(new Date(year, month, 1),
-				new Date(year+(int)((month+1)/12),
+		return getParsedDataFromDatabase(new GregorianCalendar(year, month, 1),
+				new GregorianCalendar(year+(int)((month+1)/12),
 						(month<12)? month : 1, 1));
 	}
 	
 	private ArrayList<ParsedData> getParsedDataFromDatabase(int fromYear, int fromMonth, int toYear, int toMonth) {
-		return getParsedDataFromDatabase(new Date(fromYear, fromMonth, 1),
-				new Date(toYear, toMonth, 1));
+		return getParsedDataFromDatabase(new GregorianCalendar(fromYear, fromMonth, 1),
+				new GregorianCalendar(toYear, toMonth, 1));
 	}
 	
-	public ArrayList<ParsedData> getParsedDataFromDatabase(Date from, Date to) {
+	public ArrayList<ParsedData> getParsedDataFromDatabase(Calendar from, Calendar to) {
 		ArrayList<ParsedData> parsedDatas = new ArrayList<ParsedData>();
 		Cursor data = parsedDataManager.getParsedDataList(from, to);
 		if(data==null || data.getCount()==0) {
@@ -234,7 +238,8 @@ public class ParsedDataManager {
 		do {
 			int spend = data.getInt(spentId);
 			String category = data.getString(categoryId);
-			Date date = new Date(data.getLong(dateId));
+			Calendar date = new GregorianCalendar();
+			date.setTimeInMillis(data.getLong(dateId));
 			String detail = data.getString(detailId);
 			Location location = new Location("");
 			location.setLongitude(data.getDouble(locationLongId));
@@ -274,7 +279,8 @@ public class ParsedDataManager {
 		do {
 			int spend = data.getInt(spentId);
 			String category = data.getString(categoryId);
-			Date date = new Date(data.getLong(dateId));
+			Calendar date = new GregorianCalendar();
+			date.setTimeInMillis(data.getLong(dateId));
 			String detail = data.getString(detailId);
 			Location location = new Location("");
 			location.setLongitude(data.getDouble(locationLongId));
@@ -296,7 +302,7 @@ public class ParsedDataManager {
 		ArrayList<ParsedData> parsedDataOfMonth = getParsedDataFromDatabase(year, month);
 		int[] spend = new int[31];
 		for(int i=0; i<parsedDataOfMonth.size(); i++) {
-			parsedDataOfMonth.get(i).getDate().getDay();
+			parsedDataOfMonth.get(i).getDate().get(Calendar.DAY_OF_MONTH);
 		}
 		return null;
 	}

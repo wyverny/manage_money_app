@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
 		// and month should be previous month
 		Util util = new Util();
 		// Log.e(TAG,"getFromTo: " + (today.getYear()+1900) + "," + month);
-		Date[] fromTo = util.getFromTo(today.getYear()+1900, month, accountingDate);
+		Calendar[] fromTo = util.getFromTo(today.getYear()+1900, month, accountingDate);
 		Log.e(TAG,"Update MonthlyData: from " + fromTo[Util.FROM] + " throughout " + fromTo[Util.THROUGH] + " to " + fromTo[Util.TO]);
 		int[] expense = null;
 		double maxExpense = 0;

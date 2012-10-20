@@ -1,5 +1,6 @@
 package com.lcm.view;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -19,7 +20,7 @@ public class Util {
 	 * Turning: when month period goes to next month, it gives the info when From date's month ends
 	 * 		otherwise it is the same with To date
 	 */
-	public Date[] getFromTo(int year, int month, int fromValue) {
+	public Calendar[] getFromTo(int year, int month, int fromValue) {
 		// getting a month period to acquire data from database. Date[0] is from, Date[1] is to.
 		GregorianCalendar fromDate = new GregorianCalendar(year,month,fromValue); //fromDate.setDate(fromValue);
 		
@@ -52,8 +53,6 @@ public class Util {
 			turningPoint = gc;
 		}
 		
-		return new Date[]{new Date(fromDate.getTimeInMillis()),
-				new Date(turningPoint.getTimeInMillis()),
-				new Date(toDate.getTimeInMillis())};
+		return new GregorianCalendar[]{fromDate, turningPoint, toDate};
 	}
 }

@@ -1,6 +1,7 @@
 package com.lcm.view;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -47,7 +48,7 @@ public class HandleParsedData extends Activity {
 	ArrayList<ParsedData> deleted_datas;
 	ArrayList<ParsedData> created_datas;
 	int year, month, date;
-	Date chosenDate;
+	Calendar chosenDate;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +68,9 @@ public class HandleParsedData extends Activity {
 		GregorianCalendar gnc = (GregorianCalendar)gc.clone();
 		
 		gnc.add(GregorianCalendar.DATE, 1);
-		data_handled = parsedDataManager.getParsedDataFromDatabase(new Date(gc.getTimeInMillis()), new Date(gnc.getTimeInMillis()));
+		data_handled = parsedDataManager.getParsedDataFromDatabase(gc, gnc);
 		gc.add(GregorianCalendar.HOUR, 12);
-		chosenDate = new Date(gc.getTimeInMillis());
+		chosenDate = gc;
 		
 //		Log.e(TAG,"Data handled: " + data_handled);
 		myAdapter = new MyAdapter(this, R.layout.handle_data, R.id.handle_detail, data_handled);
@@ -286,7 +287,7 @@ public class HandleParsedData extends Activity {
 		LayoutInflater inflator = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflator.inflate(R.layout.new_parsed_data, (ViewGroup)findViewById(R.id.layout_root));
 		
-		final Date date = chosenDate;
+		final Calendar date = chosenDate;
 		TextView dateView = (TextView)layout.findViewById(R.id.new_date);
 		dateView.setText(DateFormat.getDateFormat(this).format(date));
 		final EditText spendView = (EditText)layout.findViewById(R.id.new_spend);

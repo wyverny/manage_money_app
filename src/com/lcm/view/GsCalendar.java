@@ -72,7 +72,7 @@ public class GsCalendar {
 	private int m_selDay; // / 현재 선택된 날짜
 	
 	private MonthlyData monthlyData;
-	private Date[] dates;
+	private Calendar[] dates;
 
 	// //////////////////////////////////////
 
@@ -543,7 +543,7 @@ public class GsCalendar {
 			m_cellLy[i + m_startPos].setBackgroundColor(getColor(expense));
 		}
 		
-		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].getMonth()+1) + ".1");
+		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].get(Calendar.DAY_OF_MONTH)+1) + ".1");
 		int expense = monthlyData.getDatesExpense(1);
 		String exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
 		m_cellStatBtn[(m_lastDay-startingDate)+1 + m_startPos].setText(exp+"");
