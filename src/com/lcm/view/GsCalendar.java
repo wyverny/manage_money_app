@@ -543,7 +543,7 @@ public class GsCalendar {
 			m_cellLy[i + m_startPos].setBackgroundColor(getColor(expense));
 		}
 		
-		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].getMonth()+1) + "/1");
+		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].getMonth()+1) + ".1");
 		int expense = monthlyData.getDatesExpense(1);
 		String exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
 		m_cellStatBtn[(m_lastDay-startingDate)+1 + m_startPos].setText(exp+"");
@@ -609,18 +609,19 @@ public class GsCalendar {
 	// / 달력을 띄운 다음 년 월 일을 출력해줌
 	public void printView() {
 		// / 텍스트 뷰들이 있으면 그 텍스트 뷰에다가 년 월 일을 적어넣음
-		if (m_yearTv != null)
-			m_yearTv.setText(m_Calendar.get(Calendar.YEAR) + "");
-		if (m_mothTv != null) {
-			// int imonth = iCal.get( Calendar.MONTH ) ;
-			m_mothTv.setText((m_Calendar.get(Calendar.MONTH)) + "");
-		}
-		if (m_dayTv != null) {
-			SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-			int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
-			m_dayTv.setText(""+startingDate);
-			//m_dayTv.setText(m_Calendar.get(Calendar.DAY_OF_MONTH) + "");
-		}
+		return;
+//		if (m_yearTv != null)
+//			m_yearTv.setText(m_Calendar.get(Calendar.YEAR) + "");
+//		if (m_mothTv != null) {
+//			// int imonth = iCal.get( Calendar.MONTH ) ;
+//			m_mothTv.setText(((m_Calendar.get(Calendar.MONTH))+1) + "");
+//		}
+//		if (m_dayTv != null) {
+//			SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+//			int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
+//			m_dayTv.setText(""+startingDate);
+//			//m_dayTv.setText(m_Calendar.get(Calendar.DAY_OF_MONTH) + "");
+//		}
 
 	}
 
@@ -655,9 +656,9 @@ public class GsCalendar {
 
 	// / 텍스트뷰를 넣어주면 각각 뿌려줌 (빈게 들어있으면 안뿌림)
 	public void setViewTarget(TextView[] tv) {
-		m_yearTv = tv[0];
-		m_mothTv = tv[1];
-		m_dayTv = tv[2];
+//		m_yearTv = tv[0];
+//		m_mothTv = tv[1];
+//		m_dayTv = tv[2];
 	}
 
 	// / 버튼을 넣어주면 알아서 옵션 넣어줌 (역시나 빈게 있으면 이벤트 안넣음)
@@ -735,10 +736,12 @@ public class GsCalendar {
 	
 	public void updateMonthlyData() {
 		Util util = new Util();
-		Log.e(TAG,"getFromTo: " + m_Calendar.get(Calendar.YEAR) +", " + m_Calendar.get(Calendar.MONTH));
+		Log.e(TAG,"GsCalendar - getFromTo: " + m_Calendar.get(Calendar.YEAR) +", " + m_Calendar.get(Calendar.MONTH-1));
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
-		dates = util.getFromTo(m_Calendar.get(Calendar.YEAR), m_Calendar.get(Calendar.MONTH)-1, startingDate);
+		Calendar thisMonth = (Calendar)m_Calendar.clone();
+		thisMonth.add(Calendar.MONTH, -1);
+		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH)-1, startingDate);
 		Log.e(TAG,"Update MonthlyData: from " + dates[0] + " throughout " + dates[1] + " to " + dates[2]);
 		monthlyData = new MonthlyData(mContext, dates[0], dates[1], dates[2]);
 	}

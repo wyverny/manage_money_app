@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -16,10 +17,13 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-public class SettingsPreference extends PreferenceActivity implements OnDateSetListener {
+public class SettingsPreference extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	private static final int DIALOG_DATEPICKER = 0;
 	public static final String PREFERENCES_NAME = "SettingPref";
 	public static final String PREF_TOTAL_EXPENSE = "total_expense";
@@ -33,6 +37,9 @@ public class SettingsPreference extends PreferenceActivity implements OnDateSetL
 	private Preference mDatePreference;
 	private EditTextPreference mExpensePreference;
 	private EditTextPreference mCalStartPreference;
+	private EditTextPreference mWeekDayPreference;
+	private EditTextPreference mWeekEndPreference;
+	
 	private CheckBoxPreference mNotiInfoPref;
 	private CheckBoxPreference mNotiIconPref;
 
@@ -47,7 +54,11 @@ public class SettingsPreference extends PreferenceActivity implements OnDateSetL
 		addPreferencesFromResource(R.xml.setting);
 		mDatePreference = findPreference("date");
 		mExpensePreference = (EditTextPreference)findPreference(PREF_TOTAL_EXPENSE);
+		mExpensePreference.getEditText().setKeyListener(DigitsKeyListener.getInstance(false,true));
+		
 		mCalStartPreference = (EditTextPreference)findPreference(PREF_CAL_FROM);
+		mWeekDayPreference = (EditTextPreference)findPreference(PREF_WDAY_BUDGET);
+		mWeekEndPreference = (EditTextPreference)findPreference(PREF_WEND_BUDGET);
 		mNotiInfoPref = (CheckBoxPreference)findPreference(PREF_NOTI_INFO);
 		mNotiInfoPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
@@ -70,7 +81,6 @@ public class SettingsPreference extends PreferenceActivity implements OnDateSetL
 				return false;
 			}
 		});
-		mExpensePreference.setSummary("700000");
 	}
 
 	@Override
@@ -86,18 +96,43 @@ public class SettingsPreference extends PreferenceActivity implements OnDateSetL
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-		switch(id) {
-		case DIALOG_DATEPICKER:
-			final Calendar calendar = Calendar.getInstance();
-			dialog = new DatePickerDialog(this, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE));
-		}
-		return super.onCreateDialog(id);
+	protected void onResume() {
+		super.onResume();
+		mExpensePreference.setSummary(mExpensePreference.getText());
+		mCalStartPreference.setSummary(mCalStartPreference.getText());
+		mWeekDayPreference.setSummary(mWeekDayPreference.getText());
+    	mWeekEndPreference.setSummary(mWeekEndPreference.getText());
+    	
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+	}
+	
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+	    if (key.equals(PREF_TOTAL_EXPENSE)) {
+	        mExpensePreference.setSummary(sharedPreferences.getString(key, "planned amount of money to spend for a month"));
+	    } else if(key.equals(PREF_CAL_FROM)) {
+	    	mCalStartPreference.setSummary(sharedPreferences.getString(key, "accumulate expense from"));
+	    } else if(key.equals(PREF_WDAY_BUDGET)) {
+	    	int[] eachBudget = getEachBudget(Integer.parseInt(sharedPreferences.getString(key, "0")),0);
+	    	sharedPreferences.edit().putString(PREF_WEND_BUDGET, ""+eachBudget[1]).commit();
+	    	mWeekDayPreference.setSummary(""+eachBudget[0]);
+	    	mWeekEndPreference.setSummary(""+eachBudget[1]);
+	    } else if(key.equals(PREF_WEND_BUDGET)) {
+	    	int[] eachBudget = getEachBudget(0,Integer.parseInt(sharedPreferences.getString(key, "0")));
+	    	sharedPreferences.edit().putString(PREF_WDAY_BUDGET, ""+eachBudget[0]).commit();
+	    	mWeekDayPreference.setSummary(""+eachBudget[0]);
+	    	mWeekEndPreference.setSummary(""+eachBudget[1]);
+	    }
 	}
 
-	@Override
-	public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-		
+	private int[] getEachBudget(int weekDay, int weekEnd) {
+		int totalBudget = Integer.parseInt(mExpensePreference.getText());
+		if(weekDay==0 && weekEnd==0) {
+			return new int[] {totalBudget/30, totalBudget/30};
+		}
+		if(weekDay==0) {
+			return new int[] {(int)(totalBudget - weekEnd*8)/22, weekEnd};
+		}
+		return new int[] {weekDay, (int)(totalBudget - weekDay*22)/8};
 	}
 }

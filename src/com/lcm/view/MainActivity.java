@@ -303,12 +303,12 @@ public class MainActivity extends Activity {
 		calendarView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		LinearLayout calendarLayout = (LinearLayout) calendarView.findViewById(R.id.calendarLayout);
-		TextView calYear = ((TextView)calendarView.findViewById(R.id.calendar_year)); 
-		calYear.setText(""+(1900+today.getYear()));
-		TextView calMonth = ((TextView)calendarView.findViewById(R.id.calendar_month)); 
-		calMonth.setText(""+(today.getMonth()+1));
-		TextView calDate = ((TextView)calendarView.findViewById(R.id.calendar_day)); 
-		calDate.setText(""+accountingDate);
+//		TextView calYear = ((TextView)calendarView.findViewById(R.id.calendar_year)); 
+//		calYear.setText(""+(1900+today.getYear()));
+//		TextView calMonth = ((TextView)calendarView.findViewById(R.id.calendar_month)); 
+//		calMonth.setText(""+(today.getMonth()+1));
+//		TextView calDate = ((TextView)calendarView.findViewById(R.id.calendar_day)); 
+//		calDate.setText(""+accountingDate);
 		calendarTab.addView(calendarView);
 		if(gsCalendar==null) {
 			gsCalendar = new GsCalendar(MainActivity.this,calendarLayout);
@@ -318,10 +318,10 @@ public class MainActivity extends Activity {
 					null, //(Button) calendarView.findViewById(R.id.post_year_button),
 					(Button) calendarView.findViewById(R.id.pre_month_button),
 					(Button) calendarView.findViewById(R.id.post_month_button) });
-			gsCalendar.setViewTarget(new TextView[] {
-					(TextView) calendarView.findViewById(R.id.calendar_year),
-					(TextView) calendarView.findViewById(R.id.calendar_month),
-					(TextView) calendarView.findViewById(R.id.calendar_day)});
+//			gsCalendar.setViewTarget(new TextView[] {
+//					(TextView) calendarView.findViewById(R.id.calendar_year),
+//					(TextView) calendarView.findViewById(R.id.calendar_month),
+//					(TextView) calendarView.findViewById(R.id.calendar_day)});
 		} else {
 			gsCalendar.redraw();
 		}

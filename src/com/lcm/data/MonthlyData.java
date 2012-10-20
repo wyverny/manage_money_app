@@ -13,10 +13,10 @@ import android.util.Log;
 public class MonthlyData {
 	private static final String TAG = "MonthlyData";
 	private static final boolean DEBUG = false;
-	private Date from;
+	private Calendar from;
 //	private GregorianCalendar nextFromGregorianCalendar;
-	private Date to;
-	private Date turning;
+	private Calendar to;
+	private Calendar turning;
 	private int totalDays;
 	private int beginingMonth;
 	private int[] eachDate;
@@ -43,7 +43,7 @@ public class MonthlyData {
 	 * @param to
 	 * @param turning
 	 */
-	public MonthlyData(Context context, Date from, Date turning, Date to) {
+	public MonthlyData(Context context, Calendar from, Calendar turning, Calendar to) {
 		this.from = from;
 		this.to = to;
 		this.turning = turning;
@@ -52,7 +52,8 @@ public class MonthlyData {
 		setTotalExpense(Integer.parseInt(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "700000")));
 		
 //		GregorianCalendar fromGregorianCalendar = new GregorianCalendar(from.getYear(), from.getMonth(), from.getDate());
-		int fromDays = turning.getDate();//fromGregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		//int fromDays = turning.getDate();//fromGregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		int fromDays = turning.get(Calendar.DAY_OF_MONTH);
 
 //		nextFromGregorianCalendar =	new GregorianCalendar(from.getYear(), (from.getMonth()<11)? (from.getMonth()+1) : 0, from.getDate());
 		

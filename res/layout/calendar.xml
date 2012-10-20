@@ -5,20 +5,6 @@
 	<LinearLayout android:id="@+id/linearLayout1"
 		android:layout_width="match_parent" android:layout_height="wrap_content"
 		android:gravity="top" android:layout_margin="3dip">
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_marginRight="10dip"
-			android:id="@+id/calendar_year"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_marginRight="10dip"
-			android:id="@+id/calendar_month"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/calendar_day"></TextView>
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_marginRight="10dip"
-			android:id="@+id/calendar_month_n"></TextView>
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/calendar_day_n"></TextView>
 	</LinearLayout>
 	<LinearLayout android:id="@+id/calendarLayout"
 		android:layout_width="match_parent" android:orientation="vertical"
