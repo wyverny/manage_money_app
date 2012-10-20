@@ -175,7 +175,7 @@ public class ParsedDataManager {
 		exDBAdaptor.open();
 		
 //		cursor = exDBAdaptor.fetchAllDB();
-		cursor = exDBAdaptor.fetchDB(from.getTime().getTime(), to.getTime().getTime());
+		cursor = exDBAdaptor.fetchDB(from.getTimeInMillis(), to.getTimeInMillis());
 		if(DEBUG) Log.e(TAG,"from: " + from + " to: " + to);
 		if(DEBUG) Log.e(TAG,"getParsedDataList: " + cursor.getCount());
 		

@@ -185,7 +185,7 @@ public class ParsedData implements Parcelable {
 		dest.writeInt(spent);
 		dest.writeInt(installment);
 		dest.writeString(category);
-		dest.writeLong(date.getTime().getTime());
+		dest.writeLong(date.getTimeInMillis());
 		dest.writeString(detail);
 		dest.writeParcelable(location, flags);
 		dest.writeString(bank);
