@@ -57,8 +57,14 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 		mExpensePreference.getEditText().setKeyListener(DigitsKeyListener.getInstance(false,true));
 		
 		mCalStartPreference = (EditTextPreference)findPreference(PREF_CAL_FROM);
+		mCalStartPreference.getEditText().setKeyListener(DigitsKeyListener.getInstance(false,true));
+		
 		mWeekDayPreference = (EditTextPreference)findPreference(PREF_WDAY_BUDGET);
+		mWeekDayPreference.getEditText().setKeyListener(DigitsKeyListener.getInstance(false,true));
+		
 		mWeekEndPreference = (EditTextPreference)findPreference(PREF_WEND_BUDGET);
+		mWeekEndPreference.getEditText().setKeyListener(DigitsKeyListener.getInstance(false,true));
+		
 		mNotiInfoPref = (CheckBoxPreference)findPreference(PREF_NOTI_INFO);
 		mNotiInfoPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
