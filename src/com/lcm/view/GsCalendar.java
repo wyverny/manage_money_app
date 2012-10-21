@@ -543,7 +543,7 @@ public class GsCalendar {
 			m_cellLy[i + m_startPos].setBackgroundColor(getColor(expense));
 		}
 		
-		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].get(Calendar.DAY_OF_MONTH)+1) + ".1");
+		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].get(Calendar.MONTH)+1) + ".1");
 		int expense = monthlyData.getDatesExpense(1);
 		String exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
 		m_cellStatBtn[(m_lastDay-startingDate)+1 + m_startPos].setText(exp+"");
@@ -741,8 +741,8 @@ public class GsCalendar {
 		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
 		Calendar thisMonth = (Calendar)m_Calendar.clone();
 		thisMonth.add(Calendar.MONTH, -1);
-		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH)-1, startingDate);
-		Log.e(TAG,"Update MonthlyData: from " + dates[0] + " throughout " + dates[1] + " to " + dates[2]);
+		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
+		Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());
 		monthlyData = new MonthlyData(mContext, dates[0], dates[1], dates[2]);
 	}
 }

@@ -191,7 +191,7 @@ public class HandleParsedData extends Activity {
 //		        Log.e("HandleReceivedSms","position: "+position+" : "+page+",,,,"+handleSpend);
 		        // Spend and Date
 		        handleSpend.setText("사용: " + page.getSpent()+ " 원");
-		        handleDate.setText("일자: " + DateFormat.getDateFormat(context).format(page.getDate()));
+		        handleDate.setText("일자: " + DateFormat.getDateFormat(context).format(page.getDate().getTime()));
 		        
 		        // Detail
 //		        Log.e("HANDLE_DETAIL","..."+handleDetail.getText().toString());
@@ -289,7 +289,7 @@ public class HandleParsedData extends Activity {
 		
 		final Calendar date = chosenDate;
 		TextView dateView = (TextView)layout.findViewById(R.id.new_date);
-		dateView.setText(DateFormat.getDateFormat(this).format(date));
+		dateView.setText(DateFormat.getDateFormat(this).format(date.getTime()));
 		final EditText spendView = (EditText)layout.findViewById(R.id.new_spend);
 		spendView.setText("0");
 		final EditText detailView = (EditText)layout.findViewById(R.id.new_detail);

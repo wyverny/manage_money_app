@@ -153,9 +153,9 @@ public class MenuActivity extends Activity {
 				((TextView) v.findViewById(R.id.smsStat)).setText("¢Ï"
 						+ e.getAddr() + ", " + e.getDateFormat());
 				((TextView) v.findViewById(R.id.smsBody)).setText(e.getBody());
-				CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad); 
-				cb.setChecked(e.isLoad());
-				cb.setOnClickListener(new LoadChecked(position,cb));
+//				CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad); 
+//				cb.setChecked(e.isLoad());
+//				cb.setOnClickListener(new LoadChecked(position,cb));
 			}
 			return v;
 		}

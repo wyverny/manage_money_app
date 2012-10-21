@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -112,11 +113,18 @@ public class InboxListActivity extends Activity {
 			if (e != null) {
 				((TextView) v.findViewById(R.id.smsStat)).setText("Date: "+e.getDateFormat());
 				((TextView) v.findViewById(R.id.smsBody)).setText(e.getSpent() + "\t" + e.getDetail());
-				CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad);
-				cb.setChecked(e.isFlag());
-				cb.setFocusable(false);
-				// cb.setOnClickListener(new LoadChecked(position,cb));
-				v.setOnClickListener(new LoadChecked(position,cb));
+//				CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad);
+//				cb.setChecked(e.isFlag());
+				if(e.isFlag()) {
+					((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.YELLOW);
+					((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.YELLOW);
+				} else {
+					((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.WHITE);
+					((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.WHITE);
+				}
+				//cb.setFocusable(false);
+				//cb.setOnClickListener(new LoadChecked(position,cb));
+				v.setOnClickListener(new LoadChecked(position));
 			}
 			return v;
 		}
@@ -124,11 +132,11 @@ public class InboxListActivity extends Activity {
 	
 	public class LoadChecked implements OnClickListener {
 		int position;
-		CheckBox cb;
+		//CheckBox cb;
 		
-		public LoadChecked(int position,CheckBox cb) {
+		public LoadChecked(int position) { //,CheckBox cb) {
 			this.position = position;
-			this.cb = cb;
+			//this.cb = cb;
 		}
 
 		public void onClick(View v) {
@@ -153,9 +161,18 @@ public class InboxListActivity extends Activity {
 //				smsList.get(position).setLoad(cb.isChecked());
 //			}
 //			smsList.get(position).setLoad(cb.isChecked());
-			CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad);
-			cb.setChecked(!cb.isChecked());
-			parsedList.get(position).setFlag(cb.isChecked());
+//			CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad);
+//			cb.setChecked(!cb.isChecked());
+			//parsedList.get(position).setFlag(cb.isChecked());
+			if(parsedList.get(position).isFlag()) {
+				parsedList.get(position).setFlag(false);
+				((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.WHITE);
+				((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.WHITE);
+			} else {
+				parsedList.get(position).setFlag(true);
+				((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.YELLOW);
+				((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.YELLOW);
+			}
 		}
 	}
 

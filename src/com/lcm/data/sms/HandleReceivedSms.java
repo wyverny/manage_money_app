@@ -193,7 +193,7 @@ public class HandleReceivedSms extends Activity {
 		        String hSpend = "사용: " + page.getSpent()+ " 원";
 		        if(page.getInstallment()!=1) hSpend += "("+page.getInstallment()+"개월)";
 		        handleSpend.setText(hSpend);
-		        handleDate.setText("일자: " + DateFormat.getDateFormat(context).format(page.getDate()));
+		        handleDate.setText("일자: " + DateFormat.getDateFormat(context).format(page.getDate().getTime()));
 		        
 		        // Detail
 //		        Log.e("HANDLE_DETAIL","..."+handleDetail.getText().toString());

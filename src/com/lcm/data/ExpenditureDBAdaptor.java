@@ -90,7 +90,7 @@ public class ExpenditureDBAdaptor {
 		cv.put(KEY_YEAR, date.get(Calendar.YEAR));
 		cv.put(KEY_MONTH, date.get(Calendar.MONTH));
 		cv.put(KEY_DAY, date.get(Calendar.DAY_OF_MONTH));
-		cv.put(KEY_TIME, ""+date.getTime());
+		cv.put(KEY_TIME, ""+date.getTimeInMillis());
 		
 		if(detail!=null) cv.put(KEY_DETAIL, detail);
 		else cv.put(KEY_DETAIL, "");
@@ -110,7 +110,7 @@ public class ExpenditureDBAdaptor {
 		cv.put(KEY_YEAR, date.get(Calendar.YEAR));
 		cv.put(KEY_MONTH, date.get(Calendar.MONTH));
 		cv.put(KEY_DAY, date.get(Calendar.DAY_OF_MONTH));
-		cv.put(KEY_TIME, ""+date.getTime());
+		cv.put(KEY_TIME, ""+date.getTimeInMillis());
 		
 		cv.put(KEY_DETAIL, detail);
 		cv.put(KEY_BANK, detail);
@@ -129,7 +129,7 @@ public class ExpenditureDBAdaptor {
 	public boolean deleteDB(Calendar date) {
 		return mDb.delete(DATABASE_TABLE, 
 				KEY_YEAR + "=" + date.get(Calendar.YEAR) + " AND " + KEY_MONTH + "=" + date.get(Calendar.MONTH) + " AND " +  
-				KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTime()
+				KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTimeInMillis()
 				, null) > 0;
 	}
 	
@@ -166,7 +166,7 @@ public class ExpenditureDBAdaptor {
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
 						KEY_BANK, KEY_SMS_ID}, 
 				KEY_YEAR + "=" + date.get(Calendar.YEAR) + " AND " + KEY_MONTH + "=" + date.get(Calendar.MONTH) + " AND " +  
-						KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTime(),
+						KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTimeInMillis(),
 				null, null, null,null,null);
 		if(mCursor!=null) {
 			mCursor.moveToFirst();

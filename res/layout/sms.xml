@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
-	android:paddingTop="5px"
-	android:paddingBottom="5px"
-	android:layout_height="wrap_content" android:layout_width="match_parent">
-	<CheckBox
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="5px"
+    android:paddingLeft="5px"
+    android:paddingTop="5px" >
+
+	<!-- <CheckBox
 		android:id="@+id/smsLoad"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:focusable="false"/>
+		android:focusable="false"/> -->
+
 	<LinearLayout
-		android:orientation="vertical"
-		android:paddingLeft="10px"
-		android:layout_width="fill_parent" android:layout_height="wrap_content">
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:paddingLeft="20px" >
+
 		<TextView
 			android:id="@+id/smsStat"
 			android:layout_width="fill_parent"
