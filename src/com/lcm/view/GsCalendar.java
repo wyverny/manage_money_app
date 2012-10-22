@@ -536,7 +536,10 @@ public class GsCalendar {
 		Log.e(TAG,"m_startPos = " + (m_lastDay-startingDate));
 		for (int i = 0; i < (m_lastDay-startingDate+1); i++) {
 //			Log.e(TAG,"1setText at " + (i + m_startPos) + " as " + (i + startingDate));
-			m_cellTextBtn[i + m_startPos].setText((i + startingDate) + "");
+			if(i == 0) 
+				m_cellTextBtn[i + m_startPos].setText((dates[0].get(Calendar.MONTH)+1)+"."+(i + startingDate));
+			else 
+				m_cellTextBtn[i + m_startPos].setText((i + startingDate) + "");
 			int expense = monthlyData.getDatesExpense((i + startingDate));
 			String exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
 			m_cellStatBtn[i + m_startPos].setText(exp+"");

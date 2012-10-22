@@ -42,8 +42,6 @@ public class NotiInfo extends Service {
 		super.onStart(intent, startId);
 	}
 
-
-
 	@Override
 	public void onDestroy() {
 		Log.e(TAG,"Service Destroyed");
@@ -105,9 +103,54 @@ public class NotiInfo extends Service {
 		long hiddenTime = SDK_VERSION >= 9 ? Long.MAX_VALUE : -Long.MAX_VALUE;
 		Log.e(TAG,"HiddenTime: " + hiddenTime + "SDK: " + SDK_VERSION);
 		notification.when = showNotiIcon ? System.currentTimeMillis() : hiddenTime;
-	    notification.icon = showNotiIcon? R.drawable.ic_logo_white : R.drawable.ic_placeholder;
+	    notification.icon = showNotiIcon? getDrawbleIDfromPercent(data[0], 100-data[2]) : R.drawable.ic_placeholder;
 		
 		nm.notify(NOTI_INFO_ID, notification);
+	}
+	
+	private int getDrawbleIDfromPercent(int remainPercent, int todayPercent) {
+		if(remainPercent >= 75) {
+			if(todayPercent >= 75) {
+				return R.drawable.progress_100_100;
+			} else if(todayPercent >= 50) {
+				return R.drawable.progress_100_75;
+			} else if(todayPercent >= 25) {
+				return R.drawable.progress_100_50;
+			} else {
+				return R.drawable.progress_100_25;
+			}
+		}
+		if(remainPercent >= 50) {
+			if(todayPercent >= 75) {
+				return R.drawable.progress_75_100;
+			} else if(todayPercent >= 50) {
+				return R.drawable.progress_75_75;
+			} else if(todayPercent >= 25) {
+				return R.drawable.progress_75_50;
+			} else {
+				return R.drawable.progress_75_25;
+			}
+		} else if(remainPercent >= 25) {
+			if(todayPercent >= 75) {
+				return R.drawable.progress_50_100;
+			} else if(todayPercent >= 50) {
+				return R.drawable.progress_50_75;
+			} else if(todayPercent >= 25) {
+				return R.drawable.progress_50_50;
+			} else {
+				return R.drawable.progress_50_25;
+			}
+		} else {
+			if(todayPercent >= 75) {
+				return R.drawable.progress_25_100;
+			} else if(todayPercent >= 50) {
+				return R.drawable.progress_25_75;
+			} else if(todayPercent >= 25) {
+				return R.drawable.progress_25_50;
+			} else {
+				return R.drawable.progress_25_25;
+			}
+		}
 	}
 	
 	private int[] getMonthly() {

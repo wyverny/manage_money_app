@@ -67,15 +67,9 @@ public class CategoryDBAdaptor {
 		else cv.put(KEY_DETAIL, "");
 		if(category!=null) cv.put(KEY_CATEGORY, category);
 		else cv.put(KEY_CATEGORY, UNKNOWN);
-		Log.i("db_log","in createDB");
-		System.out.println(cv.toString());
-		long result = 0;
-		if(isDataExist(detail)) {
-			result = (!updateDB(category, detail))? -1 : 0 ;
-		} else {
-			result = mDb.insert(DATABASE_TABLE, null, cv);
-		}
-		return result;
+//		Log.i("db_log","in createDB");
+//		System.out.println(cv.toString());
+		return mDb.insert(DATABASE_TABLE, null, cv);
 	}
 	
 	public boolean deleteDB(String detail) {
