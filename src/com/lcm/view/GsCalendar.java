@@ -506,7 +506,7 @@ public class GsCalendar {
 //		iCal.set(Calendar.DATE, 1);
 		// getting start day
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
+		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 //		int startingDate = 25;
 		iCal.set(Calendar.DATE, startingDate);
 		iCal.add(Calendar.MONTH, -1);
@@ -590,7 +590,7 @@ public class GsCalendar {
 					// XXX 버튼에 쓰여있는 날짜를 가져 옴
 					if (m_cellTextBtn[k].getText().toString().length() > 0) {
 						String text = m_cellTextBtn[k].getText().toString();
-						if(text.contains("/")) text = text.split("/")[1];
+						if(text.contains(".")) text = text.substring(text.indexOf(".")+1,text.length());
 						m_Calendar.set(Calendar.DATE,
 								Integer.parseInt(text));
 						if (m_dayTv != null)
@@ -621,7 +621,7 @@ public class GsCalendar {
 //		}
 //		if (m_dayTv != null) {
 //			SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-//			int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
+//			int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 //			m_dayTv.setText(""+startingDate);
 //			//m_dayTv.setText(m_Calendar.get(Calendar.DAY_OF_MONTH) + "");
 //		}
@@ -717,7 +717,7 @@ public class GsCalendar {
 		Log.d("dd", "" + dd);
 		// TODO: to invoke the activity that enables user edit data of selected day
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
+		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		if(dd>=startingDate) MMM--;
 		Toast.makeText(mContext, "" + yyyy +"년 "+ (MMM+1) +"월 "+ dd + "일 사용내역", Toast.LENGTH_SHORT).show();
 		// start handleParsedData class
@@ -741,7 +741,7 @@ public class GsCalendar {
 		Util util = new Util();
 		Log.e(TAG,"GsCalendar - getFromTo: " + m_Calendar.get(Calendar.YEAR) +", " + m_Calendar.get(Calendar.MONTH-1));
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
+		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		Calendar thisMonth = (Calendar)m_Calendar.clone();
 		thisMonth.add(Calendar.MONTH, -1);
 		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);

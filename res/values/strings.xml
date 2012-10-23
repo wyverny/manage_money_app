@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main">SMS to Mmini</string>
-    <string name="app_name">생활비 모니터</string>
+    <string name="app_name">Money Tracker</string>
 <string name="extractText">SMS 가져오기</string>
 <string name="receiveSMS">moneta upload</string>
 <string name="registerNo">Phone No regist</string>

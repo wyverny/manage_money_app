@@ -1,62 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="match_parent" 
+    android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|center_vertical"
-            android:orientation="vertical"
-            android:padding="10dip" >
-
-
-            <ProgressBar
-                android:id="@+id/remainPercent"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/remainDetail"
+                android:id="@+id/remain_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:text="Small Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="1dip"
+                android:paddingLeft="10dip"
+                android:paddingTop="1dip"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/remain_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="left"
+                android:paddingLeft="10dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="italic" />
         </LinearLayout>
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center|center_vertical"
-            android:orientation="vertical"
-            android:padding="10dip" >
-
-
-            <ProgressBar
-                android:id="@+id/todayPercent"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/todayDetail"
+                android:id="@+id/today_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dip"
-                android:text="Small Text"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="1dip"
+                android:paddingLeft="10dip"
+                android:paddingTop="1dip"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/today_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="left"
+                android:paddingLeft="10dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="italic" />
         </LinearLayout>
 
 </LinearLayout>

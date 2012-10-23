@@ -1,8 +1,11 @@
 package com.lcm.view;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import com.lcm.data.MonthlyData;
 import com.lcm.data.SettingsPreference;
@@ -30,7 +33,7 @@ public class NotiInfo extends Service {
 	@Override
 	public void onCreate() {
 		Log.e(TAG,"Service Created");
-		unregisterRestartAlarm();
+		//unregisterRestartAlarm();
 		super.onCreate();
 	}
 
@@ -45,12 +48,12 @@ public class NotiInfo extends Service {
 	@Override
 	public void onDestroy() {
 		Log.e(TAG,"Service Destroyed");
-		registerRestartAlarm();
+		//registerRestartAlarm();
 		super.onDestroy();
 	}
 
 	private void registerRestartAlarm() {
-		// TODO: if it is set not to show notification bar infomation, the below shouldn't run
+		// TODO: if it is set not to show notification bar information, the below shouldn't run
 		Log.e(TAG,"Register Restart Alarm");
 		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
 		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
@@ -76,7 +79,7 @@ public class NotiInfo extends Service {
 		
 		// 노티바 관련
 		int icon = R.drawable.icon; // 사용량 작은 아이콘으로 표시
-		CharSequence tickerText = "Hello"; // 작은 노티 문장
+		CharSequence tickerText = getText(R.string.app_name); // 작은 노티 문장
 		long when = System.currentTimeMillis();
 		Notification notification = new Notification(icon,tickerText,when);
 		notification.flags |= Notification.FLAG_ONGOING_EVENT;
@@ -84,13 +87,17 @@ public class NotiInfo extends Service {
 		
 		// expanded 노티바 관련
 		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
+		
 		int[] data = getMonthly();
 		//contentView.setImageViewResource(, srcId)
-		Toast.makeText(this, "Data:"+data[0]+","+data[2],Toast.LENGTH_SHORT).show();
-		contentView.setProgressBar(R.id.remainPercent, 100, data[0], false);
-		contentView.setTextViewText(R.id.remainDetail, ""+data[1]);
-		contentView.setProgressBar(R.id.todayPercent, 100, data[2], false);
-		contentView.setTextViewText(R.id.todayDetail, ""+data[3]); 
+		//Toast.makeText(this, "Data:"+data[0]+","+data[2],Toast.LENGTH_SHORT).show();
+		
+		DecimalFormat format = new DecimalFormat("#,#00 원");
+		
+		contentView.setTextViewText(R.id.remain_percent, data[0] + getText(R.string.percent).toString());
+		contentView.setTextViewText(R.id.remain_detail, "전체 생활비 중 " + format.format(data[1]) + " 남음");
+		contentView.setTextViewText(R.id.today_percent, data[2] + getText(R.string.percent).toString());
+		contentView.setTextViewText(R.id.today_detail, "오늘 생활비 중 "+ format.format(data[3]) + " 남음"); 
 		notification.contentView = contentView;
 		
 		Intent notificationInetnt = new Intent(this,MainActivity.class);
@@ -103,7 +110,7 @@ public class NotiInfo extends Service {
 		long hiddenTime = SDK_VERSION >= 9 ? Long.MAX_VALUE : -Long.MAX_VALUE;
 		Log.e(TAG,"HiddenTime: " + hiddenTime + "SDK: " + SDK_VERSION);
 		notification.when = showNotiIcon ? System.currentTimeMillis() : hiddenTime;
-	    notification.icon = showNotiIcon? getDrawbleIDfromPercent(data[0], 100-data[2]) : R.drawable.ic_placeholder;
+	    notification.icon = showNotiIcon? getDrawbleIDfromPercent(100-data[0], 100-data[2]) : R.drawable.ic_placeholder;
 		
 		nm.notify(NOTI_INFO_ID, notification);
 	}
@@ -158,7 +165,7 @@ public class NotiInfo extends Service {
 		Date today = new Date();
 		// date should be according to accounting date, say every 25th
 		SharedPreferences sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "25"));
+		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		int month = today.getMonth();
 		if(today.getDate()<accountingDate) {
 			month = (today.getMonth()==0)? 11 : today.getMonth()-1;

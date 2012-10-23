@@ -44,9 +44,9 @@
 			android:resource="@xml/widget_configuration"/>
 		</receiver>
 		<receiver android:name="com.lcm.view.NotiInfoRunner" android:process=".remote">
-			<intent-filter>
+			<!-- <intent-filter>
 			    <action android:name="ACTION.Restart.PersistentService"></action>
-			</intent-filter>
+			</intent-filter> -->
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
 			</intent-filter>	    
