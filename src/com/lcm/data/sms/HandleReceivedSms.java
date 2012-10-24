@@ -9,6 +9,7 @@ import com.lcm.data.ParsedData;
 import com.lcm.data.ParsedDataManager;
 import com.lcm.smsSmini.R;
 import com.lcm.view.MainActivity;
+import com.lcm.view.NotiInfoRunner;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Editable;
@@ -82,7 +84,7 @@ public class HandleReceivedSms extends Activity {
 		Bundle extra = getIntent().getExtras();
 		if(extra.getString("Source").equals("InboxListActivity")) {
 			ArrayList<Parcelable> parsedDatas = extra.getParcelableArrayList("ParsedData");
-			Toast.makeText(this, "HandleReceivedSms: "+parsedDatas.size()+" received", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(this, "HandleReceivedSms: "+parsedDatas.size()+" received", Toast.LENGTH_SHORT).show();
 			for(Parcelable p: parsedDatas) {
 				data_handled.add((ParsedData)p);
 				if(DEBUG) if(((ParsedData)p).isFlag()) Log.e(TAG,"ParsedData is true!!!");
@@ -131,7 +133,8 @@ public class HandleReceivedSms extends Activity {
 					if(DEBUG) Log.e(TAG,"Insert Category: " + key +" -> "+ detail_category.get(key));
 				} while(keys.hasNext());
 				cDBAdaptor.close();
-				Toast.makeText(HandleReceivedSms.this, "Data has been saved", Toast.LENGTH_SHORT).show();
+				Toast.makeText(HandleReceivedSms.this, getText(R.string.data_saved), Toast.LENGTH_SHORT).show();
+				sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 				finish();
 			}
 		});

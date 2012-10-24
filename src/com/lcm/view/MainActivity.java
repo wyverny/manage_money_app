@@ -124,7 +124,7 @@ public class MainActivity extends Activity {
 	 * get monthly data for chosen period and update UI according to that
 	 */
 	private void updateInformation() {
-		DecimalFormat df = new DecimalFormat("#,#00 원");
+		DecimalFormat decimalFormat = new DecimalFormat("#,#00 원");
 		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// for graph layout
 		LinearLayout analyseTab = (LinearLayout) findViewById(R.id.analyseTab);
@@ -240,8 +240,10 @@ public class MainActivity extends Activity {
 		int remainedBudget = monthlyData.getTotalExpense() - data1[0];
 		int trendBudget = (monthlyData.getTotalExpense()/monthlyData.getTotalDays()*remainingDays[0]) - data1[0];
 		String remainedDetail = "계획량 대비 ";
-		remainedDetail = (trendBudget>0)? remainedDetail+df.format(trendBudget)+" 덜 사용" : remainedDetail+(df.format(-1*trendBudget))+" 더 사용";
-		remainedDetail += "(예상: " + (trendBudget +data1[0])+")";
+		remainedDetail = (trendBudget>0)? 
+				remainedDetail+decimalFormat.format(trendBudget)+" 덜 사용" :
+					remainedDetail+(decimalFormat.format(-1*trendBudget))+" 더 사용";
+		remainedDetail += " (예상: " + decimalFormat.format(trendBudget +data1[0])+")";
 		expectedDetail.setText(remainedDetail);
 		
 		// 6. guidance; expected result of accounting date (7 days)
@@ -251,7 +253,7 @@ public class MainActivity extends Activity {
 		TextView trendPercent = (TextView)analyseLayout.findViewById(R.id.trend_percent);
 		trendPercent.setText(""+expectPercent2);
 		TextView trendDetail = (TextView)analyseLayout.findViewById(R.id.trend_detail);
-		trendDetail.setText("현 추세로 사용 시 말일에 " + df.format(expectation2) + " 남음");
+		trendDetail.setText("현 추세로 사용 시 말일에 " + decimalFormat.format(expectation2) + " 남음");
 		
 //		TextView totalVelo = (TextView)analyseLayout.findViewById(R.id.total_velo);
 //		totalVelo.setText(""+data1[1]+"일간 사용 속도: " + velocity1 + " (원/날)");
@@ -287,12 +289,12 @@ public class MainActivity extends Activity {
 		TextView todayPercent = (TextView)analyseLayout.findViewById(R.id.today_expected_percent);
 		todayPercent.setText(""+exp*100/todayBudget);
 		TextView todayDetail = (TextView)analyseLayout.findViewById(R.id.today_expected_detail);
-		todayDetail.setText("오늘  " + df.format(todayBudget-exp) + " 남음");
+		todayDetail.setText("오늘  " + decimalFormat.format(todayBudget-exp) + " 남음");
 		
 		TextView wdayExpense = (TextView)analyseLayout.findViewById(R.id.wday_expense);
-		wdayExpense.setText("주중 하루 생활비: "+df.format(weekday));
+		wdayExpense.setText("주중 하루 생활비: "+decimalFormat.format(weekday));
 		TextView wendExpense = (TextView)analyseLayout.findViewById(R.id.wend_expense);
-		wendExpense.setText("주말 하루 생활비: "+df.format(weekend));
+		wendExpense.setText("주말 하루 생활비: "+decimalFormat.format(weekend));
 
 		/**
 		 *  for calendar layout

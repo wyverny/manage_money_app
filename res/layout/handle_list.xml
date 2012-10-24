@@ -1,27 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:orientation="vertical">
-	<LinearLayout android:layout_weight="1" android:id="@+id/linearLayout1"
-		android:layout_height="wrap_content" android:layout_width="match_parent"
-		android:orientation="vertical">
-		<ListView android:layout_weight="1" android:layout_height="wrap_content"
-			android:id="@+id/handle_listview" android:layout_width="match_parent"></ListView>
-	</LinearLayout>
-	<LinearLayout android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:id="@+id/handlelist_btn_layout">
-		<Button android:layout_width="fill_parent" android:textSize="16sp"
-			android:paddingBottom="6px" android:id="@+id/handle_saveButton"
-			android:text="저장" android:layout_height="wrap_content"
-			android:layout_weight="1"></Button>
-		<Button android:layout_width="fill_parent" android:textSize="16sp"
-			android:paddingBottom="6px" android:id="@+id/handle_createButton"
-			android:text="생성" android:layout_height="wrap_content"
-			android:layout_weight="1"></Button>
-		<Button android:layout_width="fill_parent" android:textSize="16sp"
-			android:paddingBottom="6px" android:id="@+id/handle_deleteButton"
-			android:text="삭제" android:layout_height="wrap_content"
-			android:layout_weight="1"></Button>
-		
-	</LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/handle_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="1dp"
+            android:divider="@android:color/darker_gray"
+            android:layout_weight="1" >
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/handlelist_btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/handle_saveButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="6px"
+            android:text="저장"
+            android:textSize="16sp" >
+        </Button>
+
+        <Button
+            android:id="@+id/handle_createButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="6px"
+            android:text="생성"
+            android:textSize="16sp" >
+        </Button>
+
+        <Button
+            android:id="@+id/handle_deleteButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingBottom="6px"
+            android:text="삭제"
+            android:textSize="16sp" >
+        </Button>
+    </LinearLayout>
+
 </LinearLayout>

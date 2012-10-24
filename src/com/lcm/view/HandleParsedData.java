@@ -15,6 +15,8 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -63,31 +65,20 @@ public class HandleParsedData extends Activity {
 		int date = extra.getInt("Date");
 		
 		parsedDataManager = ParsedDataManager.getParsedDataManager(HandleParsedData.this);
-		GregorianCalendar gc = new GregorianCalendar(year, month, date);
+		GregorianCalendar gCalendar = new GregorianCalendar(year, month, date);
 		
-		GregorianCalendar gnc = (GregorianCalendar)gc.clone();
+		GregorianCalendar gCalendarClone = (GregorianCalendar)gCalendar.clone();
 		
-		gnc.add(GregorianCalendar.DATE, 1);
-		data_handled = parsedDataManager.getParsedDataFromDatabase(gc, gnc);
-		gc.add(GregorianCalendar.HOUR, 12);
-		chosenDate = gc;
+		gCalendarClone.add(GregorianCalendar.DATE, 1);
+		data_handled = parsedDataManager.getParsedDataFromDatabase(gCalendar, gCalendarClone);
+		gCalendar.add(GregorianCalendar.HOUR, 12);
+		chosenDate = gCalendar;
 		
-//		Log.e(TAG,"Data handled: " + data_handled);
 		myAdapter = new MyAdapter(this, R.layout.handle_data, R.id.handle_detail, data_handled);
 	    listView = (ListView) findViewById(R.id.handle_listview);
-//		listView = (ListView) findViewById(android.R.id.list);
-//	    setListAdapter(myAdapter);
 	    listView.setAdapter(myAdapter);
 	    listView.setItemsCanFocus(true);
-	    
-//	    listView.setOnItemClickListener(new OnItemClickListener(){
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				Toast.makeText(HandleParsedData.this, "item clicked", Toast.LENGTH_SHORT).show();
-//			}
-//	    });
-	    
+    
 	    LinearLayout handleListBtnLayout = (LinearLayout)findViewById(R.id.handlelist_btn_layout);
 	    Button createBtn = (Button)handleListBtnLayout.findViewById(R.id.handle_createButton);
 	    createBtn.setOnClickListener(onClickListener);
@@ -110,7 +101,7 @@ public class HandleParsedData extends Activity {
 				// insert created data
 				parsedDataManager.insertParsedData(created_datas);
 				
-				Toast.makeText(HandleParsedData.this, "데이터 저장 중...", Toast.LENGTH_SHORT).show();
+				Toast.makeText(HandleParsedData.this, getText(R.string.data_saved), Toast.LENGTH_SHORT).show();
 				finish();
 				break;
 			case R.id.handle_createButton:
@@ -133,7 +124,7 @@ public class HandleParsedData extends Activity {
 			default:
 				break;
 			}
-			
+			sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 		}
 	};
 	
@@ -212,8 +203,13 @@ public class HandleParsedData extends Activity {
 	        v.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					deleted_data = page;
-					Toast.makeText(HandleParsedData.this, "clicked", Toast.LENGTH_SHORT).show();
+					if(deleted_data==null) {
+						deleted_data = page;
+						arg0.setBackgroundColor(Color.YELLOW);
+					} else {
+						deleted_data = null;
+						arg0.setBackgroundColor(Color.BLACK);
+					}
 				}
 			});
 	        return v;

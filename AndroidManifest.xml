@@ -49,6 +49,9 @@
 			</intent-filter> -->
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED"></action>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="com.lcm.moneytracker.NotiInfoRunner"/>
 			</intent-filter>	    
 		</receiver>
 		<service android:name="com.lcm.view.NotiInfo"></service>
