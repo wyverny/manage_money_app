@@ -537,7 +537,7 @@ public class GsCalendar {
 		for (int i = 0; i < (m_lastDay-startingDate+1); i++) {
 //			Log.e(TAG,"1setText at " + (i + m_startPos) + " as " + (i + startingDate));
 			if(i == 0) 
-				m_cellTextBtn[i + m_startPos].setText((dates[0].get(Calendar.MONTH)+1)+"."+(i + startingDate));
+				m_cellTextBtn[i + m_startPos].setText(String.format("%02d", dates[0].get(Calendar.MONTH)+1) + "." + (i + startingDate));
 			else 
 				m_cellTextBtn[i + m_startPos].setText((i + startingDate) + "");
 			int expense = monthlyData.getDatesExpense((i + startingDate));
@@ -591,16 +591,17 @@ public class GsCalendar {
 					if (m_cellTextBtn[k].getText().toString().length() > 0) {
 						String text = m_cellTextBtn[k].getText().toString();
 						if(text.contains(".")) text = text.substring(text.indexOf(".")+1,text.length());
-						m_Calendar.set(Calendar.DATE,
-								Integer.parseInt(text));
+						m_Calendar.set(Calendar.DATE, Integer.parseInt(text));
 						if (m_dayTv != null)
 							m_dayTv.setText(m_Calendar
 									.get(Calendar.DAY_OF_MONTH) + "");
 						printView();
 //						v.setBackgroundColor(Color.RED);
-						myClickEvent(m_Calendar.get(Calendar.YEAR),
-								m_Calendar.get(Calendar.MONTH),
-								m_Calendar.get(Calendar.DAY_OF_MONTH));
+						int year = m_Calendar.get(Calendar.YEAR);
+						int month = m_Calendar.get(Calendar.MONTH);
+						int day = m_Calendar.get(Calendar.DAY_OF_MONTH);
+						Log.e(TAG, year + "," + month + "," + day);
+						myClickEvent(year,month,day);
 					}
 				}
 			};
@@ -711,10 +712,11 @@ public class GsCalendar {
 
 	// / 달력에서 날짜를 클릭하면 이 함수를 부른다.
 	public void myClickEvent(int yyyy, int MM, int dd) {
-		Log.d("yyyy", "" + yyyy);
+//		Log.d("yyyy", "" + yyyy);
 		int MMM = MM;
-		Log.d("MM", "" + MM);
-		Log.d("dd", "" + dd);
+//		Log.d("MM", "" + MM);
+//		Log.d("dd", "" + dd);
+		Log.e(TAG,"here "+ yyyy + "," + MM + "," + dd);
 		// TODO: to invoke the activity that enables user edit data of selected day
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));

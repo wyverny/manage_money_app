@@ -213,11 +213,13 @@ public class ParsedData implements Parcelable {
 		SharedPreferences sPref = context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM,"15"));
 		
-		Calendar eachDate = new GregorianCalendar(date.get(Calendar.YEAR)+1900,date.get(Calendar.MONTH),accountingDate);
+		Calendar eachDate = new GregorianCalendar(date.get(Calendar.YEAR),date.get(Calendar.MONTH),accountingDate);
 		Calendar eachDay = date; //new Date(eachDate.getTimeInMillis());
 		for(int i=0; i<installment; i++) {
-			result.add(new InstallmentDatePrice(eachDay, eachPrice));
+			Calendar insertDate = new GregorianCalendar(eachDay.get(Calendar.YEAR), eachDay.get(Calendar.MONTH), eachDay.get(Calendar.DAY_OF_MONTH));
+			insertDate.add(Calendar.SECOND, 1);
 			Log.e(TAG,"Year:" + eachDay.get(Calendar.YEAR) + " Month:" + (eachDay.get(Calendar.MONTH)+1) + "Date:" + eachDay.get(Calendar.DAY_OF_MONTH));
+			result.add(new InstallmentDatePrice(insertDate, eachPrice));
 			eachDate.add(Calendar.MONTH, 1);
 			eachDay = eachDate;
 		}

@@ -110,6 +110,7 @@ public class HandleReceivedSms extends Activity {
 	    button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				// Save all data into parsedData DB
 				ParsedDataManager parsedDataManager = ParsedDataManager.getParsedDataManager(HandleReceivedSms.this);
 				parsedDataManager.insertParsedData(data_handled);
@@ -119,6 +120,7 @@ public class HandleReceivedSms extends Activity {
 //					Log.e("HandleReceived",((EditText)item.findViewById(R.id.handle_detail)).getText().toString() 
 //							+ ((Spinner)item.findViewById(R.id.handle_category)).getSelectedItem().toString());
 //				}
+				
 				// Save details and responding category
 				HashMap<String, String> detail_category = new HashMap<String, String>();
 				for(ParsedData pd:data_handled) {

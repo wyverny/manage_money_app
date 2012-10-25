@@ -45,6 +45,9 @@ public class ParserFactory {
 		case 1:
 			data = (new ShinhanCreditSmsParser().parseSms(input));
 			break;
+		case 2:
+			data = (new NewShinhanCreditSmsParser().parseSms(input));
+			break;
 		default:
 			throw (new NotValidSmsDataException());
 		}

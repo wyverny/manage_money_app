@@ -101,6 +101,7 @@ public class ParsedDataManager {
 				} else {
 					ArrayList<ParsedData.InstallmentDatePrice> data = parsedData.getInstallmentDatePrice(mContext);
 					for(int i=0; i<data.size(); i++) {
+						Log.e(TAG,"Date Installment: " + data.get(i).getInstallmentDate().get(Calendar.MONTH));
 						exDBAdaptor.insertDB(data.get(i).getInstallmentPrice(), parsedData.getCategory(),
 								data.get(i).getInstallmentDate(), parsedData.getDetail(),
 								0.0,0.0, parsedData.getBank());

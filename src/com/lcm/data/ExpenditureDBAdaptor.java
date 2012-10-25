@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class ExpenditureDBAdaptor {
 	public static final String DATABASE_NAME = "Expenditure";
@@ -98,7 +99,7 @@ public class ExpenditureDBAdaptor {
 		cv.put(KEY_LOCATION_LATI, loc_lati);
 		cv.put(KEY_BANK, bank);
 //		Log.i("db_log","in createDB");
-//		System.out.println(cv.toString());
+		Log.e(TAG,"InsertDB: "+cv.toString());
 		return mDb.insert(DATABASE_TABLE, null, cv);
 	}
 	

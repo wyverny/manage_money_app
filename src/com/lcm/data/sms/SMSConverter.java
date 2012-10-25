@@ -34,7 +34,7 @@ public class SMSConverter {
 		boolean isValid = false;
 		String[] contains = mContext.getResources().getStringArray(R.array.Contains);
 		for(String c:contains) {
-			if(content.contains(c)) { 
+			if(content.contains(c) && !content.contains("√Îº“")) { 
 				isValid = true;
 //				Log.e("SmsConverter", ""+c+"--"+content+"=="+isValid);
 			}

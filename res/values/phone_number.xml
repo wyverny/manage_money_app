@@ -20,5 +20,6 @@
     <string-array name="Contains">
         <item>신한체크</item>
         <item>신한카드정상승인</item>
+        <item>신한카드승인</item>
     </string-array>
 </resources>
