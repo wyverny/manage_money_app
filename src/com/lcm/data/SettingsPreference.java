@@ -3,10 +3,12 @@ package com.lcm.data;
 import java.util.Calendar;
 
 import com.lcm.smsSmini.R;
+import com.lcm.view.NotiInfoRunner;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -41,7 +43,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	private EditTextPreference mWeekEndPreference;
 	
 	private CheckBoxPreference mNotiInfoPref;
-	private CheckBoxPreference mNotiIconPref;
+//	private CheckBoxPreference mNotiIconPref;
 
 	PreferenceManager pm = getPreferenceManager();
 	
@@ -73,20 +75,22 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 				SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 				boolean notiOn = sPref.getBoolean(SettingsPreference.PREF_NOTI_INFO,false);
 				Toast.makeText(SettingsPreference.this, "Noti:" + notiOn, Toast.LENGTH_SHORT).show();
+				if(notiOn)
+					sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 				return false;
 			}
 		});
-		mNotiIconPref = (CheckBoxPreference)findPreference(PREF_NOTI_ICON);
-		mNotiIconPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
+//		mNotiIconPref = (CheckBoxPreference)findPreference(PREF_NOTI_ICON);
+//		mNotiIconPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//			@Override
+//			public boolean onPreferenceClick(Preference preference) {
 //				boolean iconOn = pm.getSharedPreferences().getBoolean(PREF_NOTI_ICON, false);
-				SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-				boolean iconOn = sPref.getBoolean(SettingsPreference.PREF_NOTI_ICON,false);
-				Toast.makeText(SettingsPreference.this, "Icon:" + iconOn, Toast.LENGTH_SHORT).show();
-				return false;
-			}
-		});
+//				SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+//				boolean iconOn = sPref.getBoolean(SettingsPreference.PREF_NOTI_ICON,false);
+//				Toast.makeText(SettingsPreference.this, "Icon:" + iconOn, Toast.LENGTH_SHORT).show();
+//				return false;
+//			}
+//		});
 	}
 
 	@Override
