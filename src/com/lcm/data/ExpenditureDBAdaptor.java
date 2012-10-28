@@ -210,8 +210,17 @@ public class ExpenditureDBAdaptor {
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
 						KEY_BANK, KEY_SMS_ID}, 
-						KEY_TIME + " = " + time, // + " AND " + KEY_SPEND + " = " + spend,
+						KEY_TIME + " = " + time + " OR " + KEY_TIME + " = " + (time + 1), // + " AND " + KEY_SPEND + " = " + spend,
 				null, null,null,null);
+
+		int timeid = mCursor.getColumnIndex(KEY_TIME);
+		int detailid = mCursor.getColumnIndex(KEY_DETAIL);
+		while(mCursor.moveToNext()) {
+			String detail = mCursor.getString(detailid);
+			long timeV = mCursor.getLong(timeid);
+			Log.e(TAG,"db loading detail:" +detail + " time: " + timeV);
+		}
+//		Log.e(TAG,"database count:" + mCursor.getCount());
 		if(mCursor.getCount()!=0) {
 			exist = true;
 		}

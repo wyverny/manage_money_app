@@ -216,9 +216,13 @@ public class ParsedData implements Parcelable {
 		Calendar eachDate = new GregorianCalendar(date.get(Calendar.YEAR),date.get(Calendar.MONTH),accountingDate);
 		Calendar eachDay = date; //new Date(eachDate.getTimeInMillis());
 		for(int i=0; i<installment; i++) {
-			Calendar insertDate = new GregorianCalendar(eachDay.get(Calendar.YEAR), eachDay.get(Calendar.MONTH), eachDay.get(Calendar.DAY_OF_MONTH));
-			insertDate.add(Calendar.SECOND, 1);
-			Log.e(TAG,"Year:" + eachDay.get(Calendar.YEAR) + " Month:" + (eachDay.get(Calendar.MONTH)+1) + "Date:" + eachDay.get(Calendar.DAY_OF_MONTH));
+			Calendar insertDate = new GregorianCalendar();
+			insertDate.setTimeInMillis(eachDay.getTimeInMillis());
+			insertDate.add(Calendar.MILLISECOND, 1);
+			Log.e(TAG,"Year:" + eachDay.get(Calendar.YEAR) + " Month:" +
+					(eachDay.get(Calendar.MONTH)+1) + "Date:" + eachDay.get(Calendar.DAY_OF_MONTH) +
+					"Time: " + eachDay.getTimeInMillis() + ", " + insertDate.getTimeInMillis() +
+					"," + (eachDay.getTimeInMillis() - insertDate.getTimeInMillis()));
 			result.add(new InstallmentDatePrice(insertDate, eachPrice));
 			eachDate.add(Calendar.MONTH, 1);
 			eachDay = eachDate;
