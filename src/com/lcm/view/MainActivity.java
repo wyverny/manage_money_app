@@ -180,8 +180,11 @@ public class MainActivity extends Activity {
 		// 2. velocity of spending for last 7 days
 		// total spend / 7 days = result (won/days)
 		int[] data2 = monthlyData.getWeekExpenseFrom(gc.get(Calendar.DATE));
-		int velocity2 = data2[0] / data2[1];
-		Log.e(TAG, "velocity2: " + data2[0] + "/" + data2[1] + " = " + velocity2);
+		int velocity2 = 0;
+		if(data2 != null) {
+			velocity2 = data2[0] / data2[1];
+			Log.e(TAG, "velocity2: " + data2[0] + "/" + data2[1] + " = " + velocity2);
+		} 		
 		
 		// 3. comparison between last month and this month
 		// 4. comparison between this month and last year's same month
@@ -398,13 +401,13 @@ public class MainActivity extends Activity {
 		ImageView second = (ImageView) indicator.findViewById(R.id.screen2);
 		switch (which) {
 		case 1:
-			first.setImageDrawable(getResources().getDrawable(R.drawable.purple_dot6));
-			second.setImageDrawable(getResources().getDrawable(R.drawable.white_dot6));
+			first.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
+			second.setImageDrawable(getResources().getDrawable(R.drawable.selected_yes));
 			break;
 		case 0:
 		default:
-			first.setImageDrawable(getResources().getDrawable(R.drawable.white_dot6));
-			second.setImageDrawable(getResources().getDrawable(R.drawable.purple_dot6));
+			first.setImageDrawable(getResources().getDrawable(R.drawable.selected_yes));
+			second.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			break;
 		}
 	}

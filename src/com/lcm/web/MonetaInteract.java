@@ -45,6 +45,10 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import android.util.Log;
 
@@ -56,6 +60,8 @@ public class MonetaInteract {
 	private static final String PARAM_ID = "custId";
 	private static final String PARAM_PWD = "passwd";
 	private static final String AUTH_URI = "https://member.moneta.co.kr/Auth/SmLoginAuth.jsp";
+	private static final String WRITE_PAGE = "http://mmini.moneta.co.kr/cashbook/write/pay/write.do";
+	private static final String WRITE_ACTION = "http://mmini.moneta.co.kr/cashbook/write/pay/write-action.do";
 	private static final int REGISTRATION_TIMEOUT = 30 * 1000;
 	
 	private DefaultHttpClient httpClient;
@@ -122,8 +128,7 @@ public class MonetaInteract {
 	}
 	
 	public void connectToMonetaWritePage() throws Exception {
-		HttpPost httpPost = new HttpPost(
-				"http://mmini.moneta.co.kr/cashbook/write/pay/write-action.do");
+		HttpPost httpPost = new HttpPost(WRITE_ACTION);
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		
 		nvps.add(new BasicNameValuePair("regDate", "20110101"));  //¿œ¿⁄
@@ -156,5 +161,19 @@ public class MonetaInteract {
 		// shut down the connection manager to ensure
 		// immediate deallocation of all system resources
 		httpClient.getConnectionManager().shutdown();
+	}
+	
+	public void getInfoFromMonetaPage() throws Exception {
+		HttpGet httpget = new HttpGet(WRITE_PAGE);
+		response = httpClient.execute(httpget,httpContext);
+		entity = response.getEntity();
+		
+		Document docs = Jsoup.parse(entity.getContent(), "UTF-8", WRITE_PAGE);
+		Elements elements = docs.select("#cashCardSelect option");
+		
+		for(Element e : elements) {
+			//TODO: store this variable as well as category data.
+			e.text(); e.val();
+		}
 	}
 }

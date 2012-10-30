@@ -231,7 +231,7 @@ public class MonthlyData {
 	public int[] getTotalExpenseFromTo(int from, int to) {
 		int fIndex = 0, tIndex = 0;
 		int total = 0;
-		to--;
+		//to--;
 		Log.e(TAG,"from: " + from + " To: " + to);
 		Log.e(TAG,"Each Date:");
 		for(int i=0; i<totalDays; i++) {

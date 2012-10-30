@@ -135,6 +135,7 @@ public class HandleReceivedSms extends Activity {
 					if(DEBUG) Log.e(TAG,"Insert Category: " + key +" -> "+ detail_category.get(key));
 				} while(keys.hasNext());
 				cDBAdaptor.close();
+				
 				Toast.makeText(HandleReceivedSms.this, getText(R.string.data_saved), Toast.LENGTH_SHORT).show();
 				sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 				finish();

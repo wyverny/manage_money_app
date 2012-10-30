@@ -6,7 +6,8 @@
 	<com.google.android.apps.iosched.ui.widget.Workspace
 		android:id="@+id/workspace" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:scrollbars="horizontal"
-		android:fadeScrollbars="true">
+		android:fadeScrollbars="true"
+		android:background="@drawable/background">
 		
 		<LinearLayout android:layout_weight="1"
 					android:gravity="top" android:layout_height="match_parent"
