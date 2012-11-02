@@ -154,12 +154,6 @@ public class MainActivity extends Activity {
 		MonthlyData monthlyData = new MonthlyData(this, fromTo[Util.FROM], fromTo[Util.THROUGH], fromTo[Util.TO]);
 		expense = monthlyData.accumulateExpense();
 		
-		// for debugging purpose
-//		double result = monthlyData.getDatesExpense(today.getDate());
-//		String[] tt= monthlyData.printBriefInfo();
-//		for(String st:tt) {
-//			Log.e(TAG,st);
-//		}
 		int[] remainingDays = monthlyData.getPassedRemainingDays(today);
 //		Log.e(TAG,"Passed: "+remainingDays[0]+ " remain: " + remainingDays[1]);
 		// debugging purpose by here
@@ -218,7 +212,7 @@ public class MainActivity extends Activity {
 		 */
 		// 1. Budget used progress bar and detailed text
 		ProgressBar budgetUsed = (ProgressBar)analyseLayout.findViewById(R.id.budget_used);
-		int totalExpense = monthlyData.getTotalExpense()==0? 1:monthlyData.getTotalExpense();
+		int totalExpense = monthlyData.getTotalExpense()==0 ? 1:monthlyData.getTotalExpense();
 		int budgetUsedPercent = (int)data1[0]*100/totalExpense;
 		budgetUsed.setProgress(budgetUsedPercent);
 		TextView budgetInfo = (TextView)analyseLayout.findViewById(R.id.budget_info);

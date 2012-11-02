@@ -22,19 +22,12 @@ public class MonthlyData {
 	private int[] eachDate;
 	private int[] eachExpense;
 	private HashMap<Integer, ArrayList<ParsedData>> eachDaysData;
+	private int[] accumExpense = null;
 	private int maxExpense;
 	private int totalExpense = 0;
 	
 	private ParsedDataManager parsedDataManager;
 	private Context mContext;
-	
-	public String[] printBriefInfo() {
-		String[] days = new String[totalDays];
-		for(int i=0; i<totalDays; i++) {
-			days[i] = "Day " + beginingMonth + "" + eachDate[i] + " : Expense " + eachExpense[i]; 
-		}
-		return days;
-	}
 	
 	/**
 	 * get initial analysing expense data for given period
@@ -48,26 +41,24 @@ public class MonthlyData {
 		this.to = to;
 		this.turning = turning;
 		mContext = context;
-		SharedPreferences sPref = mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		setTotalExpense(Integer.parseInt(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "700000")));
 		
-//		GregorianCalendar fromGregorianCalendar = new GregorianCalendar(from.getYear(), from.getMonth(), from.getDate());
-		//int fromDays = turning.getDate();//fromGregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		SharedPreferences sPref = mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		setTotalExpense(Integer.parseInt(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000")));
+		
 		int fromDays = turning.get(Calendar.DAY_OF_MONTH);
 
-//		nextFromGregorianCalendar =	new GregorianCalendar(from.getYear(), (from.getMonth()<11)? (from.getMonth()+1) : 0, from.getDate());
-		
 		totalDays = fromDays - from.get(Calendar.DAY_OF_MONTH) + to.get(Calendar.DAY_OF_MONTH);
+
 		/**
 		 * so the date starts from the 'From' date, say 25. then it gets the end of that month, the 'Turning' date, say 31.
 		 * then it goes to the next month and the date goes from 1 to the 'To' date, 24.
 		 * so the eachDate stores date numbers like; 25 26 27 ... 31 1 2 3 ... 23 24. 
 		 */
-		
 		// getting date for each index
 		eachDate = new int[totalDays];
 		if(DEBUG) Log.e(TAG,"TotalDays: " + totalDays + ", " + fromDays + ", " +
 				from.get(Calendar.DAY_OF_MONTH) + ", "+to.get(Calendar.DAY_OF_MONTH));
+		
 		int index=0;
 		beginingMonth = from.get(Calendar.MONTH)+1;
 		for(int j=from.get(Calendar.DAY_OF_MONTH); j<=fromDays; j++) {
@@ -78,7 +69,6 @@ public class MonthlyData {
 			eachDate[index] = j;
 			index++;
 		}
-//		Log.e(TAG,"from: " + from.getDate() + " maxdays: " + fromDays + " to: " + to.getDate());
 		
 		// getting expense data for each day 
 		eachDaysData = new HashMap<Integer, ArrayList<ParsedData>>(totalDays);
@@ -95,15 +85,6 @@ public class MonthlyData {
 		// calculate each day's total expense 
 		eachExpense = new int[totalDays];
 		calculateExpense();
-		
-//		if(data!=null) {
-//			monthlyData = new MonthlyData(mContext, from, to);
-//			monthlyData.putParsedData(data);
-//			expense = monthlyData.accumulateExpense();
-//			maxExpense = monthlyData.getMaxExpense();
-//		} else {
-//			expense = new double[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-//		}
 	}
 	
 	public double getEachDate(int index) {
@@ -118,11 +99,9 @@ public class MonthlyData {
 	
 	public void putParsedData(ParsedData parsedData) {
 		if(parsedData.getDate().compareTo(from)<0||parsedData.getDate().compareTo(to)>0) {
-//		if((parsedData.getDate().getYear()+1900)!=year || parsedData.getDate().getMonth()!=month) {
 			if(DEBUG) Log.e(TAG,"From: " + from.toString() + ", To: " + to.toString() + ", parsedData: " + parsedData.getDate());
 			return;
 		}
-//		int day = 100*(parsedData.getDate().getMonth()+1)+ parsedData.getDate().getDate();
 		int day = parsedData.getDate().get(Calendar.DAY_OF_MONTH);
 		if(DEBUG) Log.e(TAG,"Getting day: " + day);
 		eachDaysData.get(day).add(parsedData);
@@ -149,12 +128,15 @@ public class MonthlyData {
 	 * @return accumulated data array
 	 */
 	public int[] accumulateExpense() {
+		if(accumExpense != null)
+			return accumExpense;
+		
 		int day = 0;
 		Calendar date = new GregorianCalendar();
 		if(date.compareTo(from)<0||date.compareTo(to)>0) {
 			day = date.get(Calendar.DAY_OF_MONTH);
 		}
-		int[] accumExpense = new int[eachExpense.length];
+		accumExpense = new int[eachExpense.length];
 		accumExpense[0] = eachExpense[0];
 		for(int i=1; i<accumExpense.length; i++) {
 			accumExpense[i] = 0;
@@ -273,4 +255,11 @@ public class MonthlyData {
 		return eachExpense[day];
 	}
 	
+	public String[] printBriefInfo() {
+		String[] days = new String[totalDays];
+		for(int i=0; i<totalDays; i++) {
+			days[i] = "Day " + beginingMonth + "" + eachDate[i] + " : Expense " + eachExpense[i]; 
+		}
+		return days;
+	}
 }

@@ -30,5 +30,11 @@ public class MonthlyStat {
 	public MonthlyStat(Context context, MonthlyData monthlyData) {
 		this.monthlyData = monthlyData;
 		this.context = context;
+		
+		SharedPreferences sPref =  context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		
+		
+		
 	}
 }
