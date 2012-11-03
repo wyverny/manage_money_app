@@ -162,18 +162,18 @@ public class NotiInfo extends Service {
 	
 	private int[] getMonthly() {
 		// get this month's date info and Expense data
-		Date today = new Date();
+		Calendar today = new GregorianCalendar();
 		// date should be according to accounting date, say every 25th
 		SharedPreferences sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
-		int month = today.getMonth();
-		if(today.getDate()<accountingDate) {
-			month = (today.getMonth()==0)? 11 : today.getMonth()-1;
+		int month = today.get(Calendar.MONTH);
+		if(today.get(Calendar.DATE)<accountingDate) {
+			month = (today.get(Calendar.MONTH)==0)? 11 : today.get(Calendar.MONTH)-1;
 		}
 		// and month should be previous month
 		Util util = new Util();
 		// Log.e(TAG,"getFromTo: " + (today.getYear()+1900) + "," + month);
-		Calendar[] fromTo = util.getFromTo(today.getYear()+1900, month, accountingDate);
+		Calendar[] fromTo = util.getFromTo(today.get(Calendar.YEAR), month, accountingDate);
 		int[] expense = null;
 		double maxExpense = 0;
 		MonthlyData monthlyData = new MonthlyData(this, fromTo[Util.FROM], fromTo[Util.THROUGH], fromTo[Util.TO]);
@@ -184,14 +184,14 @@ public class NotiInfo extends Service {
 		gc.add(Calendar.DATE, 1);
 		
 		int[] data1 = monthlyData.getTotalExpenseFromTo(accountingDate, gc.get(Calendar.DATE));
-		int totalExpense = monthlyData.getTotalExpense()==0? 1:monthlyData.getTotalExpense();
+		int totalExpense = monthlyData.getTotalBudget()==0? 1:monthlyData.getTotalBudget();
 		int budgetUsedPercent = (int)data1[0]*100/totalExpense;
 		int timePassedPercent = (int)remainingDays[0]*100/monthlyData.getTotalDays();
 		if(timePassedPercent==0) timePassedPercent=1;
 		Log.e(TAG,"getTotalDays: "+monthlyData.getTotalDays()+ " remainingDays[0]: "+ remainingDays[0]);
 		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
 		int remainPercent = budgetUsedPercent*100/timePassedPercent;
-		int remainedBudget = monthlyData.getTotalExpense() - data1[0];
+		int remainedBudget = monthlyData.getTotalBudget() - data1[0];
 		
 		double date = monthlyData.getEachDate(remainingDays[0]);
 		int exp = monthlyData.getEachExpense(remainingDays[0]);

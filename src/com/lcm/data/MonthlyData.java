@@ -24,7 +24,7 @@ public class MonthlyData {
 	private HashMap<Integer, ArrayList<ParsedData>> eachDaysData;
 	private int[] accumExpense = null;
 	private int maxExpense;
-	private int totalExpense = 0;
+	private int totalBudget = 0;
 	
 	private ParsedDataManager parsedDataManager;
 	private Context mContext;
@@ -43,7 +43,7 @@ public class MonthlyData {
 		mContext = context;
 		
 		SharedPreferences sPref = mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		setTotalExpense(Integer.parseInt(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000")));
+		setTotalBudget(Integer.parseInt(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000")));
 		
 		int fromDays = turning.get(Calendar.DAY_OF_MONTH);
 
@@ -149,7 +149,7 @@ public class MonthlyData {
 		
 //		String result = ""; 
 		for(int i=0; i<accumExpense.length; i++) {
-			accumExpense[i] = getTotalExpense() - accumExpense[i];
+			accumExpense[i] = getTotalBudget() - accumExpense[i];
 //			result += (totalExpense - accumExpense[i]) + ",";
 		}
 //		Log.e(TAG,result);
@@ -161,12 +161,12 @@ public class MonthlyData {
 		return maxExpense;
 	}
 
-	public void setTotalExpense(int totalExpense) {
-		this.totalExpense = totalExpense;
+	public void setTotalBudget(int totalExpense) {
+		this.totalBudget = totalExpense;
 	}
 
-	public int getTotalExpense() {
-		return totalExpense;
+	public int getTotalBudget() {
+		return totalBudget;
 	}
 	
 	/**
@@ -175,11 +175,11 @@ public class MonthlyData {
 	 * @param pivot means today
 	 * @return returns two sized array; 0 for passed days 1 for remaining days
 	 */
-	public int[] getPassedRemainingDays(Date pivot) {
+	public int[] getPassedRemainingDays(Calendar pivot) {
 		int[] days = {0,0};
 		int i=0;
 		for(i=0; i<totalDays; i++) {
-			if(eachDate[i]==pivot.getDate()) break;
+			if(eachDate[i]==pivot.get(Calendar.DATE)) break;
 			days[0]++;
 		}
 		days[1] = totalDays - i;

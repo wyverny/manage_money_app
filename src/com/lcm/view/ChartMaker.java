@@ -80,7 +80,7 @@ public class ChartMaker {
 		expenseInt = monthlyData.accumulateExpense();
 		double[] expense = new double[expenseInt.length];
 		System.arraycopy(expenseInt, 0, expense, 0, expenseInt.length-1);
-		maxExpense = monthlyData.getTotalExpense() + monthlyData.getTotalExpense()/20;
+		maxExpense = monthlyData.getTotalBudget() + monthlyData.getTotalBudget()/20;
 		
 		String[] titles = new String[] { "Use" };//, "Corfu", "Thassos", "Skiathos" };
 		List<double[]> x_axis = new ArrayList<double[]>();

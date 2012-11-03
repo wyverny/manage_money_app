@@ -134,19 +134,19 @@ public class MainActivity extends Activity {
 		analyseLayout.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 		
 		// get this month's date info and Expense data
-		Date today = new Date();
+		Calendar today = new GregorianCalendar();
 		// date should be according to accounting date, say every 25th
 		SharedPreferences sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 //		int accountingDate = 25; // its value should come from setting
-		int month = today.getMonth();
-		if(today.getDate()<accountingDate) {
-			month = (today.getMonth()==0)? 11 : today.getMonth()-1;
+		int month = today.get(Calendar.MONTH);
+		if(today.get(Calendar.DATE)<accountingDate) {
+			month = (today.get(Calendar.MONTH)==0)? 11 : today.get(Calendar.MONTH)-1;
 		}
 		// and month should be previous month
 		Util util = new Util();
 		// Log.e(TAG,"getFromTo: " + (today.getYear()+1900) + "," + month);
-		Calendar[] fromTo = util.getFromTo(today.getYear()+1900, month, accountingDate);
+		Calendar[] fromTo = util.getFromTo(today.get(Calendar.YEAR), month, accountingDate);
 		Log.e(TAG,"Update MonthlyData: from " + fromTo[Util.FROM].getTime() + 
 				" throughout " + fromTo[Util.THROUGH].getTime() + " to " + fromTo[Util.TO].getTime());
 		int[] expense = null;
@@ -178,45 +178,18 @@ public class MainActivity extends Activity {
 		if(data2 != null) {
 			velocity2 = data2[0] / data2[1];
 			Log.e(TAG, "velocity2: " + data2[0] + "/" + data2[1] + " = " + velocity2);
-		} 		
-		
-		// 3. comparison between last month and this month
-		// 4. comparison between this month and last year's same month
-		
-		/*
-		// 5. guidance; expected result of accounting date (total)
-		// remaining budget - remaining days * velocity = result
-		int remainingBudget = monthlyData.getTotalExpense() - data1[0]; 
-		Log.e(TAG, " total expense: " + monthlyData.getTotalExpense() + ", " + (data1[0] + velocity1 * remainingDays[1]));
-		int expectation1 = remainingBudget - velocity1 * remainingDays[1];
-		int expectPercent1 = (int)((double)(data1[0] + velocity1 * remainingDays[1]) / (double)monthlyData.getTotalExpense() * 100.0);
-		Log.e(TAG, "expectation: " + remainingBudget +" - "+ velocity1 +
-				" * "+ remainingDays[1] + " = " + expectation1 + "(" + expectPercent1 +"%)");
-		
-		// 6. guidance; expected result of accounting date (7 days)
-		// remaining budget - remaining days * velocity = result
-		int expectation2 = remainingBudget - velocity2 * remainingDays[1];
-		int expectPercent2 = (int)((double)(data1[0] + velocity2 * remainingDays[1]) / (double)monthlyData.getTotalExpense() * 100.0);
-		Log.e(TAG, "expectation: " + remainingBudget +" - "+ velocity2 +
-				" * "+ remainingDays[1] + " = " + expectation2 + "(" + expectPercent2 +"%)");
-		
-		// 7. guidance; available amount of money user can spend for each remaining day (total)
-		// remaining budget / remaining days = result (won/days)
-		int moneyForEachRemainDays = remainingBudget / remainingDays[1];
-		Log.e(TAG, "Money for each days: " + (remainingBudget) +
-				" / " + remainingDays[1] + " = " + moneyForEachRemainDays);
-		*/
+		}
 		
 		/**
 		 * setting Analysis View from here to below
 		 */
 		// 1. Budget used progress bar and detailed text
 		ProgressBar budgetUsed = (ProgressBar)analyseLayout.findViewById(R.id.budget_used);
-		int totalExpense = monthlyData.getTotalExpense()==0 ? 1:monthlyData.getTotalExpense();
+		int totalExpense = monthlyData.getTotalBudget()==0 ? 1:monthlyData.getTotalBudget();
 		int budgetUsedPercent = (int)data1[0]*100/totalExpense;
 		budgetUsed.setProgress(budgetUsedPercent);
 		TextView budgetInfo = (TextView)analyseLayout.findViewById(R.id.budget_info);
-		budgetInfo.setText("생활비 사용량: " + data1[0] + " / " + monthlyData.getTotalExpense());
+		budgetInfo.setText("생활비 사용량: " + data1[0] + " / " + monthlyData.getTotalBudget());
 //		budgetInfo.setText(data1[0]+"("+(data1[0]*100)/monthlyData.getTotalExpense() + "%) 사용 / 전체 일정 중" +
 //				(int)(remainingDays[0]*100/(remainingDays[0]+remainingDays[1])) + "% 지남");
 		
@@ -234,8 +207,8 @@ public class MainActivity extends Activity {
 		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
 		expectedPercent.setText(""+(budgetUsedPercent*100/timePassedPercent));
 		TextView expectedDetail = (TextView)analyseLayout.findViewById(R.id.expected_detail);
-		int remainedBudget = monthlyData.getTotalExpense() - data1[0];
-		int trendBudget = (monthlyData.getTotalExpense()/monthlyData.getTotalDays()*remainingDays[0]) - data1[0];
+		int remainedBudget = monthlyData.getTotalBudget() - data1[0];
+		int trendBudget = (monthlyData.getTotalBudget()/monthlyData.getTotalDays()*remainingDays[0]) - data1[0];
 		String remainedDetail = "계획량 대비 ";
 		remainedDetail = (trendBudget>0)? 
 				remainedDetail+decimalFormat.format(trendBudget)+" 덜 사용" :
@@ -246,7 +219,7 @@ public class MainActivity extends Activity {
 		// 6. guidance; expected result of accounting date (7 days)
 				// remaining budget - remaining days * velocity = result
 		int expectation2 = remainedBudget - velocity2 * remainingDays[1];
-		int expectPercent2 = (int)((double)(data1[0] + velocity2 * remainingDays[1]) / (double)monthlyData.getTotalExpense() * 100.0);
+		int expectPercent2 = (int)((double)(data1[0] + velocity2 * remainingDays[1]) / (double)monthlyData.getTotalBudget() * 100.0);
 		TextView trendPercent = (TextView)analyseLayout.findViewById(R.id.trend_percent);
 		trendPercent.setText(""+expectPercent2);
 		TextView trendDetail = (TextView)analyseLayout.findViewById(R.id.trend_detail);
