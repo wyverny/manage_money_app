@@ -248,9 +248,8 @@ public class MainActivity extends Activity {
 		int exp = monthlyData.getEachExpense(remainingDays[0]);
 		int weekday = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "20000"));
 		int weekend = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "45000"));
-		int weekKind = (new GregorianCalendar()).get(GregorianCalendar.DAY_OF_WEEK);
 		int todayBudget = 0; 
-		if(weekKind==GregorianCalendar.SATURDAY || weekKind==GregorianCalendar.SUNDAY) {
+		if(Util.isWeekEnd(new GregorianCalendar())) {
 			todayBudget = weekend;
 		} else {
 			todayBudget = weekday;

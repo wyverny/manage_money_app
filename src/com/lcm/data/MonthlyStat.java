@@ -37,6 +37,8 @@ public class MonthlyStat {
 	public int expectedUsedFromWeekVelocity;
 	
 	public int recommendedTodayBudget;
+	public int plannedUsedUntilToday;
+	public int compareToPlannedAndReal;
 	
 	public MonthlyStat(Context context, MonthlyData monthlyData) {
 		// TODO: when any number is zero or negative.
@@ -45,6 +47,8 @@ public class MonthlyStat {
 		
 		SharedPreferences sPref =  context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		int weekdayBudget = sPref.getInt(SettingsPreference.PREF_WDAY_BUDGET, 30000);
+		int weekendBudget = sPref.getInt(SettingsPreference.PREF_WEND_BUDGET, 105000);
 		
 		GregorianCalendar today = new GregorianCalendar();
 		GregorianCalendar tomorrow = new GregorianCalendar();
@@ -77,26 +81,31 @@ public class MonthlyStat {
 		if(remainingBudget <= 0)
 			recommendedTodayBudget = 0;
 		else {
-			int weekdayBudget = sPref.getInt(SettingsPreference.PREF_WDAY_BUDGET, 30000);
-			int weekendBudget = sPref.getInt(SettingsPreference.PREF_WEND_BUDGET, 105000);
-			
 			int ratioWDayNWEnd = weekendBudget / weekdayBudget;
 			double unit = 0;
 			Calendar dayFromTodayToLast = new GregorianCalendar();
 			while(dayFromTodayToLast.get(Calendar.DATE) != accountingDate) {
-				if(dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
-						dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+				if(Util.isWeekEnd(dayFromTodayToLast))
 					unit += 1;
 				else
 					unit += ratioWDayNWEnd;
 				dayFromTodayToLast.add(Calendar.DATE, 1);
 			}
 			double recommendedDayBudget = remainingBudget / unit;
-			recommendedDayBudget *= (today.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY 
-					|| today.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) ? ratioWDayNWEnd : 1;
-			recommendedTodayBudget = ((int)(remainingBudget/1000))*1000;
+			recommendedDayBudget *= (Util.isWeekEnd(today)) ? ratioWDayNWEnd : 1;
+			recommendedTodayBudget = ((int)(recommendedDayBudget/1000))*1000;
 		}
 		
+		// plannedUsedUntilToday
+		Calendar dayFromTodayToLast = new GregorianCalendar();
+		while(dayFromTodayToLast.get(Calendar.DATE) != accountingDate) {
+			plannedUsedUntilToday += (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
+			dayFromTodayToLast.add(Calendar.DATE, -1);
+		}
+		plannedUsedUntilToday += (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
 		
+		// compareToPlannedAndReal
+		int[] accumExpense = monthlyData.accumulateExpense();
+		compareToPlannedAndReal = plannedUsedUntilToday - accumExpense[accumExpense.length-1];
 	}
 }

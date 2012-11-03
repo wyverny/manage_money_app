@@ -143,7 +143,10 @@ public class GsCalendar {
 
 		// / 오늘 잘짜로 달력 생성
 		m_Calendar = Calendar.getInstance();
-		m_Calendar.add(Calendar.MONTH, 1);
+		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		if(m_Calendar.get(Calendar.DATE) > startingDate)
+			m_Calendar.add(Calendar.MONTH, 1);
 
 		// / 표시할 각각의 레이어 생성
 		m_lineLy = new LinearLayout[COLS]; // / 7줄의 레이아웃 생성

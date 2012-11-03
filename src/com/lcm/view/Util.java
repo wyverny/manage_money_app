@@ -55,4 +55,9 @@ public class Util {
 		
 		return new GregorianCalendar[]{fromDate, turningPoint, toDate};
 	}
+	
+	public static boolean isWeekEnd(Calendar dayFromTodayToLast) {
+		return dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
+				dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY;
+	}
 }
