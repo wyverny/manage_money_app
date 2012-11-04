@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import com.lcm.smsSmini.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -22,6 +24,7 @@ public class MonthlyData {
 	private int[] eachDate;
 	private int[] eachExpense;
 	private HashMap<Integer, ArrayList<ParsedData>> eachDaysData;
+	public HashMap<String, Integer> categoryExpense;
 	private int[] accumExpense = null;
 	private int maxExpense;
 	private int totalBudget = 0;
@@ -82,6 +85,9 @@ public class MonthlyData {
 			putParsedData(data);
 		}
 		
+		// for category information
+		categoryExpense = new HashMap<String, Integer>();
+		
 		// calculate each day's total expense 
 		eachExpense = new int[totalDays];
 		calculateExpense();
@@ -133,17 +139,20 @@ public class MonthlyData {
 		
 		int day = 0;
 		Calendar date = new GregorianCalendar();
-		if(date.compareTo(from)<0||date.compareTo(to)>0) {
-			day = date.get(Calendar.DAY_OF_MONTH);
-		}
+//		if(date.compareTo(from)<0||date.compareTo(to)>0) {
+//			day = date.get(Calendar.DAY_OF_MONTH);
+//		}
 		accumExpense = new int[eachExpense.length];
 		accumExpense[0] = eachExpense[0];
 		for(int i=1; i<accumExpense.length; i++) {
-			accumExpense[i] = 0;
-			if(day!=0 && i <= day) {
-				accumExpense[i] = accumExpense[i-1] + eachExpense[i];
+			//accumExpense[i] = 0;
+//			if(day!=0 && i <= day) {
+			
+			accumExpense[i] = accumExpense[i-1] + eachExpense[i];
+			if(eachExpense[i] != 0) {
 				maxExpense = accumExpense[i];
-				Log.e(TAG,""+i+"th day's expense: " + accumExpense[i]);
+//				Log.e(TAG,""+i+"th day's expense: " + accumExpense[i]);
+//			}
 			}
 		}
 		
@@ -157,7 +166,7 @@ public class MonthlyData {
 		return accumExpense;
 	}
 
-	public int getMaxExpense() {
+	public int getTotalUsedUp() {
 		return maxExpense;
 	}
 
@@ -201,6 +210,30 @@ public class MonthlyData {
 			if(eachDate[i]==day) return eachExpense[i];
 		}
 		return 0;
+	}
+	
+	public HashMap<String, Integer> getCategoryExpense() {
+		if(categoryExpense.size()!=0)
+			return categoryExpense;
+		
+		String[] categories = mContext.getResources().getStringArray(R.array.category);
+		ArrayList<String> categoriesArrayList = new ArrayList<String>();
+		for (String string : categories) {
+			categoriesArrayList.add(string);
+		}
+		int[] spend = new int[categories.length];
+		for (ArrayList<ParsedData> eachDay : eachDaysData.values()) {
+			for (ParsedData parsedData : eachDay) {
+				int index = categoriesArrayList.indexOf(parsedData.getCategory());
+				if(index >= 0)
+					spend[index] += parsedData.getSpent();
+			}
+		}
+		for (int i = 0; i < spend.length; i++) {
+			categoryExpense.put(categories[i], spend[i]);
+		}
+		
+		return categoryExpense;
 	}
 	
 	/**

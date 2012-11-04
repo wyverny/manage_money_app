@@ -10,6 +10,7 @@ import org.achartengine.chart.AbstractChart;
 
 import com.google.android.apps.iosched.ui.widget.Workspace;
 import com.lcm.data.MonthlyData;
+import com.lcm.data.MonthlyStat;
 import com.lcm.data.SettingsPreference;
 import com.lcm.data.sms.InboxListActivity;
 import com.lcm.smsSmini.R;
@@ -154,6 +155,8 @@ public class MainActivity extends Activity {
 		MonthlyData monthlyData = new MonthlyData(this, fromTo[Util.FROM], fromTo[Util.THROUGH], fromTo[Util.TO]);
 		expense = monthlyData.accumulateExpense();
 		
+		MonthlyStat monthlyStat = new MonthlyStat(this, monthlyData);
+		
 		int[] remainingDays = monthlyData.getPassedRemainingDays(today);
 //		Log.e(TAG,"Passed: "+remainingDays[0]+ " remain: " + remainingDays[1]);
 		// debugging purpose by here
@@ -170,6 +173,7 @@ public class MainActivity extends Activity {
 		int[] data1 = monthlyData.getTotalExpenseFromTo(accountingDate, gc.get(Calendar.DATE));
 		int velocity1 = data1[0] / data1[1];
 		Log.e(TAG, "velocity1: " + data1[0] + "/" + data1[1] + " = " + velocity1);
+		Log.e(TAG, "velocity1 from stat: " + monthlyStat.velocityOverall);
 		
 		// 2. velocity of spending for last 7 days
 		// total spend / 7 days = result (won/days)
@@ -178,6 +182,7 @@ public class MainActivity extends Activity {
 		if(data2 != null) {
 			velocity2 = data2[0] / data2[1];
 			Log.e(TAG, "velocity2: " + data2[0] + "/" + data2[1] + " = " + velocity2);
+			Log.e(TAG, "velocity2 from stat: " + monthlyStat.velocityWeek);
 		}
 		
 		/**
@@ -186,13 +191,13 @@ public class MainActivity extends Activity {
 		// 1. Budget used progress bar and detailed text
 		ProgressBar budgetUsed = (ProgressBar)analyseLayout.findViewById(R.id.budget_used);
 		int totalExpense = monthlyData.getTotalBudget()==0 ? 1:monthlyData.getTotalBudget();
-		int budgetUsedPercent = (int)data1[0]*100/totalExpense;
+		int budgetUsedPercent = (int)monthlyData.getTotalUsedUp()*100/totalExpense;
 		budgetUsed.setProgress(budgetUsedPercent);
 		TextView budgetInfo = (TextView)analyseLayout.findViewById(R.id.budget_info);
 		budgetInfo.setText("생활비 사용량: " + data1[0] + " / " + monthlyData.getTotalBudget());
 //		budgetInfo.setText(data1[0]+"("+(data1[0]*100)/monthlyData.getTotalExpense() + "%) 사용 / 전체 일정 중" +
 //				(int)(remainingDays[0]*100/(remainingDays[0]+remainingDays[1])) + "% 지남");
-		
+				
 		// 2. time passed progress bar and detailed text
 		ProgressBar timePassed = (ProgressBar)analyseLayout.findViewById(R.id.time_passed);
 		int timePassedPercent = (int)remainingDays[0]*100/monthlyData.getTotalDays();
@@ -203,22 +208,26 @@ public class MainActivity extends Activity {
 		
 		// 3. expected expenses till current date
 		TextView expectedPercent = (TextView)analyseLayout.findViewById(R.id.expected_percent);
-		Log.e(TAG,"getTotalDays: "+monthlyData.getTotalDays()+ " remainingDays[0]: "+ remainingDays[0]);
-		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
-		expectedPercent.setText(""+(budgetUsedPercent*100/timePassedPercent));
+//		Log.e(TAG,"getTotalDays: "+monthlyData.getTotalDays()+ " remainingDays[0]: "+ remainingDays[0]);
+//		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
+		expectedPercent.setText(""+(monthlyData.getTotalUsedUp()*100/monthlyStat.plannedUsedUntilToday));
 		TextView expectedDetail = (TextView)analyseLayout.findViewById(R.id.expected_detail);
-		int remainedBudget = monthlyData.getTotalBudget() - data1[0];
-		int trendBudget = (monthlyData.getTotalBudget()/monthlyData.getTotalDays()*remainingDays[0]) - data1[0];
+		int remainedBudget = monthlyData.getTotalBudget() - monthlyData.getTotalUsedUp();
+//		int trendBudget = monthlyStat.velocityOverall*remainingDays[0] - monthlyData.getTotalUsedUp();
+		int trendBudget = monthlyStat.compareToPlannedAndReal;
 		String remainedDetail = "계획량 대비 ";
 		remainedDetail = (trendBudget>0)? 
 				remainedDetail+decimalFormat.format(trendBudget)+" 덜 사용" :
 					remainedDetail+(decimalFormat.format(-1*trendBudget))+" 더 사용";
-		remainedDetail += " (예상: " + decimalFormat.format(trendBudget +data1[0])+")";
+		remainedDetail += " (예상: " + decimalFormat.format(monthlyStat.plannedUsedUntilToday)+")";
 		expectedDetail.setText(remainedDetail);
+		int[] accumExpense = monthlyData.accumulateExpense();
+		Log.e(TAG, "Compare to plan and real:" + monthlyStat.compareToPlannedAndReal + " <= " +
+				monthlyStat.plannedUsedUntilToday + " - " + accumExpense[accumExpense.length-1]);//monthlyData.getMaxExpense());
 		
 		// 6. guidance; expected result of accounting date (7 days)
 				// remaining budget - remaining days * velocity = result
-		int expectation2 = remainedBudget - velocity2 * remainingDays[1];
+		int expectation2 = monthlyStat.expectedUsedFromOverallVelocity;//remainedBudget - velocity2 * remainingDays[1];
 		int expectPercent2 = (int)((double)(data1[0] + velocity2 * remainingDays[1]) / (double)monthlyData.getTotalBudget() * 100.0);
 		TextView trendPercent = (TextView)analyseLayout.findViewById(R.id.trend_percent);
 		trendPercent.setText(""+expectPercent2);
@@ -254,7 +263,7 @@ public class MainActivity extends Activity {
 		} else {
 			todayBudget = weekday;
 		}
-		Log.e(TAG,"Date: " + date +" exp today: " + exp);
+//		Log.e(TAG,"Date: " + date +" exp today: " + exp);
 		TextView todayPercent = (TextView)analyseLayout.findViewById(R.id.today_expected_percent);
 		todayPercent.setText(""+exp*100/todayBudget);
 		TextView todayDetail = (TextView)analyseLayout.findViewById(R.id.today_expected_detail);

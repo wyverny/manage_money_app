@@ -25,7 +25,11 @@ public class MonthlyStat {
 	private static final String TAG = "MonthlyStat";
 	private DecimalFormat decimalFormat = new DecimalFormat("#,#00 ¿ø");
 	private MonthlyData monthlyData;
-	private Context context;
+	private Context mContext;
+	
+	int accountingDate;
+	int weekdayBudget;
+	int weekendBudget;
 	
 	/**
 	 * analysis data
@@ -43,12 +47,12 @@ public class MonthlyStat {
 	public MonthlyStat(Context context, MonthlyData monthlyData) {
 		// TODO: when any number is zero or negative.
 		this.monthlyData = monthlyData;
-		this.context = context;
+		this.mContext = context;
 		
 		SharedPreferences sPref =  context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
-		int weekdayBudget = sPref.getInt(SettingsPreference.PREF_WDAY_BUDGET, 30000);
-		int weekendBudget = sPref.getInt(SettingsPreference.PREF_WEND_BUDGET, 105000);
+		accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		weekdayBudget = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "30000"));
+		weekendBudget = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "105000"));
 		
 		GregorianCalendar today = new GregorianCalendar();
 		GregorianCalendar tomorrow = new GregorianCalendar();
@@ -64,7 +68,6 @@ public class MonthlyStat {
 		int[] data2 = monthlyData.getWeekExpenseFrom(tomorrow.get(Calendar.DATE));
 		if(data2 != null) {
 			velocityWeek = data2[0] / data2[1];
-			Log.e(TAG, "velocity2: " + data2[0] + "/" + data2[1] + " = " + velocityWeek);
 		} 
 		
 		// expectedUsedFromOverallVelocity - expected result of accounting date (total)
@@ -86,9 +89,9 @@ public class MonthlyStat {
 			Calendar dayFromTodayToLast = new GregorianCalendar();
 			while(dayFromTodayToLast.get(Calendar.DATE) != accountingDate) {
 				if(Util.isWeekEnd(dayFromTodayToLast))
-					unit += 1;
-				else
 					unit += ratioWDayNWEnd;
+				else
+					unit += 1;
 				dayFromTodayToLast.add(Calendar.DATE, 1);
 			}
 			double recommendedDayBudget = remainingBudget / unit;
@@ -105,7 +108,25 @@ public class MonthlyStat {
 		plannedUsedUntilToday += (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
 		
 		// compareToPlannedAndReal
-		int[] accumExpense = monthlyData.accumulateExpense();
-		compareToPlannedAndReal = plannedUsedUntilToday - accumExpense[accumExpense.length-1];
+//		int[] accumExpense = monthlyData.accumulateExpense();
+		compareToPlannedAndReal = plannedUsedUntilToday - monthlyData.getTotalUsedUp();//accumExpense[accumExpense.length-1];
+	}
+	
+	public int[] totalExpenseForLastMonths() {
+		Calendar thisMonth = Calendar.getInstance();
+		thisMonth.add(Calendar.MONTH, -1);
+		Util util = new Util();
+		int[] eachMonthExpense = new int[6];
+		eachMonthExpense[5] = monthlyData.getTotalUsedUp();
+		
+		for(int i=4; i >= 0; i--) {	
+			Calendar[] fromTo = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), accountingDate);
+			MonthlyData monthlyData = new MonthlyData(mContext, fromTo[Util.FROM], fromTo[Util.THROUGH], fromTo[Util.TO]);
+			monthlyData.accumulateExpense();
+			eachMonthExpense[i] = monthlyData.getTotalUsedUp();
+			thisMonth.add(Calendar.MONTH, -1);
+		}
+		
+		return eachMonthExpense;
 	}
 }

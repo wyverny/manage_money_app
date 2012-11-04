@@ -57,7 +57,7 @@ public class Util {
 	}
 	
 	public static boolean isWeekEnd(Calendar dayFromTodayToLast) {
-		return dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
-				dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY;
+		return dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+				dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
 	}
 }
