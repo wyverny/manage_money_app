@@ -44,6 +44,8 @@ public class MonthlyStat {
 	public int plannedUsedUntilToday;
 	public int compareToPlannedAndReal;
 	
+	public int daysBudgetExceeded;
+	
 	public MonthlyStat(Context context, MonthlyData monthlyData) {
 		// TODO: when any number is zero or negative.
 		this.monthlyData = monthlyData;
@@ -99,13 +101,23 @@ public class MonthlyStat {
 			recommendedTodayBudget = ((int)(recommendedDayBudget/1000))*1000;
 		}
 		
-		// plannedUsedUntilToday
+		// plannedUsedUntilToday & budget exceeded day
 		Calendar dayFromTodayToLast = new GregorianCalendar();
+		
 		while(dayFromTodayToLast.get(Calendar.DATE) != accountingDate) {
-			plannedUsedUntilToday += (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
+			int spend = monthlyData.getEachExpense(dayFromTodayToLast.get(Calendar.DATE));
+			int planned = (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
+			if(spend > planned)
+				daysBudgetExceeded++;
+			
+			plannedUsedUntilToday += planned;
 			dayFromTodayToLast.add(Calendar.DATE, -1);
-		}
-		plannedUsedUntilToday += (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
+		}		
+		int spend = monthlyData.getEachExpense(dayFromTodayToLast.get(Calendar.DATE));
+		int planned = (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
+		if(spend > planned)
+			daysBudgetExceeded++;
+		plannedUsedUntilToday += planned;
 		
 		// compareToPlannedAndReal
 //		int[] accumExpense = monthlyData.accumulateExpense();

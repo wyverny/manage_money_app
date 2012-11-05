@@ -281,7 +281,7 @@ public class HandleParsedData extends Activity {
 		AlertDialog alertDialog;
 		
 		LayoutInflater inflator = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflator.inflate(R.layout.new_parsed_data, (ViewGroup)findViewById(R.id.layout_root));
+		View layout = inflator.inflate(R.layout.parsed_data, (ViewGroup)findViewById(R.id.layout_root));
 		
 		final Calendar date = chosenDate;
 		TextView dateView = (TextView)layout.findViewById(R.id.new_date);

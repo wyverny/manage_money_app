@@ -9,6 +9,7 @@ import java.util.Locale;
 import com.lcm.data.MonthlyData;
 import com.lcm.data.SettingsPreference;
 
+import android.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
@@ -127,6 +128,7 @@ public class GsCalendar {
 	// / 구정이 2월 4 5 6이라면
 	// / [0204] [0205] [0206] 이렇게 넣음
 	private ArrayList<Integer> m_holiDay = new ArrayList<Integer>();
+	int startingDate = 15;
 
 	public GsCalendar(Context context, LinearLayout layout, Calendar calendar) {
 		this(context,layout);
@@ -144,9 +146,9 @@ public class GsCalendar {
 		// / 오늘 잘짜로 달력 생성
 		m_Calendar = Calendar.getInstance();
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
-		if(m_Calendar.get(Calendar.DATE) > startingDate)
-			m_Calendar.add(Calendar.MONTH, 1);
+		startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		if(m_Calendar.get(Calendar.DATE) < startingDate)
+			m_Calendar.add(Calendar.MONTH, -1);
 
 		// / 표시할 각각의 레이어 생성
 		m_lineLy = new LinearLayout[COLS]; // / 7줄의 레이아웃 생성
@@ -508,11 +510,7 @@ public class GsCalendar {
 		// / 날짜를 1로 셋팅하여 달의 1일이 무슨 요일인지 구함
 //		iCal.set(Calendar.DATE, 1);
 		// getting start day
-		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
-//		int startingDate = 25;
 		iCal.set(Calendar.DATE, startingDate);
-		iCal.add(Calendar.MONTH, -1);
 		// / 요일표기하는 맨 위 7칸 + 요일이 첫 시작하는 칸임
 		m_startPos = COLS + iCal.get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY;
 
@@ -573,11 +571,10 @@ public class GsCalendar {
 	}
 
 	private int getColor(int expense) {
-		
-		int max = 700000/30;
+		int max = 1500000/30;
 		if(expense > max*1.5) return Color.RED; 
 		if(expense < max*1.5 && expense > max ) return Color.YELLOW; 
-//		if(expense < max && expense > 0 ) return Color.GREEN;
+		if(expense < max && expense > 0 ) return Color.rgb(173, 255, 47);
 		return Color.WHITE;
 	}
 
@@ -594,15 +591,19 @@ public class GsCalendar {
 					if (m_cellTextBtn[k].getText().toString().length() > 0) {
 						String text = m_cellTextBtn[k].getText().toString();
 						if(text.contains(".")) text = text.substring(text.indexOf(".")+1,text.length());
-						m_Calendar.set(Calendar.DATE, Integer.parseInt(text));
+						Calendar clickedDay = (Calendar)m_Calendar.clone();
+						int date = Integer.parseInt(text);
+						clickedDay.set(Calendar.DATE, date);
+//						if(date < startingDate) 
+//							clickedDay.add(Calendar.MONTH, 1);
 						if (m_dayTv != null)
 							m_dayTv.setText(m_Calendar
 									.get(Calendar.DAY_OF_MONTH) + "");
 						printView();
 //						v.setBackgroundColor(Color.RED);
-						int year = m_Calendar.get(Calendar.YEAR);
-						int month = m_Calendar.get(Calendar.MONTH);
-						int day = m_Calendar.get(Calendar.DAY_OF_MONTH);
+						int year = clickedDay.get(Calendar.YEAR);
+						int month = clickedDay.get(Calendar.MONTH)+1;
+						int day = clickedDay.get(Calendar.DAY_OF_MONTH);
 						Log.e(TAG, year + "," + month + "," + day);
 						myClickEvent(year,month,day);
 					}
@@ -715,16 +716,11 @@ public class GsCalendar {
 
 	// / 달력에서 날짜를 클릭하면 이 함수를 부른다.
 	public void myClickEvent(int yyyy, int MM, int dd) {
-//		Log.d("yyyy", "" + yyyy);
 		int MMM = MM;
-//		Log.d("MM", "" + MM);
-//		Log.d("dd", "" + dd);
 		Log.e(TAG,"here "+ yyyy + "," + MM + "," + dd);
-		// TODO: to invoke the activity that enables user edit data of selected day
-		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		if(dd>=startingDate) MMM--;
 		Toast.makeText(mContext, "" + yyyy +"년 "+ (MMM+1) +"월 "+ dd + "일 사용내역", Toast.LENGTH_SHORT).show();
+
 		// start handleParsedData class
 		Intent handleParsedData = new Intent(mContext,HandleParsedData.class);
 		handleParsedData.putExtra("Year", yyyy);
@@ -748,7 +744,6 @@ public class GsCalendar {
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		Calendar thisMonth = (Calendar)m_Calendar.clone();
-		thisMonth.add(Calendar.MONTH, -1);
 		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
 		Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());
 		monthlyData = new MonthlyData(mContext, dates[0], dates[1], dates[2]);

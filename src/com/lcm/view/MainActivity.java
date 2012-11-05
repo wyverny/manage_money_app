@@ -125,12 +125,12 @@ public class MainActivity extends Activity {
 	 * get monthly data for chosen period and update UI according to that
 	 */
 	private void updateInformation() {
-		DecimalFormat decimalFormat = new DecimalFormat("#,#00 원");
+		DecimalFormat decimalFormat = new DecimalFormat("#,#00");
 		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// for graph layout
 		LinearLayout analyseTab = (LinearLayout) findViewById(R.id.analyseTab);
 		analyseTab.removeAllViews();
-		LinearLayout analyseLayout = (LinearLayout)inflater.inflate(R.layout.new_analyse_view,null);
+		LinearLayout analyseLayout = (LinearLayout)inflater.inflate(R.layout.analyse_view,null);
 		analyseTab.addView(analyseLayout);
 		analyseLayout.getLayoutParams().width = LayoutParams.MATCH_PARENT;
 		
@@ -164,41 +164,26 @@ public class MainActivity extends Activity {
 		gc.add(Calendar.DATE, 1);
 //		Date tmr = new Date(gc.getTimeInMillis());
 		
+		
+		int weekday = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "30000"));
+		int weekend = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "105000"));
+		
 		/**
 		 * Data calculation for analyze layout
 		 */
-		// TODO: implement analyse view
-		// 1. velocity of spending for total passed days
-		// total spend / passed days = result (won/days)
-		int[] data1 = monthlyData.getTotalExpenseFromTo(accountingDate, gc.get(Calendar.DATE));
-		int velocity1 = data1[0] / data1[1];
-		Log.e(TAG, "velocity1: " + data1[0] + "/" + data1[1] + " = " + velocity1);
-		Log.e(TAG, "velocity1 from stat: " + monthlyStat.velocityOverall);
-		
-		// 2. velocity of spending for last 7 days
-		// total spend / 7 days = result (won/days)
-		int[] data2 = monthlyData.getWeekExpenseFrom(gc.get(Calendar.DATE));
-		int velocity2 = 0;
-		if(data2 != null) {
-			velocity2 = data2[0] / data2[1];
-			Log.e(TAG, "velocity2: " + data2[0] + "/" + data2[1] + " = " + velocity2);
-			Log.e(TAG, "velocity2 from stat: " + monthlyStat.velocityWeek);
-		}
 		
 		/**
 		 * setting Analysis View from here to below
 		 */
 		// 1. Budget used progress bar and detailed text
+		// and time passed progress bar and detailed text
 		ProgressBar budgetUsed = (ProgressBar)analyseLayout.findViewById(R.id.budget_used);
 		int totalExpense = monthlyData.getTotalBudget()==0 ? 1:monthlyData.getTotalBudget();
 		int budgetUsedPercent = (int)monthlyData.getTotalUsedUp()*100/totalExpense;
 		budgetUsed.setProgress(budgetUsedPercent);
 		TextView budgetInfo = (TextView)analyseLayout.findViewById(R.id.budget_info);
-		budgetInfo.setText("생활비 사용량: " + data1[0] + " / " + monthlyData.getTotalBudget());
-//		budgetInfo.setText(data1[0]+"("+(data1[0]*100)/monthlyData.getTotalExpense() + "%) 사용 / 전체 일정 중" +
-//				(int)(remainingDays[0]*100/(remainingDays[0]+remainingDays[1])) + "% 지남");
-				
-		// 2. time passed progress bar and detailed text
+		budgetInfo.setText("생활비 사용량: " + monthlyData.getTotalUsedUp() + " / " + monthlyData.getTotalBudget());
+
 		ProgressBar timePassed = (ProgressBar)analyseLayout.findViewById(R.id.time_passed);
 		int timePassedPercent = (int)remainingDays[0]*100/monthlyData.getTotalDays();
 		if(timePassedPercent==0) timePassedPercent=1;
@@ -206,74 +191,32 @@ public class MainActivity extends Activity {
 		TextView timeInfo = (TextView)analyseLayout.findViewById(R.id.time_info);
 		timeInfo.setText("지난 기간: " + remainingDays[0] + " / " + monthlyData.getTotalDays());
 		
-		// 3. expected expenses till current date
-		TextView expectedPercent = (TextView)analyseLayout.findViewById(R.id.expected_percent);
-//		Log.e(TAG,"getTotalDays: "+monthlyData.getTotalDays()+ " remainingDays[0]: "+ remainingDays[0]);
-//		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
-		expectedPercent.setText(""+(monthlyData.getTotalUsedUp()*100/monthlyStat.plannedUsedUntilToday));
-		TextView expectedDetail = (TextView)analyseLayout.findViewById(R.id.expected_detail);
-		int remainedBudget = monthlyData.getTotalBudget() - monthlyData.getTotalUsedUp();
-//		int trendBudget = monthlyStat.velocityOverall*remainingDays[0] - monthlyData.getTotalUsedUp();
-		int trendBudget = monthlyStat.compareToPlannedAndReal;
-		String remainedDetail = "계획량 대비 ";
-		remainedDetail = (trendBudget>0)? 
-				remainedDetail+decimalFormat.format(trendBudget)+" 덜 사용" :
-					remainedDetail+(decimalFormat.format(-1*trendBudget))+" 더 사용";
-		remainedDetail += " (예상: " + decimalFormat.format(monthlyStat.plannedUsedUntilToday)+")";
-		expectedDetail.setText(remainedDetail);
-		int[] accumExpense = monthlyData.accumulateExpense();
-		Log.e(TAG, "Compare to plan and real:" + monthlyStat.compareToPlannedAndReal + " <= " +
-				monthlyStat.plannedUsedUntilToday + " - " + accumExpense[accumExpense.length-1]);//monthlyData.getMaxExpense());
 		
-		// 6. guidance; expected result of accounting date (7 days)
-				// remaining budget - remaining days * velocity = result
-		int expectation2 = monthlyStat.expectedUsedFromOverallVelocity;//remainedBudget - velocity2 * remainingDays[1];
-		int expectPercent2 = (int)((double)(data1[0] + velocity2 * remainingDays[1]) / (double)monthlyData.getTotalBudget() * 100.0);
-		TextView trendPercent = (TextView)analyseLayout.findViewById(R.id.trend_percent);
-		trendPercent.setText(""+expectPercent2);
-		TextView trendDetail = (TextView)analyseLayout.findViewById(R.id.trend_detail);
-		trendDetail.setText("현 추세로 사용 시 말일에 " + decimalFormat.format(expectation2) + " 남음");
+		// 2. for today's statistics
+		TextView today_recommended_use = (TextView)analyseLayout.findViewById(R.id.today_recommended_use);
+		TextView today_planned_use = (TextView)analyseLayout.findViewById(R.id.today_planned_used);
+				
+		today_recommended_use.setText(decimalFormat.format(monthlyStat.recommendedTodayBudget));
+		int planned_use = Util.isWeekEnd(today)? weekend : weekday;
+		today_planned_use.setText(decimalFormat.format(planned_use));
 		
-//		TextView totalVelo = (TextView)analyseLayout.findViewById(R.id.total_velo);
-//		totalVelo.setText(""+data1[1]+"일간 사용 속도: " + velocity1 + " (원/날)");
-//		TextView totalExpect = (TextView)analyseLayout.findViewById(R.id.total_expect);
-//		totalExpect.setText("월말 잔고예상치: " + expectation1 + " 원 (" + expectPercent1 + "% 사용)");
-//		TextView weekVelo = (TextView)analyseLayout.findViewById(R.id.week_velo);
-//		weekVelo.setText("일주일간 사용 속도: " + velocity2 + " (원/날)");
-//		TextView weekExpect = (TextView)analyseLayout.findViewById(R.id.week_expect);
-//		weekExpect.setText("월말 잔고예상치: " + expectation2 + " 원 (" + 	expectPercent2 + "% 사용)");
-//		TextView spendGuide = (TextView)analyseLayout.findViewById(R.id.spend_guide);
-//		spendGuide.setText("남은 날 일별 사용가능량: " + moneyForEachRemainDays + " 원");
+		// 3. for advices
+		TextView plan_real_diff = (TextView)analyseLayout.findViewById(R.id.plan_real_diff);
+		TextView planed_useup = (TextView)analyseLayout.findViewById(R.id.planned_amount);
+		TextView real_useup = (TextView)analyseLayout.findViewById(R.id.real_amount);
+		TextView expect_week = (TextView)analyseLayout.findViewById(R.id.expected_from_week);
+		TextView velocity_week = (TextView)analyseLayout.findViewById(R.id.velocity_week);
+		TextView expect_total = (TextView)analyseLayout.findViewById(R.id.expected_from_total);
+		TextView velocity_total = (TextView)analyseLayout.findViewById(R.id.velocity_total);
 		
+		plan_real_diff.setText(decimalFormat.format(monthlyStat.compareToPlannedAndReal));
+		planed_useup.setText("계획 사용량: "+decimalFormat.format(monthlyStat.plannedUsedUntilToday));
+		real_useup.setText("실제 사용량: "+decimalFormat.format(monthlyData.getTotalUsedUp()));
+		expect_week.setText(decimalFormat.format(monthlyStat.expectedUsedFromWeekVelocity));
+		velocity_week.setText("일주일 평균 사용량 " + decimalFormat.format(monthlyStat.velocityWeek));
+		expect_total.setText(decimalFormat.format(monthlyStat.expectedUsedFromOverallVelocity));
+		velocity_total.setText("전체 평균 사용량 "+decimalFormat.format(monthlyStat.velocityOverall));		
 		
-		
-//		maxExpense = monthlyData.getTotalExpense() + monthlyData.getTotalExpense()/20;
-//		View analyseView = inflater.inflate(R., null);
-//		mChart = getChart(LINE_GRAPH,fromTo[0],fromTo[1],fromTo[2]);
-//		mView = new GraphicalView(MainActivity.this, mChart);
-//		graphLayout.addView(mView);
-//		graphLayout.postInvalidate();
-		double date = monthlyData.getEachDate(remainingDays[0]);
-		int exp = monthlyData.getEachExpense(remainingDays[0]);
-		int weekday = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "20000"));
-		int weekend = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "45000"));
-		int todayBudget = 0; 
-		if(Util.isWeekEnd(new GregorianCalendar())) {
-			todayBudget = weekend;
-		} else {
-			todayBudget = weekday;
-		}
-//		Log.e(TAG,"Date: " + date +" exp today: " + exp);
-		TextView todayPercent = (TextView)analyseLayout.findViewById(R.id.today_expected_percent);
-		todayPercent.setText(""+exp*100/todayBudget);
-		TextView todayDetail = (TextView)analyseLayout.findViewById(R.id.today_expected_detail);
-		todayDetail.setText("오늘  " + decimalFormat.format(todayBudget-exp) + " 남음");
-		
-		TextView wdayExpense = (TextView)analyseLayout.findViewById(R.id.wday_expense);
-		wdayExpense.setText("주중 하루 생활비: "+decimalFormat.format(weekday));
-		TextView wendExpense = (TextView)analyseLayout.findViewById(R.id.wend_expense);
-		wendExpense.setText("주말 하루 생활비: "+decimalFormat.format(weekend));
-
 		/**
 		 *  for calendar layout
 		 */

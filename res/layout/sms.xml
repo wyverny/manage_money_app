@@ -5,7 +5,8 @@
     android:orientation="horizontal"
     android:paddingBottom="5px"
     android:paddingLeft="5px"
-    android:paddingTop="5px" >
+    android:paddingTop="5px"
+    android:background="@drawable/list_block" >
 
 	<!-- <CheckBox
 		android:id="@+id/smsLoad"

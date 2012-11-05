@@ -22,5 +22,6 @@
 <string name="pastmonth">지난달</string>
 <string name="nextmonth">다음달</string>
 <string name="percent">%</string>
+<string name="currency">원</string>
 <string name="data_saved">저장되었습니다</string>
 </resources>
