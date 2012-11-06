@@ -102,17 +102,19 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:gravity="center" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center|center_horizontal"
-                        android:minWidth="55dip" >
+                        android:layout_weight="3"
+                        android:background="@drawable/right_divider"
+                        android:gravity="right|center_horizontal"
+                        android:minWidth="50dip"
+                        android:paddingRight="20dp" >
 
                         <TextView
-                            android:id="@+id/today_recommended_use"
+                            android:id="@+id/today_real_use"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -129,18 +131,17 @@
                             android:text="@string/currency"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/today_recommended_label"
+                        android:id="@+id/TextView02"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center|center_horizontal"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
                         android:minHeight="50dip"
-                        android:padding="5dip"
-                        android:text="가용 사용량"
+                        android:paddingLeft="15dp"
+                        android:text="오늘 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
 
@@ -154,9 +155,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center|center_horizontal"
-                        android:minWidth="55dip" >
+                        android:layout_weight="3"
+                        android:background="@drawable/right_divider"
+                        android:gravity="right|center_horizontal"
+                        android:minWidth="50dip"
+                        android:paddingRight="20dp" >
 
                         <TextView
                             android:id="@+id/today_planned_used"
@@ -166,7 +169,7 @@
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@android:color/black"
-                            android:textSize="40dp"
+                            android:textSize="30dp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -183,14 +186,64 @@
                         android:id="@+id/today_planned_label"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center|center_horizontal"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
                         android:minHeight="50dip"
-                        android:padding="5dip"
+                        android:paddingLeft="15dp"
                         android:text="계획 생활비"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
+
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:background="@drawable/right_divider"
+                        android:gravity="right|center_horizontal"
+                        android:minWidth="50dip"
+                        android:paddingRight="20dp" >
+
+                        <TextView
+                            android:id="@+id/today_recommended_use"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:textColor="@android:color/black"
+                            android:textSize="30dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/currency"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/today_recommended_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:gravity="left|center"
+                        android:minHeight="50dip"
+                        android:paddingLeft="15dp"
+                        android:text="가용 사용량"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView
@@ -222,8 +275,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:gravity="center|center_horizontal"
-                        android:minWidth="55dip" >
+                        android:gravity="left|center"
+                        android:minWidth="55dip"
+                        android:paddingLeft="20dp"
+                        android:background="@drawable/right_divider" >
 
                         <TextView
                             android:id="@+id/plan_real_diff"
@@ -237,29 +292,30 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/lb_plan_real_diff"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dp"
+                            android:layout_weight="0.32"
                             android:text="@string/currency"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical" >
+                        android:layout_weight="3"
+                        android:orientation="vertical"
+                        android:paddingLeft="15dp" >
 
                         <TextView
                             android:id="@+id/planned_amount"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center|center_horizontal"
+                            android:gravity="left|center"
                             android:minHeight="20dip"
-                            android:padding="5dip"
                             android:text="권장 사용량"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
@@ -269,9 +325,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center|center_horizontal"
+                            android:gravity="left|center"
                             android:minHeight="20dip"
-                            android:padding="5dip"
                             android:text="권장 사용량"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
@@ -289,8 +344,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:gravity="center|center_horizontal"
-                        android:minWidth="55dip" >
+                        android:gravity="left|center"
+                        android:minWidth="55dip"
+                        android:paddingLeft="20dp"
+                        android:background="@drawable/right_divider" >
 
                         <TextView
                             android:id="@+id/expected_from_week"
@@ -304,6 +361,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/lb_expected_from_week"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dp"
@@ -317,13 +375,14 @@
                         android:id="@+id/velocity_week"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center|center_horizontal"
+                        android:layout_weight="3"
+                        android:gravity="left|center"
                         android:minHeight="40dip"
-                        android:padding="5dip"
+                        android:paddingLeft="15dp"
                         android:text="권장 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -336,8 +395,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:gravity="center|center_horizontal"
-                        android:minWidth="55dip" >
+                        android:gravity="left|center"
+                        android:minWidth="55dip"
+                        android:paddingLeft="20dp" 
+                        android:background="@drawable/right_divider">
 
                         <TextView
                             android:id="@+id/expected_from_total"
@@ -351,6 +412,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/lb_expected_from_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="3dp"
@@ -364,13 +426,14 @@
                         android:id="@+id/velocity_total"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="center|center_horizontal"
+                        android:layout_weight="3"
+                        android:gravity="left|center"
                         android:minHeight="40dip"
-                        android:padding="5dip"
+                        android:paddingLeft="15dp"
                         android:text="권장 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
+
                 </LinearLayout>
 
             </LinearLayout>

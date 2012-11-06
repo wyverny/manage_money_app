@@ -151,7 +151,7 @@ public class Workspace extends ViewGroup {
         super(context, attrs);
 
         mContext = context;
-        mDefaultScreen = 0;
+        mDefaultScreen = 1;
         mLocked = false;
 
         setHapticFeedbackEnabled(false);

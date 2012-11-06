@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -125,7 +126,7 @@ public class MainActivity extends Activity {
 	 * get monthly data for chosen period and update UI according to that
 	 */
 	private void updateInformation() {
-		DecimalFormat decimalFormat = new DecimalFormat("#,#00");
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
 		LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		// for graph layout
 		LinearLayout analyseTab = (LinearLayout) findViewById(R.id.analyseTab);
@@ -193,29 +194,47 @@ public class MainActivity extends Activity {
 		
 		
 		// 2. for today's statistics
+		TextView today_real_use = (TextView)analyseLayout.findViewById(R.id.today_real_use);
 		TextView today_recommended_use = (TextView)analyseLayout.findViewById(R.id.today_recommended_use);
 		TextView today_planned_use = (TextView)analyseLayout.findViewById(R.id.today_planned_used);
 				
+		today_real_use.setText(decimalFormat.format(monthlyData.getDatesExpense(today.get(Calendar.DATE))));
 		today_recommended_use.setText(decimalFormat.format(monthlyStat.recommendedTodayBudget));
 		int planned_use = Util.isWeekEnd(today)? weekend : weekday;
 		today_planned_use.setText(decimalFormat.format(planned_use));
 		
 		// 3. for advices
 		TextView plan_real_diff = (TextView)analyseLayout.findViewById(R.id.plan_real_diff);
+		TextView lb_plan_real_diff = (TextView)analyseLayout.findViewById(R.id.lb_plan_real_diff);
 		TextView planed_useup = (TextView)analyseLayout.findViewById(R.id.planned_amount);
 		TextView real_useup = (TextView)analyseLayout.findViewById(R.id.real_amount);
 		TextView expect_week = (TextView)analyseLayout.findViewById(R.id.expected_from_week);
+		TextView lb_expect_week = (TextView)analyseLayout.findViewById(R.id.lb_expected_from_week);
 		TextView velocity_week = (TextView)analyseLayout.findViewById(R.id.velocity_week);
 		TextView expect_total = (TextView)analyseLayout.findViewById(R.id.expected_from_total);
+		TextView lb_expect_total = (TextView)analyseLayout.findViewById(R.id.lb_expected_from_total);
 		TextView velocity_total = (TextView)analyseLayout.findViewById(R.id.velocity_total);
 		
 		plan_real_diff.setText(decimalFormat.format(monthlyStat.compareToPlannedAndReal));
-		planed_useup.setText("계획 사용량: "+decimalFormat.format(monthlyStat.plannedUsedUntilToday));
-		real_useup.setText("실제 사용량: "+decimalFormat.format(monthlyData.getTotalUsedUp()));
+		if(monthlyStat.compareToPlannedAndReal < 0) {
+			plan_real_diff.setTextColor(Color.BLUE);
+			lb_plan_real_diff.setText("더 사용");
+		} else {
+			plan_real_diff.setTextColor(Color.RED);
+			lb_plan_real_diff.setText("덜 사용");
+		}
+		
+		
+		planed_useup.setText("총 사용(계획): "+decimalFormat.format(monthlyStat.plannedUsedUntilToday));
+		real_useup.setText("총 사용(실제): "+decimalFormat.format(monthlyData.getTotalUsedUp()));
+		
 		expect_week.setText(decimalFormat.format(monthlyStat.expectedUsedFromWeekVelocity));
-		velocity_week.setText("일주일 평균 사용량 " + decimalFormat.format(monthlyStat.velocityWeek));
+		lb_expect_week.setText("원");
+		velocity_week.setText("일주일 평균 " + decimalFormat.format(monthlyStat.velocityWeek) + " 원으로 사용 시");
+		
 		expect_total.setText(decimalFormat.format(monthlyStat.expectedUsedFromOverallVelocity));
-		velocity_total.setText("전체 평균 사용량 "+decimalFormat.format(monthlyStat.velocityOverall));		
+		lb_expect_total.setText("원");
+		velocity_total.setText("전체 평균  " + decimalFormat.format(monthlyStat.velocityOverall) + " 원으로 사용 시");		
 		
 		/**
 		 *  for calendar layout
@@ -264,6 +283,16 @@ public class MainActivity extends Activity {
 //				.findViewById(R.id.generalInfoEditText);
 //		ProgressBar expenseProgress = (ProgressBar) graphLayout
 //				.findViewById(R.id.expenseProgressBar);
+		
+		LinearLayout graphTab = (LinearLayout) findViewById(R.id.graphTab);
+		graphTab.removeAllViews();
+		ChartMaker chartMaker = new ChartMaker(this);
+		mChart = chartMaker.drawDoughnutChart(fromTo[0],fromTo[1],fromTo[2]); //getChart(DOUGHNUT_GRAPH,fromTo[0],fromTo[1],fromTo[2]);
+//		mChart = chartMaker.drawLineChart(fromTo[0],fromTo[1],fromTo[2]);
+		mView = new GraphicalView(this, mChart);
+		graphTab.addView(mView);
+		graphTab.postInvalidate();
+		
 	}
 	
 	private AbstractChart getChart(int whichGraph, Date from, Date to, Date turning) {
@@ -315,15 +344,23 @@ public class MainActivity extends Activity {
 
 	public void setIndicator(int which) {
 		LinearLayout indicator = (LinearLayout)findViewById(R.id._indicator);
+		ImageView zero = (ImageView) indicator.findViewById(R.id.screen0);
 		ImageView first = (ImageView) indicator.findViewById(R.id.screen1);
 		ImageView second = (ImageView) indicator.findViewById(R.id.screen2);
 		switch (which) {
-		case 1:
+		case 2:
+			zero.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			first.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			second.setImageDrawable(getResources().getDrawable(R.drawable.selected_yes));
 			break;
 		case 0:
+			zero.setImageDrawable(getResources().getDrawable(R.drawable.selected_yes));
+			first.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
+			second.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
+			break;
+		case 1:
 		default:
+			zero.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			first.setImageDrawable(getResources().getDrawable(R.drawable.selected_yes));
 			second.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			break;

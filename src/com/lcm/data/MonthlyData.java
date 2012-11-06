@@ -97,6 +97,13 @@ public class MonthlyData {
 		return eachDate[index];
 	}
 	
+	public int getDatesIndex(int date) {
+		for (int i = 0; i < eachDate.length; i++) {
+			if(eachDate[i]==date) return i;
+		}
+		return 0;
+	}
+	
 	public void putParsedData(ArrayList<ParsedData> parsedDatas) {
 		for(ParsedData parsedData : parsedDatas) {
 			putParsedData(parsedData);
@@ -206,7 +213,7 @@ public class MonthlyData {
 	public int getDatesExpense(int day) {
 //		Log.e(TAG,"getDatesExpense:" + day);
 		for(int i=0; i<totalDays; i++) {
-			if(DEBUG) Log.e(TAG,"Date: " + eachDate[i] + " expense: " + eachExpense[i]);
+//			if(DEBUG) Log.e(TAG,"Date: " + eachDate[i] + " expense: " + eachExpense[i]);
 			if(eachDate[i]==day) return eachExpense[i];
 		}
 		return 0;

@@ -105,7 +105,7 @@ public class MonthlyStat {
 		Calendar dayFromTodayToLast = new GregorianCalendar();
 		
 		while(dayFromTodayToLast.get(Calendar.DATE) != accountingDate) {
-			int spend = monthlyData.getEachExpense(dayFromTodayToLast.get(Calendar.DATE));
+			int spend = monthlyData.getDatesExpense(dayFromTodayToLast.get(Calendar.DATE));
 			int planned = (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
 			if(spend > planned)
 				daysBudgetExceeded++;

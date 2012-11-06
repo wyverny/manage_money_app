@@ -7,6 +7,14 @@
     android:orientation="horizontal" >
 
     <ImageView
+        android:id="@+id/screen0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip"
+        android:src="@drawable/selected_no" >
+    </ImageView>
+    
+    <ImageView
         android:id="@+id/screen1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
