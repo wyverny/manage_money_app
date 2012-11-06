@@ -349,6 +349,7 @@ public class MainActivity extends Activity {
 		ImageView second = (ImageView) indicator.findViewById(R.id.screen2);
 		switch (which) {
 		case 2:
+			Toast.makeText(this, "각 날짜를 클릭해 편집 할 수 있습니다.", Toast.LENGTH_SHORT).show();
 			zero.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			first.setImageDrawable(getResources().getDrawable(R.drawable.selected_no));
 			second.setImageDrawable(getResources().getDrawable(R.drawable.selected_yes));

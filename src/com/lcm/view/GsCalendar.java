@@ -611,6 +611,7 @@ public class GsCalendar {
 			};
 			m_cellTextBtn[i].setOnClickListener(onClickListener);
 			m_cellStatBtn[i].setOnClickListener(onClickListener);
+			m_cellLy[i].setOnClickListener(onClickListener);
 		}
 	}
 
