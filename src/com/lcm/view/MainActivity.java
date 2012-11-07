@@ -286,13 +286,16 @@ public class MainActivity extends Activity {
 		
 		LinearLayout graphTab = (LinearLayout) findViewById(R.id.graphTab);
 		graphTab.removeAllViews();
-		ChartMaker chartMaker = new ChartMaker(this);
-		mChart = chartMaker.drawDoughnutChart(fromTo[0],fromTo[1],fromTo[2]); //getChart(DOUGHNUT_GRAPH,fromTo[0],fromTo[1],fromTo[2]);
-//		mChart = chartMaker.drawLineChart(fromTo[0],fromTo[1],fromTo[2]);
-		mView = new GraphicalView(this, mChart);
-		graphTab.addView(mView);
-		graphTab.postInvalidate();
+		View graphView = inflater.inflate(R.layout.graph_view, null);
+		graphView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.FILL_PARENT));
+		graphTab.addView(graphView);
 		
+		GraphViewFactory graphViewFactory = new GraphViewFactory(this);
+		LinearLayout monthStatLayout = (LinearLayout) graphView.findViewById(R.id.month_stat);		
+		monthStatLayout.addView(graphViewFactory.getBarChartView(monthlyStat.totalExpenseForLastMonths()));
+		LinearLayout categoryStatLayout = (LinearLayout) graphView.findViewById(R.id.category_stat);
+		categoryStatLayout.addView(graphViewFactory.getPieChartView(null)); // TODO:
 	}
 	
 	private AbstractChart getChart(int whichGraph, Date from, Date to, Date turning) {
