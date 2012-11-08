@@ -2,6 +2,9 @@ package com.lcm.view;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart;
+import org.achartengine.chart.PieChart;
+import org.achartengine.chart.XYChart;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.RangeCategorySeries;
@@ -25,17 +28,17 @@ public class GraphViewFactory {
 		mContext = context;
 	}
 
-	public GraphicalView getBarChartView(int[] values) {
+	public LcmGraphicalView getBarChartView(int[] values) {
 		int maxYValue = 0;
 		for (int i = 0; i < values.length; i++) {
 			if(maxYValue < values[i]) maxYValue = values[i];
 		}
 		
-		GraphicalView bar_chart = ChartFactory.getBarChartView(mContext, getBarChartDataset(values),getRenderer(maxYValue), Type.STACKED);
-		return bar_chart;
+		XYChart chart = new BarChart(getBarChartDataset(values),getRenderer(maxYValue), Type.STACKED);
+		return new LcmGraphicalView(mContext, chart);
 	}
 	
-	public GraphicalView getPieChartView(int[] values) {
+	public LcmGraphicalView getPieChartView(int[] values) {
 		CategorySeries series = new CategorySeries(null);
         DefaultRenderer renderer = new DefaultRenderer();
         int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA,
@@ -48,9 +51,10 @@ public class GraphViewFactory {
         series.add("Gingerbread", new Integer(20));
         series.add("Honeycomb", new Integer(50));
 
-//        renderer.setLabelsTextSize(15);
+        renderer.setLabelsTextSize(30);
+        renderer.setLabelsColor(Color.BLACK);
 //        renderer.setShowLabels(false);
-        renderer.setLegendTextSize(24);
+//        renderer.setLegendTextSize(50);
         renderer.setShowLegend(false);
         renderer.setZoomEnabled(false);
         for (int color : colors) {
@@ -59,8 +63,8 @@ public class GraphViewFactory {
             renderer.addSeriesRenderer(r);
         }
 
-        GraphicalView pie_chart = ChartFactory.getPieChartView(mContext, series, renderer);
-        return pie_chart;
+        PieChart chart = new PieChart(series, renderer);
+        return new LcmGraphicalView(mContext, chart);
 	}
 	
 	public XYMultipleSeriesDataset getBarChartDataset(int[] values) {
