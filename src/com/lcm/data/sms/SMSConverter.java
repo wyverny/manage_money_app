@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.lcm.data.ParsedData;
-import com.lcm.data.ParsedDataManager;
+import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.parse.NotValidSmsDataException;
 import com.lcm.data.parse.ParserFactory;
 import com.lcm.smsSmini.R;

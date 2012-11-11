@@ -14,5 +14,6 @@
 			<attribute name="javadoc_location" value="file:/C:/work/manage_money_app/libs/jsoup-1.7.1-javadoc"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/opencsv-2.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

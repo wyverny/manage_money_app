@@ -1,4 +1,4 @@
-package com.lcm.data;
+package com.lcm.data.control;
 
 import java.util.Calendar;
 import java.util.Date;

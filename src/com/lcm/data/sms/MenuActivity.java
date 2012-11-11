@@ -2,7 +2,7 @@ package com.lcm.data.sms;
 
 import java.util.ArrayList;
 
-import com.lcm.data.SMSDbAdapter;
+import com.lcm.data.control.SMSDbAdapter;
 import com.lcm.smsSmini.R;
 
 import android.app.Activity;

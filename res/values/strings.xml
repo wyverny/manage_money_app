@@ -24,4 +24,6 @@
 <string name="percent">%</string>
 <string name="currency">원</string>
 <string name="data_saved">저장되었습니다</string>
+<string name="backup_category">데이터 백업</string>
+<string name="excel_backup">CSV 백업 (엑셀 형식)</string>
 </resources>

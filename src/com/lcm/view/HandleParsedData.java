@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.lcm.data.ParsedData;
-import com.lcm.data.ParsedDataManager;
+import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.sms.HandleReceivedSms;
 import com.lcm.smsSmini.R;
 
@@ -348,11 +348,6 @@ public class HandleParsedData extends Activity {
 		});
 		alertDialog = builder.create();
 		alertDialog.show();
-		spendView.selectAll();
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.toggleSoftInputFromWindow(spendView.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-		
-		
 	}
 	
 	@Override

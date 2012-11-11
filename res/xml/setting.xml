@@ -64,6 +64,9 @@
 		<CheckBoxPreference android:key="noti_info_on" android:title="알림에 정보 표시" android:defaultValue="false"></CheckBoxPreference>
 		<!-- <CheckBoxPreference android:key="noti_icon_on" android:title="알림에 아이콘 표시" android:defaultValue="false"></CheckBoxPreference> -->
 	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/backup_category">
+		<Preference android:title="@string/excel_backup" android:key="excel_backup"/>
+	</PreferenceCategory>
 	
 	
 </PreferenceScreen>

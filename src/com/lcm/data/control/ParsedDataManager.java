@@ -1,9 +1,12 @@
-package com.lcm.data;
+package com.lcm.data.control;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import com.lcm.data.ParsedData;
+import com.lcm.data.ParsedData.InstallmentDatePrice;
 
 import android.content.Context;
 import android.database.Cursor;

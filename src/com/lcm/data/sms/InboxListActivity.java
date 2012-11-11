@@ -3,9 +3,9 @@ package com.lcm.data.sms;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.lcm.data.ExpenditureDBAdaptor;
 import com.lcm.data.ParsedData;
-import com.lcm.data.SMSDbAdapter;
+import com.lcm.data.control.ExpenditureDBAdaptor;
+import com.lcm.data.control.SMSDbAdapter;
 import com.lcm.data.parse.NotValidSmsDataException;
 import com.lcm.smsSmini.R;
 import com.lcm.view.MainActivity;

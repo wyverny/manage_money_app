@@ -19,7 +19,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import com.lcm.data.MonthlyData;
 import com.lcm.data.ParsedData;
-import com.lcm.data.ParsedDataManager;
+import com.lcm.data.control.ParsedDataManager;
 
 import android.content.Context;
 import android.graphics.Color;

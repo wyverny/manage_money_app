@@ -1,4 +1,4 @@
-package com.lcm.data;
+package com.lcm.data.control;
 
 import android.content.ContentValues;
 import android.content.Context;

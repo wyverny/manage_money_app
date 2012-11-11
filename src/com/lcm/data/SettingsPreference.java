@@ -2,6 +2,7 @@ package com.lcm.data;
 
 import java.util.Calendar;
 
+import com.lcm.data.control.ExportDatabaseCSVTask;
 import com.lcm.smsSmini.R;
 import com.lcm.view.NotiInfoRunner;
 
@@ -22,6 +23,7 @@ import android.preference.PreferenceScreen;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	public static final String PREF_AUTO_SAVE = "auto_save";
 	public static final String PREF_NOTI_INFO = "noti_info_on";
 	public static final String PREF_NOTI_ICON = "noti_icon_on";
+	public static final String PREF_EXCEL_BACKUP = "excel_backup";
 	
 	private Preference mDatePreference;
 	private EditTextPreference mExpensePreference;
@@ -43,6 +46,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	private EditTextPreference mWeekEndPreference;
 	
 	private CheckBoxPreference mNotiInfoPref;
+	private Preference mExcelBackupPref;
 //	private CheckBoxPreference mNotiIconPref;
 
 	PreferenceManager pm = getPreferenceManager();
@@ -91,6 +95,19 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 //				return false;
 //			}
 //		});
+		mExcelBackupPref = (Preference)findPreference(PREF_EXCEL_BACKUP);
+		mExcelBackupPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				try {
+					new ExportDatabaseCSVTask(SettingsPreference.this).execute("");
+				} catch (Exception e) {
+					Log.e("Error in Backup DataBase -> CSV",e.toString());
+				}
+				return false;
+			}
+			
+		});
 	}
 
 	@Override

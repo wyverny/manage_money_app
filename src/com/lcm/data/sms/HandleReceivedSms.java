@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.lcm.data.CategoryDBAdaptor;
 import com.lcm.data.ParsedData;
-import com.lcm.data.ParsedDataManager;
+import com.lcm.data.control.CategoryDBAdaptor;
+import com.lcm.data.control.ParsedDataManager;
 import com.lcm.smsSmini.R;
 import com.lcm.view.MainActivity;
 import com.lcm.view.NotiInfoRunner;

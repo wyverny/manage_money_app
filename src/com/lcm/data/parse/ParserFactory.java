@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.lcm.data.CategoryDBAdaptor;
 import com.lcm.data.ParsedData;
+import com.lcm.data.control.CategoryDBAdaptor;
 import com.lcm.data.sms.SmsData;
 import com.lcm.smsSmini.R;
 

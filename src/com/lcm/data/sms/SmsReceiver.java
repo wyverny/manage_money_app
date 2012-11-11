@@ -3,8 +3,8 @@ package com.lcm.data.sms;
 import java.util.Date;
 
 import com.lcm.data.ParsedData;
-import com.lcm.data.ParsedDataManager;
 import com.lcm.data.SettingsPreference;
+import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.parse.NotValidSmsDataException;
 import com.lcm.smsSmini.R;
 
