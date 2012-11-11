@@ -39,16 +39,23 @@ public class ParserFactory {
 		}
 //		Log.e("ParserFactory", date.toString());
 		switch(index) {
-		case 0:
+		case 0: // 신한 체크
 			data = (new ShinhanCheckSmsParser().parseSms(input));
 			break;
-		case 1:
-			data = (new ShinhanCreditSmsParser().parseSms(input));
-			break;
+		case 1: // 신한 카드
 		case 2:
 			data = (new NewShinhanCreditSmsParser().parseSms(input));
 			break;
-		default:
+//		case 3: // 현대카드
+//			data = (new HyunDaeCardSmsParser().parseSms(input));
+//			break;
+//		case 4: // KB카드
+//			data = (new KBCreditSmsParser().parseSms(input));
+//			break;
+//		case 5: // 삼성카드
+//			data = (new SamsungCreditSmsParser().parseSms(input));
+//			break;
+		default: 
 			throw (new NotValidSmsDataException());
 		}
 		// if Date is not null, put that into parsedData so that we can get more precise data

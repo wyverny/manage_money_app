@@ -9,9 +9,11 @@ public class ShinhanCreditSmsParser implements SmsParser {
 //		신한카드정상승인임창묵님        11/06 20:38     24,230원(일시불) 하모니마트
 //		신한카드정상승인임창묵님        11/06 18:09     13,320원(일시불) 예스이십사 주식
 //		신한카드정상승인임창묵님        11/06 12:18     4,050원(일시불) 파리바게뜨대륭６
+//		신한법인카드9014승인 10/26 21:56      387,000원 6가             잔액1,807,800원
+//		신한법인카드9014승인 10/27 00:51      100,400원 맥주창고        잔액1,677,600원
 		String spend = input.substring(input.indexOf(":"));
 		spend = spend.substring(8);
-		spend = spend.split("원")[0];
+		spend = spend.split("원")[0].trim();
 		String detail = input.substring(input.indexOf(")")+1);
 		String installment = input.substring(input.indexOf("(")+1,input.indexOf(")"));
 		if(installment.contains("일시불")) installment = "1";
