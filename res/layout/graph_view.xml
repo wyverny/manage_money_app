@@ -2,27 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/background">
-
+    android:orientation="vertical" >
+
     <LinearLayout
         android:id="@+id/category_stat"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_weight="1"
-        android:orientation="vertical" >
-
+        android:orientation="vertical" 
+        android:background="@drawable/screen_background">
     </LinearLayout>
-
+
     <LinearLayout
         android:id="@+id/month_stat"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_weight="1"
-        android:orientation="vertical" >
-
+        android:orientation="vertical">
     </LinearLayout>
 
 </LinearLayout>

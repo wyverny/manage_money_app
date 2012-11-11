@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/percent_cell"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="@drawable/progress_100_30"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/remain_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="3dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="1dip"
+            android:paddingLeft="10dip"
+            android:paddingTop="1dip"
+            android:text="test"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/today_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="1dip"
+            android:paddingLeft="10dip"
+            android:paddingTop="1dip"
+            android:text="test"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/remain_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|fill"
+            android:layout_weight="4"
+            android:gravity="left"
+            android:paddingLeft="10dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/today_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|fill"
+            android:layout_weight="4"
+            android:gravity="left"
+            android:paddingLeft="10dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+</LinearLayout>

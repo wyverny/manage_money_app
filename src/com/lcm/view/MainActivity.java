@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.AbstractChart;
@@ -230,11 +231,11 @@ public class MainActivity extends Activity {
 		
 		expect_week.setText(decimalFormat.format(monthlyStat.expectedUsedFromWeekVelocity));
 		lb_expect_week.setText("원");
-		velocity_week.setText("일주일 평균 " + decimalFormat.format(monthlyStat.velocityWeek) + " 원으로 사용 시");
+		velocity_week.setText("지난 7일 일일 평균 사용량" + decimalFormat.format(monthlyStat.velocityWeek) + " 원으로 사용 시 월말 잔금");
 		
 		expect_total.setText(decimalFormat.format(monthlyStat.expectedUsedFromOverallVelocity));
 		lb_expect_total.setText("원");
-		velocity_total.setText("전체 평균  " + decimalFormat.format(monthlyStat.velocityOverall) + " 원으로 사용 시");		
+		velocity_total.setText("이번달 일일 평균 사용량 " + decimalFormat.format(monthlyStat.velocityOverall) + " 원으로 사용 시 월말 잔금");		
 		
 		/**
 		 *  for calendar layout
@@ -295,7 +296,10 @@ public class MainActivity extends Activity {
 		LinearLayout monthStatLayout = (LinearLayout) graphView.findViewById(R.id.month_stat);		
 		monthStatLayout.addView(graphViewFactory.getBarChartView(monthlyStat.totalExpenseForLastMonths()));
 		LinearLayout categoryStatLayout = (LinearLayout) graphView.findViewById(R.id.category_stat);
-		categoryStatLayout.addView(graphViewFactory.getPieChartView(null)); // TODO:
+		HashMap<String,Integer> categoryData = monthlyData.getCategoryExpense();
+		LcmGraphicalView barGraph = graphViewFactory.getPieChartView(categoryData);
+		barGraph.setBackgroundResource(R.drawable.screen_background);
+		categoryStatLayout.addView(barGraph); // TODO:
 	}
 	
 	private AbstractChart getChart(int whichGraph, Date from, Date to, Date turning) {

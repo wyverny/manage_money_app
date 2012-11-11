@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="fill_parent"
+	android:background="#F0F8FF">
 	<LinearLayout
 		android:id="@+id/linearLayout1"
 		android:layout_height="wrap_content"
@@ -13,8 +14,8 @@
 			android:focusable="true"
 			android:drawSelectorOnTop="false"
 			android:layout_height="fill_parent"
-			android:dividerHeight="1dp"
-            android:divider="@android:color/black"
+			android:divider="#777"
+			android:dividerHeight="0px"
 			android:id="@+id/inboxList11"
 			android:layout_width="match_parent"></ListView>
 	</LinearLayout>

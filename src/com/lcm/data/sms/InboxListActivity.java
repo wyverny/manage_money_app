@@ -116,11 +116,11 @@ public class InboxListActivity extends Activity {
 //				CheckBox cb = (CheckBox) v.findViewById(R.id.smsLoad);
 //				cb.setChecked(e.isFlag());
 				if(e.isFlag()) {
-					((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.YELLOW);
-					((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.YELLOW);
+					((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.parseColor("#C23B22"));
+					((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.parseColor("#C23B22"));
 				} else {
-					((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.WHITE);
-					((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.WHITE);
+					((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.BLACK);
+					((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.BLACK);
 				}
 				//cb.setFocusable(false);
 				//cb.setOnClickListener(new LoadChecked(position,cb));
@@ -166,12 +166,12 @@ public class InboxListActivity extends Activity {
 			//parsedList.get(position).setFlag(cb.isChecked());
 			if(parsedList.get(position).isFlag()) {
 				parsedList.get(position).setFlag(false);
-				((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.WHITE);
-				((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.WHITE);
+				((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.BLACK);
+				((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.BLACK);
 			} else {
 				parsedList.get(position).setFlag(true);
-				((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.YELLOW);
-				((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.YELLOW);
+				((TextView) v.findViewById(R.id.smsStat)).setTextColor(Color.parseColor("#C23B22"));
+				((TextView) v.findViewById(R.id.smsBody)).setTextColor(Color.parseColor("#C23B22"));
 			}
 		}
 	}

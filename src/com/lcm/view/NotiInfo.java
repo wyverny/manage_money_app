@@ -86,17 +86,16 @@ public class NotiInfo extends Service {
 	    notification.flags |= Notification.FLAG_NO_CLEAR;
 		
 		// expanded 노티바 관련
-		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
-		
+//		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout_10_10);
 		int[] data = getMonthly();
-		//contentView.setImageViewResource(, srcId)
-		//Toast.makeText(this, "Data:"+data[0]+","+data[2],Toast.LENGTH_SHORT).show();
+		int drawbleId = getDrawbleIDfromPercent(100-data[0], 100-data[2]);
 		
+		RemoteViews contentView = new RemoteViews(getPackageName(), getLayoutIDfromPercent(100-data[0], 100-data[2]));
 		DecimalFormat format = new DecimalFormat("#,#00 원");
 		
-		contentView.setTextViewText(R.id.remain_percent, data[0] + getText(R.string.percent).toString());
+		contentView.setTextViewText(R.id.remain_percent, (100 - data[0]) + getText(R.string.percent).toString());
 		contentView.setTextViewText(R.id.remain_detail, "전체 생활비 중 " + format.format(data[1]) + " 남음");
-		contentView.setTextViewText(R.id.today_percent, data[2] + getText(R.string.percent).toString());
+		contentView.setTextViewText(R.id.today_percent, (100 - data[2]) + getText(R.string.percent).toString());
 		contentView.setTextViewText(R.id.today_detail, "오늘 생활비 중 "+ format.format(data[3]) + " 남음"); 
 		notification.contentView = contentView;
 		
@@ -110,52 +109,65 @@ public class NotiInfo extends Service {
 		long hiddenTime = SDK_VERSION >= 9 ? Long.MAX_VALUE : -Long.MAX_VALUE;
 		Log.e(TAG,"HiddenTime: " + hiddenTime + "SDK: " + SDK_VERSION);
 		notification.when = showNotiIcon ? System.currentTimeMillis() : hiddenTime;
-	    notification.icon = showNotiIcon? getDrawbleIDfromPercent(100-data[0], 100-data[2]) : R.drawable.ic_placeholder;
+	    notification.icon = showNotiIcon? drawbleId : R.drawable.ic_placeholder;
 		
 		nm.notify(NOTI_INFO_ID, notification);
 	}
 	
 	private int getDrawbleIDfromPercent(int remainPercent, int todayPercent) {
-		if(remainPercent >= 75) {
-			if(todayPercent >= 75) {
+		if(remainPercent >= 66) {
+			if(todayPercent >= 66) {
 				return R.drawable.progress_100_100;
-			} else if(todayPercent >= 50) {
-				return R.drawable.progress_100_75;
-			} else if(todayPercent >= 25) {
-				return R.drawable.progress_100_50;
+			} else if(todayPercent >= 33) {
+				return R.drawable.progress_100_60;
 			} else {
-				return R.drawable.progress_100_25;
+				return R.drawable.progress_100_30;
 			}
 		}
-		if(remainPercent >= 50) {
-			if(todayPercent >= 75) {
-				return R.drawable.progress_75_100;
-			} else if(todayPercent >= 50) {
-				return R.drawable.progress_75_75;
-			} else if(todayPercent >= 25) {
-				return R.drawable.progress_75_50;
+		if(remainPercent >= 33) {
+			if(todayPercent >= 66) {
+				return R.drawable.progress_60_100;
+			} else if(todayPercent >= 33) {
+				return R.drawable.progress_60_60;
 			} else {
-				return R.drawable.progress_75_25;
-			}
-		} else if(remainPercent >= 25) {
-			if(todayPercent >= 75) {
-				return R.drawable.progress_50_100;
-			} else if(todayPercent >= 50) {
-				return R.drawable.progress_50_75;
-			} else if(todayPercent >= 25) {
-				return R.drawable.progress_50_50;
-			} else {
-				return R.drawable.progress_50_25;
+				return R.drawable.progress_60_30;
 			}
 		} else {
-			if(todayPercent >= 75) {
-				return R.drawable.progress_25_100;
-			} else if(todayPercent >= 50) {
-				return R.drawable.progress_25_75;
-			} else if(todayPercent >= 25) {
-				return R.drawable.progress_25_50;
+			if(todayPercent >= 66) {
+				return R.drawable.progress_30_100;
+			} else if(todayPercent >= 33) {
+				return R.drawable.progress_30_60;
 			} else {
-				return R.drawable.progress_25_25;
+				return R.drawable.progress_30_30;
+			}
+		}
+	}
+	
+	private int getLayoutIDfromPercent(int remainPercent, int todayPercent) {
+		if(remainPercent >= 66) {
+			if(todayPercent >= 66) {
+				return R.layout.notification_layout_10_10;
+			} else if(todayPercent >= 33) {
+				return R.layout.notification_layout_10_6;
+			} else {
+				return R.layout.notification_layout_10_3;
+			}
+		}
+		if(remainPercent >= 33) {
+			if(todayPercent >= 66) {
+				return R.layout.notification_layout_6_10;
+			} else if(todayPercent >= 33) {
+				return R.layout.notification_layout_6_6;
+			} else {
+				return R.layout.notification_layout_6_3;
+			}
+		} else {
+			if(todayPercent >= 66) {
+				return R.layout.notification_layout_3_10;
+			} else if(todayPercent >= 33) {
+				return R.layout.notification_layout_3_6;
+			} else {
+				return R.layout.notification_layout_3_3;
 			}
 		}
 	}

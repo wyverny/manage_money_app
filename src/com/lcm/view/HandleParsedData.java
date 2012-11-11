@@ -21,10 +21,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -81,46 +83,49 @@ public class HandleParsedData extends Activity {
     
 	    LinearLayout handleListBtnLayout = (LinearLayout)findViewById(R.id.handlelist_btn_layout);
 	    Button createBtn = (Button)handleListBtnLayout.findViewById(R.id.handle_createButton);
+	    handleListBtnLayout.removeView((Button)findViewById(R.id.handle_saveButton));
 	    createBtn.setOnClickListener(onClickListener);
-	    Button deleteBtn = (Button)handleListBtnLayout.findViewById(R.id.handle_deleteButton);
-	    deleteBtn.setOnClickListener(onClickListener);
+//	    Button deleteBtn = (Button)handleListBtnLayout.findViewById(R.id.handle_deleteButton);
+//	    deleteBtn.setOnClickListener(onClickListener);
 	    
-	    Button button = (Button)findViewById(R.id.handle_saveButton);
-	    button.setOnClickListener(onClickListener);
+	    Toast.makeText(this, "길게 터치하여 지울 수 있습니다", Toast.LENGTH_SHORT).show();
+	    
+//	    Button button = (Button)findViewById(R.id.handle_saveButton);
+//	    button.setOnClickListener(onClickListener);
 	}
 	
 	OnClickListener onClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View btn) {
 			switch (btn.getId()) {
-			case R.id.handle_saveButton:
-				// update modified data
-				parsedDataManager.updateParsedData(data_handled);
-				// deleted deleted data
-				parsedDataManager.deleteParsedData(deleted_datas);
-				// insert created data
-				parsedDataManager.insertParsedData(created_datas);
-				
-				Toast.makeText(HandleParsedData.this, getText(R.string.data_saved), Toast.LENGTH_SHORT).show();
-				finish();
-				break;
+//			case R.id.handle_saveButton:
+//				// update modified data
+//				parsedDataManager.updateParsedData(data_handled);
+//				// deleted deleted data
+//				parsedDataManager.deleteParsedData(deleted_datas);
+//				// insert created data
+//				parsedDataManager.insertParsedData(created_datas);
+//				
+//				Toast.makeText(HandleParsedData.this, getText(R.string.data_saved), Toast.LENGTH_SHORT).show();
+//				finish();
+//				break;
 			case R.id.handle_createButton:
 				// TODO: create new parsedData; need to create
 				newParsedDataDialog();
 				break;
-			case R.id.handle_deleteButton:
-				// TODO: delete selected parsedData
-//				Log.e(TAG,((ParsedData)listView.getSelectedItem()).toString());
-				Log.e(TAG,"selectedItem position"+listView.getSelectedItemPosition());
-//				int selectedItem = listView.getSelectedItemPosition();
-//				deleted_data.add(data_handled.get(selectedItem));
-				if(deleted_data==null) return;
-				data_handled.remove(deleted_data);
-//				myAdapter.remove(deleted_data); // XXX is this right way to do???
-				deleted_datas.add(deleted_data);
-				deleted_data = null;
-				myAdapter.notifyDataSetChanged();
-				break;
+//			case R.id.handle_deleteButton:
+//				// TODO: delete selected parsedData
+////				Log.e(TAG,((ParsedData)listView.getSelectedItem()).toString());
+//				Log.e(TAG,"selectedItem position"+listView.getSelectedItemPosition());
+////				int selectedItem = listView.getSelectedItemPosition();
+////				deleted_data.add(data_handled.get(selectedItem));
+//				if(deleted_data==null) return;
+//				data_handled.remove(deleted_data);
+////				myAdapter.remove(deleted_data); // XXX is this right way to do???
+//				deleted_datas.add(deleted_data);
+//				deleted_data = null;
+//				myAdapter.notifyDataSetChanged();
+//				break;
 			default:
 				break;
 			}
@@ -164,6 +169,7 @@ public class HandleParsedData extends Activity {
 	    public View getView(int position, View convertView, ViewGroup parent) {
 //			Log.e("HandleReceivedSms","position: "+position);
 	        View v = convertView;
+	        final ViewGroup paren = parent;
 	        if (v == null) {
 	            LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	            v = vi.inflate(resource, null);
@@ -200,18 +206,36 @@ public class HandleParsedData extends Activity {
 		        handleCategory.setSelection(findCategoryIndex(page.getCategory()));
 		        handleCategory.setOnItemSelectedListener(new CategorySelectedListener(position,handleCategory));
 	        }
-	        v.setOnClickListener(new OnClickListener() {
+	        v.setOnLongClickListener(new OnLongClickListener() {
+				
 				@Override
-				public void onClick(View arg0) {
-					if(deleted_data==null) {
-						deleted_data = page;
-						arg0.setBackgroundColor(Color.YELLOW);
-					} else {
-						deleted_data = null;
-						arg0.setBackgroundColor(Color.BLACK);
-					}
+				public boolean onLongClick(View v) {
+					AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+					alertDialog.setMessage("삭제하시겠습니까?").setPositiveButton("네", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							parsedDataManager.deleteParsedData(page);
+							data_handled.remove(page);
+							myAdapter.notifyDataSetChanged();
+						}
+					}).setNegativeButton("아니오", null);
+					alertDialog.show();					
+					return false;
 				}
 			});
+//	        v.setOnClickListener(new OnClickListener() {
+//				@Override
+//				public void onClick(View arg0) {
+//					Log.e("HANDLE_DETAIL","CLICKED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + arg0 + " -- " + arg0.getBackground());
+//					if(deleted_data==null) {
+//						deleted_data = page;
+////						arg0.setBackgroundColor(Color.YELLOW);
+//					} else {
+//						deleted_data = null;
+////						arg0.setBackgroundColor(Color.BLACK);
+//					}
+//				}
+//			});
 	        return v;
 	    }
 		
@@ -287,7 +311,8 @@ public class HandleParsedData extends Activity {
 		TextView dateView = (TextView)layout.findViewById(R.id.new_date);
 		dateView.setText(DateFormat.getDateFormat(this).format(date.getTime()));
 		final EditText spendView = (EditText)layout.findViewById(R.id.new_spend);
-		spendView.setText("0");
+		spendView.setText("");
+		spendView.setKeyListener(DigitsKeyListener.getInstance(false,true));
 		final EditText detailView = (EditText)layout.findViewById(R.id.new_detail);
 		detailView.setText("현금사용");
 		final Spinner categoryView = (Spinner)layout.findViewById(R.id.new_category);
@@ -303,11 +328,16 @@ public class HandleParsedData extends Activity {
 		builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				ParsedData pd = new ParsedData(Integer.parseInt(spendView.getText().toString()),1,
-						categoryView.getSelectedItem().toString(), date, detailView.getText().toString());
-				data_handled.add(pd);
-				created_datas.add(pd);
-				myAdapter.notifyDataSetChanged();
+				if(!spendView.getText().toString().equals("") && 
+						!(Integer.parseInt(spendView.getText().toString()) == 0)) {
+					ParsedData pd = new ParsedData(Integer.parseInt(spendView.getText().toString()),1,
+							categoryView.getSelectedItem().toString(), date, detailView.getText().toString());
+					data_handled.add(pd);
+					created_datas.add(pd);
+					parsedDataManager.insertParsedData(created_datas);
+					created_datas.clear();
+					myAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 		builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -318,6 +348,11 @@ public class HandleParsedData extends Activity {
 		});
 		alertDialog = builder.create();
 		alertDialog.show();
+		spendView.selectAll();
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInputFromWindow(spendView.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+		
+		
 	}
 	
 	@Override

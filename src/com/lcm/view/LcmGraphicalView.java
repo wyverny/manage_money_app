@@ -13,6 +13,8 @@ import org.achartengine.tools.PanListener;
 import org.achartengine.tools.Zoom;
 import org.achartengine.tools.ZoomListener;
 
+import com.lcm.smsSmini.R;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -66,6 +68,8 @@ public class LcmGraphicalView extends View {
 	        && ((XYMultipleSeriesRenderer) mRenderer).getMarginsColor() == XYMultipleSeriesRenderer.NO_COLOR) {
 	      ((XYMultipleSeriesRenderer) mRenderer).setMarginsColor(mPaint.getColor());
 	    }
+	    
+	    
 	    
 //	    int version = 7;
 //	    try {

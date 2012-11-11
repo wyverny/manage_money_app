@@ -6,7 +6,7 @@
     android:paddingBottom="5px"
     android:paddingLeft="5px"
     android:paddingTop="5px"
-    android:background="@drawable/list_block" >
+    android:background="@drawable/block" >
 
 	<!-- <CheckBox
 		android:id="@+id/smsLoad"
@@ -16,23 +16,31 @@
 	<LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+	    android:layout_margin="7dp"
 	    android:orientation="vertical"
 	    android:paddingLeft="20px" >
 
 		<TextView
-			android:id="@+id/smsStat"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="13sp"
-			android:lines="1"
-			android:ellipsize="marquee"/>
+		    android:id="@+id/smsStat"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginBottom="2dp"
+		    android:ellipsize="marquee"
+		    android:lines="1"
+		    android:text="Stat"
+		    android:textColor="#000000"
+		    android:textSize="13sp" />
+
 		<TextView
-			android:id="@+id/smsBody"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="20sp"
-			android:lines="1"
-			android:ellipsize="marquee"/>
+		    android:id="@+id/smsBody"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:ellipsize="marquee"
+		    android:lines="1"
+		    android:text="Body"
+		    android:textColor="#000000"
+		    android:textSize="20sp" />
+
 	</LinearLayout>
 
 </LinearLayout>

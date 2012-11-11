@@ -79,7 +79,6 @@ public class HandleReceivedSms extends Activity {
 		//remove create and delete button from the layout
 		LinearLayout handleListBtnLayout = (LinearLayout)findViewById(R.id.handlelist_btn_layout);
 		handleListBtnLayout.removeView((Button)findViewById(R.id.handle_createButton));
-		handleListBtnLayout.removeView((Button)findViewById(R.id.handle_deleteButton));
 		
 		Bundle extra = getIntent().getExtras();
 		if(extra.getString("Source").equals("InboxListActivity")) {
@@ -265,38 +264,6 @@ public class HandleReceivedSms extends Activity {
 			@Override
 			public void onClick(View v) {
 				checkDialog(data_handled.get(index).getDetail(),index);
-			}
-		}
-		
-		private class DetailWatcher implements TextWatcher {
-			private EditText editText;
-			private int index;
-//			ParsedData item;
-			public DetailWatcher(int index, EditText editText) {
-//				Log.e("HandleReceivedSms","index: " + index + " text: "+ et.toString() + ", " + item.getDetail());
-				this.editText = editText;
-				this.index = index;
-//				this.item = item;
-//				editText.setText(data_handled.get(index).getDetail());
-				Log.e("HandleReceivedSms","index: "+index+" detail: "+ data_handled.get(index).getDetail() + " __s__: "+editText.getText().toString());
-//				if(editTexts.get(index)!=null)
-//					editTexts.get(index).setText(data_handled.get(index).getDetail());
-			}
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if(data_handled.get(index).getDetail().equals(editText.getText().toString())) return;
-//				else 
-//					Log.e("HandleReceivedSms","index: "+index+" detail: "+ data_handled.get(index).getDetail() + " __s__: "+editText.getText().toString());
-//				Log.e("HandleReceivedSms","index: "+ index+ " onTextChanged: "+s.toString());
-//				data_handled.get(index).setDetail(editTexts.get(index).getText().toString());
-//				data_handled.get(index).setDetail(s.toString());
-//				notifyDataSetChanged();
-			}
-			public void beforeTextChanged(CharSequence s, int start, int count,int after) {}
-			public void afterTextChanged(Editable s) {
-//				Log.e("HandleReceivedSms","__index: " + index + " text: "+ editText.toString() + "item: " + item.getDetail());
-//				item.get(index).setDetail(s.toString());
-//				editText.setText(item.getDetail());
-//				Log.e("HandleReceivedSms","__index: "+index+" detail: "+item.toString());
 			}
 		}
 		

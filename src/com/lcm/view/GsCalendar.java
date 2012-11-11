@@ -571,10 +571,10 @@ public class GsCalendar {
 	}
 
 	private int getColor(int expense) {
-		int max = 1500000/30;
-		if(expense > max*1.5) return Color.RED; 
-		if(expense < max*1.5 && expense > max ) return Color.YELLOW; 
-		if(expense < max && expense > 0 ) return Color.rgb(173, 255, 47);
+		int max = monthlyData.getTotalBudget()/30;
+		if(expense > max*1.5) return Color.parseColor("#F08080"); 
+		if(expense < max*1.5 && expense > max ) return Color.parseColor("#ADD8E6"); 
+		if(expense < max && expense > 0 ) return Color.parseColor("#90EE90");
 		return Color.WHITE;
 	}
 

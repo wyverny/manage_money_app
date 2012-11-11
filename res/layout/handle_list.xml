@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#F0F8FF">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -15,8 +16,8 @@
             android:id="@+id/handle_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="1dp"
-            android:divider="@android:color/black"
+            android:divider="#777"
+			android:dividerHeight="0px"
             android:layout_weight="1" >
         </ListView>
     </LinearLayout>
@@ -43,16 +44,6 @@
             android:layout_weight="1"
             android:paddingBottom="6px"
             android:text="새로운 내역"
-            android:textSize="16sp" >
-        </Button>
-
-        <Button
-            android:id="@+id/handle_deleteButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingBottom="6px"
-            android:text="삭제"
             android:textSize="16sp" >
         </Button>
     </LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <color name="PBlue">#AEC6CF</color>
+ <color name="PBrown">#836953</color>
+ <color name="PGray">#CFCFC4</color>
+ <color name="PGreen">#77DD77</color>
+ <color name="PMagenta">#F49AC2</color>
+ <color name="POrange">#FFB347</color>
+ <color name="PPink">#FFD1DC</color>
+ <color name="PPurple">#B39EB5</color>
+ <color name="PRed">#FF6961</color>
+ <color name="PViolet">#CB99C9</color>
+ <color name="PYellow">#FDFD96</color>
+</resources>
