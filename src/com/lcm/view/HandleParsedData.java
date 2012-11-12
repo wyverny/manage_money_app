@@ -217,6 +217,7 @@ public class HandleParsedData extends Activity {
 							parsedDataManager.deleteParsedData(page);
 							data_handled.remove(page);
 							myAdapter.notifyDataSetChanged();
+							sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 						}
 					}).setNegativeButton("¾Æ´Ï¿À", null);
 					alertDialog.show();					
@@ -337,6 +338,7 @@ public class HandleParsedData extends Activity {
 					parsedDataManager.insertParsedData(created_datas);
 					created_datas.clear();
 					myAdapter.notifyDataSetChanged();
+					sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 				}
 			}
 		});
