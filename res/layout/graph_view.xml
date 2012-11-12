@@ -11,7 +11,7 @@
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:orientation="vertical" 
-        android:background="@drawable/screen_background">
+        android:background="#BCD4E6">
     </LinearLayout>
 
     <LinearLayout

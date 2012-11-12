@@ -145,7 +145,7 @@ public class GraphViewFactory {
         myRenderer.setChartTitleTextSize(50);
         myRenderer.setLabelsColor(Color.BLACK);
 		
-		int[] margin = {60, 50, 20, 15};
+		int[] margin = {20, 50, 20, 15};
 		myRenderer.setMargins(margin);
 		myRenderer.setMarginsColor(Color.parseColor("#BCD4E6"));
 		
