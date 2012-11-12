@@ -48,7 +48,7 @@ public class ParsedDataManager {
 			}
 			exDBAdaptor.insertDB(parsedData.getSpent(), parsedData.getCategory(),
 					parsedData.getDate(), parsedData.getDetail(),
-					longitude, latitude, parsedData.getBank());
+					longitude, latitude, parsedData.getBank(), parsedData.getUploaded());
 		} else {
 			// when the data is inserted using SMS
 			Location loc = parsedData.getLocation();
@@ -61,7 +61,7 @@ public class ParsedDataManager {
 			exDBAdaptor.insertDB(parsedData.getSpent(), parsedData.getCategory(),
 					parsedData.getDate(), parsedData.getDetail(),
 					longitude, latitude, 
-					parsedData.getBank());
+					parsedData.getBank(),parsedData.getUploaded());
 		}
 		
 		exDBAdaptor.close();
@@ -85,13 +85,13 @@ public class ParsedDataManager {
 				if(parsedData.getInstallment()==1) {
 					exDBAdaptor.insertDB(parsedData.getSpent(), parsedData.getCategory(),
 							parsedData.getDate(), parsedData.getDetail(),
-							longitude, latitude, parsedData.getBank());
+							longitude, latitude, parsedData.getBank(), parsedData.getUploaded());
 				} else {
 					ArrayList<ParsedData.InstallmentDatePrice> data = parsedData.getInstallmentDatePrice(mContext);
 					for(int i=0; i<data.size(); i++) {
 						exDBAdaptor.insertDB(data.get(i).getInstallmentPrice(), parsedData.getCategory(),
 								data.get(i).getInstallmentDate(), parsedData.getDetail(),
-								longitude, latitude, parsedData.getBank());
+								longitude, latitude, parsedData.getBank(), parsedData.getUploaded());
 					}
 				}
 			} else {
@@ -100,14 +100,14 @@ public class ParsedDataManager {
 					exDBAdaptor.insertDB(parsedData.getSpent(), parsedData.getCategory(),
 							parsedData.getDate(), parsedData.getDetail(),
 //							parsedData.getLocation().getLongitude(), parsedData.getLocation().getLatitude(),
-							0.0,0.0, parsedData.getBank());
+							0.0,0.0, parsedData.getBank(), parsedData.getUploaded());
 				} else {
 					ArrayList<ParsedData.InstallmentDatePrice> data = parsedData.getInstallmentDatePrice(mContext);
 					for(int i=0; i<data.size(); i++) {
 						Log.e(TAG,"Date Installment: " + data.get(i).getInstallmentDate().get(Calendar.MONTH));
 						exDBAdaptor.insertDB(data.get(i).getInstallmentPrice(), parsedData.getCategory(),
 								data.get(i).getInstallmentDate(), parsedData.getDetail(),
-								0.0,0.0, parsedData.getBank());
+								0.0,0.0, parsedData.getBank(), parsedData.getUploaded());
 					}
 				}
 				
@@ -127,7 +127,7 @@ public class ParsedDataManager {
 		exDBAdaptor.updateDB(parsedData.getDate().get(Calendar.YEAR), parsedData.getDate().get(Calendar.MONTH), 
 				parsedData.getDate().get(Calendar.DAY_OF_MONTH), 
 				parsedData.getDate().getTimeInMillis(), parsedData.getSpent(), parsedData.getCategory(),
-				parsedData.getDetail(), parsedData.getBank());
+				parsedData.getDetail(), parsedData.getBank(), parsedData.getUploaded());
 		
 		exDBAdaptor.close();
 		return false;
@@ -142,7 +142,7 @@ public class ParsedDataManager {
 			exDBAdaptor.updateDB(parsedData.getDate().get(Calendar.YEAR), parsedData.getDate().get(Calendar.MONTH), 
 					parsedData.getDate().get(Calendar.DAY_OF_MONTH), 
 					parsedData.getDate().getTimeInMillis(), parsedData.getSpent(), parsedData.getCategory(),
-					parsedData.getDetail(), parsedData.getBank());
+					parsedData.getDetail(), parsedData.getBank(), parsedData.getUploaded());
 		}
 		
 		exDBAdaptor.close();

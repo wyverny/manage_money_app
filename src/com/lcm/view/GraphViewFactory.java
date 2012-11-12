@@ -29,9 +29,8 @@ import android.util.Log;
 public class GraphViewFactory {
 	private static final String TAG = "GraphViewFactory";
 	private Context mContext;
-	private String[] colours = { "#AEC6CF","#836953",
-			"#CFCFC4","#77DD77","#F49AC2","#FFB347",
-			"#FFD1DC","#B39EB5","#FF6961","#CB99C9","#FDFD96"};
+	private String[] colours = { "#7CFC00","#FFF700","#FFFACD","#FDD5B1",
+			"#D3D3D3","#F08080","#F56991","#90EE90","#FFB6C1","#B38B6D", "#FBA0E3"};
 
 	public GraphViewFactory(Context context) {
 		mContext = context;

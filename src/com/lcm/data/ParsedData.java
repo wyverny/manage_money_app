@@ -13,8 +13,6 @@ import android.os.Parcelable;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-
-// TODO: matching data with database
 public class ParsedData implements Parcelable {
 	private static final String TAG = "ParsedData";
 	
@@ -27,6 +25,7 @@ public class ParsedData implements Parcelable {
 	private int sms_id;
 	private boolean flag;
 	private int installment;
+	private int uploaded;
 	
 	public int getSms_id() {
 		return sms_id;
@@ -48,6 +47,7 @@ public class ParsedData implements Parcelable {
 		bank = parcel.readString();
 //		bank = "unknown";//parcel.readString();
 		sms_id = parcel.readInt();
+		uploaded = parcel.readInt();
 		flag = false;
 //		Log.e("ParsedData","contruct with parcel -- "+spent+","+category+","+date+","+detail+","+location+","+bank+","+sms_id);
 //		new ParsedData(spent, category,new Date(date), detail, location, bank);
@@ -64,6 +64,7 @@ public class ParsedData implements Parcelable {
 		this.bank = bank;
 		this.sms_id = sms_id;
 		flag = false;
+		uploaded = 0;
 	}
 
 	public ParsedData(int spent, int installment, String category, Calendar date,String detail,String bank, int sms_id) {
@@ -76,6 +77,7 @@ public class ParsedData implements Parcelable {
 		this.location = null;
 		this.sms_id	= sms_id;
 		flag = false;
+		uploaded = 0;
 	}
 
 	public ParsedData(int spent, int installment, String category, Calendar date,String detail) {
@@ -88,6 +90,7 @@ public class ParsedData implements Parcelable {
 		this.location = null;
 		this.sms_id = -1;
 		flag = false;
+		uploaded = 0;
 	}
 
 	public ParsedData(int spent, int installment, String category, Calendar date) {
@@ -100,6 +103,7 @@ public class ParsedData implements Parcelable {
 		this.location = null;
 		this.sms_id = -1;
 		flag = false;
+		uploaded = 0;
 	}
 	
 	public String getDetail() {
@@ -158,20 +162,20 @@ public class ParsedData implements Parcelable {
 		return 0;
 	}
 
-//	private int spent;
-//	private String category;
-//	private Date date;
-//	private String detail;
-//	private Location location;
-//	private String bank;
-//	private int sms_id;
-	
 	public boolean isFlag() {
 		return flag;
 	}
 
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	
+	public int getUploaded() {
+		return uploaded;
+	}
+
+	public void setUploaded(int uploaded) {
+		this.uploaded = uploaded;
 	}
 
 	@Override
@@ -181,7 +185,6 @@ public class ParsedData implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
 		dest.writeInt(spent);
 		dest.writeInt(installment);
 		dest.writeString(category);
@@ -190,6 +193,7 @@ public class ParsedData implements Parcelable {
 		dest.writeParcelable(location, flags);
 		dest.writeString(bank);
 		dest.writeInt(sms_id);
+		dest.writeInt(uploaded);
 	}
 	
 	public static final Parcelable.Creator<ParsedData> CREATOR = new Parcelable.Creator<ParsedData>() {

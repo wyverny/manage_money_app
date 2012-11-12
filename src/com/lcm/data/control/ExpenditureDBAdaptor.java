@@ -27,6 +27,7 @@ public class ExpenditureDBAdaptor {
 	public static final String KEY_LOCATION_LATI = "loc_lati";
 	public static final String KEY_BANK = "bank";
 	public static final String KEY_SMS_ID = "sms_id";
+	public static final String KEY_WEB_UPLOADED = "web_uploaded";
 	// end of columns definition
 	
 	public static final String UNKNOWN = "__Unknown";
@@ -47,7 +48,8 @@ public class ExpenditureDBAdaptor {
 		+ KEY_LOCATION_LONG + " real, "
 		+ KEY_LOCATION_LATI + " real, "
 		+ KEY_BANK + " text, "
-		+ KEY_SMS_ID + " integer);";
+		+ KEY_SMS_ID + " integer, "
+		+ KEY_WEB_UPLOADED + " integer);";
 	private static final String TAG = "ExpenditureDBAdaptor";
 	
 	public static class DatabaseHelper extends SQLiteOpenHelper {
@@ -82,7 +84,7 @@ public class ExpenditureDBAdaptor {
 	}
 	
 	// when data is inserted manually
-	public long insertDB(int spend, String category, Calendar date, String detail, double loc_long, double loc_lati, String bank) {
+	public long insertDB(int spend, String category, Calendar date, String detail, double loc_long, double loc_lati, String bank, int uploaded) {
 		ContentValues cv = new ContentValues();
 		cv.put(KEY_SPEND, spend);
 		if(category!=null) cv.put(KEY_CATEGORY, category);
@@ -98,13 +100,14 @@ public class ExpenditureDBAdaptor {
 		cv.put(KEY_LOCATION_LONG, loc_long);
 		cv.put(KEY_LOCATION_LATI, loc_lati);
 		cv.put(KEY_BANK, bank);
+		cv.put(KEY_WEB_UPLOADED, uploaded);
 //		Log.i("db_log","in createDB");
 		Log.e(TAG,"InsertDB: "+cv.toString());
 		return mDb.insert(DATABASE_TABLE, null, cv);
 	}
 	
 	//when data is inserted using sms data
-	public long insertDB(int spend, Calendar date, String detail, String bank, int sms_id) {
+	public long insertDB(int spend, Calendar date, String detail, String bank, int sms_id, int uploaded) {
 		ContentValues cv = new ContentValues();
 		cv.put(KEY_SPEND, spend);
 		
@@ -116,6 +119,7 @@ public class ExpenditureDBAdaptor {
 		cv.put(KEY_DETAIL, detail);
 		cv.put(KEY_BANK, detail);
 		cv.put(KEY_SMS_ID, sms_id);
+		cv.put(KEY_WEB_UPLOADED, uploaded);
 		return mDb.insert(DATABASE_TABLE, null, cv);
 	}
 	
@@ -143,7 +147,7 @@ public class ExpenditureDBAdaptor {
 		return mDb.query(DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
-						KEY_BANK, KEY_SMS_ID},
+						KEY_BANK, KEY_SMS_ID, KEY_WEB_UPLOADED},
 				null, null, null, null, null);
 	}
 	
@@ -165,7 +169,7 @@ public class ExpenditureDBAdaptor {
 		Cursor mCursor = mDb.query(true, DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
-						KEY_BANK, KEY_SMS_ID}, 
+						KEY_BANK, KEY_SMS_ID, KEY_WEB_UPLOADED}, 
 				KEY_YEAR + "=" + date.get(Calendar.YEAR) + " AND " + KEY_MONTH + "=" + date.get(Calendar.MONTH) + " AND " +  
 						KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTimeInMillis(),
 				null, null, null,null,null);
@@ -179,7 +183,7 @@ public class ExpenditureDBAdaptor {
 		Cursor mCursor = mDb.query(true, DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
-						KEY_BANK, KEY_SMS_ID}, 
+						KEY_BANK, KEY_SMS_ID, KEY_WEB_UPLOADED}, 
 				KEY_CATEGORY + "=" + category,
 				null, null, null,null,null);
 		if(mCursor!=null) {
@@ -192,7 +196,7 @@ public class ExpenditureDBAdaptor {
 		Cursor mCursor = mDb.query(DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
-						KEY_BANK, KEY_SMS_ID}, 
+						KEY_BANK, KEY_SMS_ID, KEY_WEB_UPLOADED}, 
 //				KEY_TIME + " >= " + from + " AND " + KEY_TIME + " <= " + to,
 						KEY_TIME + " BETWEEN " + from + " AND " + to,
 						null,
@@ -209,7 +213,7 @@ public class ExpenditureDBAdaptor {
 		Cursor mCursor = mDb.query(DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
 						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
-						KEY_BANK, KEY_SMS_ID}, 
+						KEY_BANK, KEY_SMS_ID, KEY_WEB_UPLOADED}, 
 						KEY_TIME + " = " + time + " OR " + KEY_TIME + " = " + (time + 1), // + " AND " + KEY_SPEND + " = " + spend,
 				null, null,null,null);
 
@@ -243,17 +247,17 @@ public class ExpenditureDBAdaptor {
 //	}
 	
 	public boolean updateDB(int year, int month, int day, long time, 
-			int spend, String category, String detail, String bank) {
+			int spend, String category, String detail, String bank, int web_uploaded) {
 		ContentValues args = new ContentValues();
 		args.put(KEY_SPEND, spend);
 		args.put(KEY_CATEGORY, category);
 		args.put(KEY_DETAIL, detail);
 		args.put(KEY_BANK, bank);
+		args.put(KEY_WEB_UPLOADED, web_uploaded);
 		
 		return mDb.update(DATABASE_TABLE, args, 
 				KEY_YEAR + "=" + year + " AND " + KEY_MONTH + "=" + month + " AND " +  
 				KEY_DAY + "=" + day + " AND " + KEY_TIME + "=" + time
 				, null) > 0;
-		
 	}
 }

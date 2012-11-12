@@ -197,12 +197,24 @@ public class MainActivity extends Activity {
 		// 2. for today's statistics
 		TextView today_real_use = (TextView)analyseLayout.findViewById(R.id.today_real_use);
 		TextView today_recommended_use = (TextView)analyseLayout.findViewById(R.id.today_recommended_use);
+		TextView today_recommended_use_detail = (TextView)analyseLayout.findViewById(R.id.today_recommended_label);
 		TextView today_planned_use = (TextView)analyseLayout.findViewById(R.id.today_planned_used);
-				
-		today_real_use.setText(decimalFormat.format(monthlyData.getDatesExpense(today.get(Calendar.DATE))));
+		TextView today_planned_use_detail = (TextView)analyseLayout.findViewById(R.id.today_planned_label);
+		
+		int todayUse = monthlyData.getDatesExpense(today.get(Calendar.DATE));
+		today_real_use.setText(decimalFormat.format(todayUse));
 		today_recommended_use.setText(decimalFormat.format(monthlyStat.recommendedTodayBudget));
+		int todayRecommendedRemain = monthlyStat.recommendedTodayBudget - todayUse;
+		today_recommended_use_detail.setText("남은 예산 고려 추천 예산 ("+decimalFormat.format(todayRecommendedRemain)+")");
 		int planned_use = Util.isWeekEnd(today)? weekend : weekday;
 		today_planned_use.setText(decimalFormat.format(planned_use));
+		today_planned_use_detail.setText("계획된 예산 ("+decimalFormat.format(planned_use - todayUse)+")");
+		if(todayUse < planned_use) {
+			today_real_use.setTextColor(Color.parseColor("#03C03C"));
+		} else {
+			today_real_use.setTextColor(Color.parseColor("#C23B22"));
+		}
+		
 		
 		// 3. for advices
 		TextView plan_real_diff = (TextView)analyseLayout.findViewById(R.id.plan_real_diff);
@@ -218,13 +230,12 @@ public class MainActivity extends Activity {
 		
 		plan_real_diff.setText(decimalFormat.format(monthlyStat.compareToPlannedAndReal));
 		if(monthlyStat.compareToPlannedAndReal < 0) {
-			plan_real_diff.setTextColor(Color.BLUE);
+			plan_real_diff.setTextColor(Color.parseColor("#C23B22"));
 			lb_plan_real_diff.setText("더 사용");
 		} else {
-			plan_real_diff.setTextColor(Color.RED);
+			plan_real_diff.setTextColor(Color.parseColor("#03C03C"));
 			lb_plan_real_diff.setText("덜 사용");
 		}
-		
 		
 		planed_useup.setText("총 사용(계획): "+decimalFormat.format(monthlyStat.plannedUsedUntilToday));
 		real_useup.setText("총 사용(실제): "+decimalFormat.format(monthlyData.getTotalUsedUp()));
