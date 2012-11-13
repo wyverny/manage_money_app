@@ -94,9 +94,9 @@ public class NotiInfo extends Service {
 		DecimalFormat format = new DecimalFormat("#,#00 원");
 		
 		contentView.setTextViewText(R.id.remain_percent, (100 - data[0]) + getText(R.string.percent).toString());
-		contentView.setTextViewText(R.id.remain_detail, "전체 생활비 중 " + format.format(data[1]) + " 남음");
+		contentView.setTextViewText(R.id.remain_detail, "전체 생활비 " + format.format(data[1]) + " 남음");
 		contentView.setTextViewText(R.id.today_percent, (100 - data[2]) + getText(R.string.percent).toString());
-		contentView.setTextViewText(R.id.today_detail, "오늘 생활비 중 "+ format.format(data[3]) + " 남음"); 
+		contentView.setTextViewText(R.id.today_detail, "오늘 생활비 "+ format.format(data[3]) + " 남음"); 
 		notification.contentView = contentView;
 		
 		Intent notificationInetnt = new Intent(this,MainActivity.class);

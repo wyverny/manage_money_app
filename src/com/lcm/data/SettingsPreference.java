@@ -1,6 +1,10 @@
 package com.lcm.data;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.lcm.data.control.ExportDatabaseCSVTask;
 import com.lcm.smsSmini.R;
@@ -12,7 +16,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -38,6 +44,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	public static final String PREF_NOTI_INFO = "noti_info_on";
 	public static final String PREF_NOTI_ICON = "noti_icon_on";
 	public static final String PREF_EXCEL_BACKUP = "excel_backup";
+	public static final String PREF_EXCEL_EMAIL = "excel_email";
 	
 	private Preference mDatePreference;
 	private EditTextPreference mExpensePreference;
@@ -47,6 +54,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	
 	private CheckBoxPreference mNotiInfoPref;
 	private Preference mExcelBackupPref;
+	private Preference mExcelEmailPref;
 //	private CheckBoxPreference mNotiIconPref;
 
 	PreferenceManager pm = getPreferenceManager();
@@ -101,6 +109,27 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 			public boolean onPreferenceClick(Preference arg0) {
 				try {
 					new ExportDatabaseCSVTask(SettingsPreference.this).execute("");
+				} catch (Exception e) {
+					Log.e("Error in Backup DataBase -> CSV",e.toString());
+				}
+				return false;
+			}
+			
+		});
+		mExcelEmailPref = (Preference)findPreference(PREF_EXCEL_EMAIL);
+		mExcelEmailPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				try {
+					DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
+					File exportDir = new File(Environment.getExternalStorageDirectory(), "");
+					File file = new File(exportDir, "MoneyTracker.csv");
+					new ExportDatabaseCSVTask(SettingsPreference.this).execute("");
+					Intent intent = new Intent(Intent.ACTION_SEND);
+					intent.setType("plain/csv");
+					intent.putExtra(Intent.EXTRA_SUBJECT, "Money Tracker " + dateFormat.format(new Date()));
+					intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+					startActivity(intent);
 				} catch (Exception e) {
 					Log.e("Error in Backup DataBase -> CSV",e.toString());
 				}

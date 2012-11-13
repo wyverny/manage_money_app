@@ -16,6 +16,7 @@
 <string name="menu_load_sms">SMS 불러오기</string>
 <string name="menu_setting">세팅</string>
 <string name="menu_exit">종료</string>
+<string name="menu_about">개발자</string>
 <string name="current_use">생활비 총 사용량</string>
 <string name="setting_essential">기본 세팅</string>
 <string name="setting_optional">부가 세팅</string>
@@ -25,5 +26,6 @@
 <string name="currency">원</string>
 <string name="data_saved">저장되었습니다</string>
 <string name="backup_category">데이터 백업</string>
-<string name="excel_backup">CSV 백업 (엑셀 형식)</string>
+<string name="excel_backup">백업 (엑셀 형식)</string>
+<string name="excel_email">백업 데이터 내보내기</string>
 </resources>

@@ -8,7 +8,7 @@
     android:icon="@android:drawable/ic_menu_set_as" 
     android:title="@string/menu_load_sms" />
     
-    <item android:id="@+id/options_menu_main_exit" 
-    android:icon="@android:drawable/ic_menu_close_clear_cancel" 
-    android:title="@string/menu_exit" />
+    <item android:id="@+id/options_menu_main_about" 
+    android:icon="@android:drawable/ic_menu_help" 
+    android:title="@string/menu_about" />
 </menu>

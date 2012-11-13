@@ -54,8 +54,9 @@ public class ExportDatabaseCSVTask extends AsyncTask<String, Void, Boolean> {
 			exportDir.mkdirs();
 		}
 
-		DateFormat dateFormat = new SimpleDateFormat("yy_MM_dd");
-		File file = new File(exportDir, "MoneyTracker_" + dateFormat.format(new Date()) + ".csv");
+//		DateFormat dateFormat = new SimpleDateFormat("yy_MM_dd");
+//		File file = new File(exportDir, "MoneyTracker_" + dateFormat.format(new Date()) + ".csv");
+		File file = new File(exportDir, "MoneyTracker.csv");
 		try	{
 			file.createNewFile();
 			String line = "שלום, hello, привет";

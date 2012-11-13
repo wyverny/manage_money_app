@@ -128,7 +128,7 @@ public class GsCalendar {
 	// / 구정이 2월 4 5 6이라면
 	// / [0204] [0205] [0206] 이렇게 넣음
 	private ArrayList<Integer> m_holiDay = new ArrayList<Integer>();
-	int startingDate = 15;
+	private int startingDate = 15;
 
 	public GsCalendar(Context context, LinearLayout layout, Calendar calendar) {
 		this(context,layout);
@@ -748,5 +748,9 @@ public class GsCalendar {
 		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
 		Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());
 		monthlyData = new MonthlyData(mContext, dates[0], dates[1], dates[2]);
+	}
+
+	public void setStartingDate(int startingDate) {
+		this.startingDate = startingDate;
 	}
 }

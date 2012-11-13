@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F8FF"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="Money Tracker"
+        android:textColor="@android:color/black"
+        android:textSize="30dp" >
+    </TextView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="어플을 이용해 주셔서 감사합니다."
+        android:textColor="@android:color/black"
+        android:textSize="15dp" >
+    </TextView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="도움 및 기타 문의 사항은 아래로 연락주세요~"
+        android:textColor="@android:color/black"
+        android:textSize="15dp" >
+    </TextView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="cm.lim"
+        android:textColor="@android:color/black"
+        android:textSize="20dp" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/help_email"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="cm.lim09@gatech.edu"
+        android:textColor="@android:color/black"
+        android:textSize="15dp" >
+    </TextView>
+
+</LinearLayout>

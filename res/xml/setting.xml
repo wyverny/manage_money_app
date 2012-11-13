@@ -54,10 +54,10 @@
 		</PreferenceScreen>	
 	</PreferenceCategory> -->
 	<PreferenceCategory android:title="@string/setting_essential">
-	    <EditTextPreference android:key="total_expense" android:title="Total Living Expense" android:summary="set living expense for every month" android:defaultValue="800000" />
-	    <EditTextPreference android:key="calculate_from" android:title="calculate from" android:summary="start date calculating every month" android:defaultValue="25" />
-	    <EditTextPreference android:key="weekday_budget" android:title="WeekDay Budget" android:summary="20000" android:defaultValue="20000" />
-	    <EditTextPreference android:key="weekend_budget" android:title="WeekEnd Budget" android:summary="45000" android:defaultValue="45000" />
+	    <EditTextPreference android:key="total_expense" android:title="한달 총 예산" android:summary="set living expense for every month" android:defaultValue="1500000" />
+	    <EditTextPreference android:key="calculate_from" android:title="결산일" android:summary="start date calculating every month" android:defaultValue="25" />
+	    <EditTextPreference android:key="weekday_budget" android:title="평일 예산" android:summary="30000" android:defaultValue="30000" />
+	    <EditTextPreference android:key="weekend_budget" android:title="주말 예산" android:summary="105000" android:defaultValue="105000" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setting_optional">
 		<CheckBoxPreference android:key="auto_save" android:title="SMS 자동 저장" android:defaultValue="false"></CheckBoxPreference>
@@ -66,6 +66,7 @@
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/backup_category">
 		<Preference android:title="@string/excel_backup" android:key="excel_backup"/>
+		<Preference android:title="@string/excel_email" android:key="excel_email"/>
 	</PreferenceCategory>
 	
 	

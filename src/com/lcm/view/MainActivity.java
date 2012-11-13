@@ -253,17 +253,11 @@ public class MainActivity extends Activity {
 		 */
 		LinearLayout calendarTab = ((LinearLayout) findViewById(R.id.calendarTab));
 //		calendarTab.removeAllViews();
-//		calendarTab.removeView(calendarTab.findViewById(R.layout.calendar));
+//		calendarTab.removeView(calendarTab.findViewById(R.id.calendar));
 		View calendarView = inflater.inflate(R.layout.calendar, null);
 		calendarView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		LinearLayout calendarLayout = (LinearLayout) calendarView.findViewById(R.id.calendarLayout);
-//		TextView calYear = ((TextView)calendarView.findViewById(R.id.calendar_year)); 
-//		calYear.setText(""+(1900+today.getYear()));
-//		TextView calMonth = ((TextView)calendarView.findViewById(R.id.calendar_month)); 
-//		calMonth.setText(""+(today.getMonth()+1));
-//		TextView calDate = ((TextView)calendarView.findViewById(R.id.calendar_day)); 
-//		calDate.setText(""+accountingDate);
 		calendarTab.addView(calendarView);
 		if(gsCalendar==null) {
 			gsCalendar = new GsCalendar(MainActivity.this,calendarLayout);
@@ -273,11 +267,8 @@ public class MainActivity extends Activity {
 					null, //(Button) calendarView.findViewById(R.id.post_year_button),
 					(Button) calendarView.findViewById(R.id.pre_month_button),
 					(Button) calendarView.findViewById(R.id.post_month_button) });
-//			gsCalendar.setViewTarget(new TextView[] {
-//					(TextView) calendarView.findViewById(R.id.calendar_year),
-//					(TextView) calendarView.findViewById(R.id.calendar_month),
-//					(TextView) calendarView.findViewById(R.id.calendar_day)});
 		} else {
+			gsCalendar.setStartingDate(accountingDate);
 			gsCalendar.redraw();
 		}
 		calendarTab.postInvalidate();
@@ -347,8 +338,10 @@ public class MainActivity extends Activity {
 			startActivity(intentInbox);
 			return true;
 			
-		case R.id.options_menu_main_exit:
-			finish();
+		case R.id.options_menu_main_about:
+			Intent intentAbout = new Intent(MainActivity.this,
+					HelpView.class);
+			startActivity(intentAbout);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

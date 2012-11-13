@@ -32,6 +32,10 @@ public class ParserFactory {
 		String[] data;
 		Calendar dateCalendar = new GregorianCalendar();
 		dateCalendar.setTime(date);
+		
+		// TODO:
+		// msg.getDisplayMessageBody().replace("\n", " ").replace("\r", " ")
+		
 		for(int i=0;i<contains.length; i++) {
 			if(input.contains(contains[i])) {
 				index = i;

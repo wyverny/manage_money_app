@@ -56,6 +56,7 @@
 			</intent-filter>	    
 		</receiver>
 		<service android:name="com.lcm.view.NotiInfo"></service>
+		<activity android:name="com.lcm.view.HelpView"></activity>
 
 	</application>
 
