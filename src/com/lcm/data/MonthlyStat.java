@@ -86,10 +86,14 @@ public class MonthlyStat {
 		if(remainingBudget <= 0)
 			recommendedTodayBudget = 0;
 		else {
-			int ratioWDayNWEnd = weekendBudget / weekdayBudget;
+			double ratioWDayNWEnd = weekendBudget / weekdayBudget;
 			double unit = 0;
 			Calendar dayFromTodayToLast = new GregorianCalendar();
-			while(dayFromTodayToLast.get(Calendar.DATE) != accountingDate) {
+			Calendar finishDay = (Calendar)dayFromTodayToLast.clone();
+			finishDay.add(Calendar.MONTH, 1);
+			finishDay.set(Calendar.DATE, accountingDate);
+			while(dayFromTodayToLast.get(Calendar.MONTH) != finishDay.get(Calendar.MONTH)
+					|| dayFromTodayToLast.get(Calendar.DATE) != finishDay.get(Calendar.DATE)) {
 				if(Util.isWeekEnd(dayFromTodayToLast))
 					unit += ratioWDayNWEnd;
 				else

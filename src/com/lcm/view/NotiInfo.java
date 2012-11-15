@@ -30,12 +30,12 @@ public class NotiInfo extends Service {
 	public static final int SDK_VERSION = Integer.parseInt(Build.VERSION.SDK);
 	private static final String TAG = "NotiInfo";
 
-	@Override
-	public void onCreate() {
-		Log.e(TAG,"Service Created");
-		//unregisterRestartAlarm();
-		super.onCreate();
-	}
+//	@Override
+//	public void onCreate() {
+//		Log.e(TAG,"Service Created");
+//		//unregisterRestartAlarm();
+//		super.onCreate();
+//	}
 
 	
 	
@@ -45,16 +45,16 @@ public class NotiInfo extends Service {
 		super.onStart(intent, startId);
 	}
 
-	@Override
-	public void onDestroy() {
-		Log.e(TAG,"Service Destroyed");
-		//registerRestartAlarm();
-		super.onDestroy();
-	}
+//	@Override
+//	public void onDestroy() {
+//		Log.e(TAG,"Service Destroyed");
+//		//registerRestartAlarm();
+//		super.onDestroy();
+//	}
 
 	private void registerRestartAlarm() {
 		// TODO: if it is set not to show notification bar information, the below shouldn't run
-		Log.e(TAG,"Register Restart Alarm");
+//		Log.e(TAG,"Register Restart Alarm");
 		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
 		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
 		PendingIntent sender = PendingIntent.getBroadcast(NotiInfo.this, 0, intent, 0);
@@ -66,7 +66,7 @@ public class NotiInfo extends Service {
 	}
 
 	private void unregisterRestartAlarm() {
-		Log.e(TAG,"Unregister Restart Alarm");
+//		Log.e(TAG,"Unregister Restart Alarm");
 		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
 		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
 		PendingIntent sender = PendingIntent.getBroadcast(NotiInfo.this, 0, intent, 0);
@@ -88,7 +88,7 @@ public class NotiInfo extends Service {
 		// expanded 노티바 관련
 //		RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notification_layout_10_10);
 		int[] data = getMonthly();
-		int drawbleId = getDrawbleIDfromPercent(100-data[0], 100-data[2]);
+		int drawbleId = getDrawbleIDfromPercent(100 - data[0], 100-data[2]);
 		
 		RemoteViews contentView = new RemoteViews(getPackageName(), getLayoutIDfromPercent(100-data[0], 100-data[2]));
 		DecimalFormat format = new DecimalFormat("#,#00 원");
@@ -107,7 +107,7 @@ public class NotiInfo extends Service {
 		SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		boolean showNotiIcon = sPref.getBoolean(SettingsPreference.PREF_NOTI_INFO,false);
 		long hiddenTime = SDK_VERSION >= 9 ? Long.MAX_VALUE : -Long.MAX_VALUE;
-		Log.e(TAG,"HiddenTime: " + hiddenTime + "SDK: " + SDK_VERSION);
+//		Log.e(TAG,"HiddenTime: " + hiddenTime + "SDK: " + SDK_VERSION);
 		notification.when = showNotiIcon ? System.currentTimeMillis() : hiddenTime;
 	    notification.icon = showNotiIcon? drawbleId : R.drawable.ic_placeholder;
 		
@@ -200,9 +200,9 @@ public class NotiInfo extends Service {
 		int budgetUsedPercent = (int)data1[0]*100/totalExpense;
 		int timePassedPercent = (int)remainingDays[0]*100/monthlyData.getTotalDays();
 		if(timePassedPercent==0) timePassedPercent=1;
-		Log.e(TAG,"getTotalDays: "+monthlyData.getTotalDays()+ " remainingDays[0]: "+ remainingDays[0]);
-		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
-		int remainPercent = budgetUsedPercent*100/timePassedPercent;
+//		Log.e(TAG,"getTotalDays: "+monthlyData.getTotalDays()+ " remainingDays[0]: "+ remainingDays[0]);
+//		Log.e(TAG,"budgetUsedPercent: "+budgetUsedPercent+ " timePassedPercent: "+ timePassedPercent);
+		int remainPercent = budgetUsedPercent;//*100/timePassedPercent;
 		int remainedBudget = monthlyData.getTotalBudget() - data1[0];
 		
 		double date = monthlyData.getEachDate(remainingDays[0]);

@@ -86,8 +86,10 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 //				boolean notiOn = pm.getSharedPreferences().getBoolean(PREF_NOTI_INFO, false);
 				SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 				boolean notiOn = sPref.getBoolean(SettingsPreference.PREF_NOTI_INFO,false);
-				Toast.makeText(SettingsPreference.this, "Noti:" + notiOn, Toast.LENGTH_SHORT).show();
+//				Toast.makeText(SettingsPreference.this, "Noti:" + notiOn, Toast.LENGTH_SHORT).show();
 				if(notiOn)
+					sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));	
+				else
 					sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 				return false;
 			}

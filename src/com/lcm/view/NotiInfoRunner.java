@@ -2,6 +2,7 @@ package com.lcm.view;
 
 import com.lcm.data.SettingsPreference;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,9 @@ public class NotiInfoRunner extends BroadcastReceiver {
 			if(showNoti) {
 				Intent notiInfo = new Intent(context, NotiInfo.class);
 				context.startService(notiInfo);
+			} else {
+				NotificationManager notiManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+				notiManager.cancel(NotiInfo.NOTI_INFO_ID);
 			}
 		}
 	}

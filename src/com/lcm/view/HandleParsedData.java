@@ -308,7 +308,8 @@ public class HandleParsedData extends Activity {
 		LayoutInflater inflator = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflator.inflate(R.layout.parsed_data, (ViewGroup)findViewById(R.id.layout_root));
 		
-		final Calendar date = chosenDate;
+		final Calendar date = ((Calendar)chosenDate.clone());
+		date.add(Calendar.MILLISECOND, 5);
 		TextView dateView = (TextView)layout.findViewById(R.id.new_date);
 		dateView.setText(DateFormat.getDateFormat(this).format(date.getTime()));
 		final EditText spendView = (EditText)layout.findViewById(R.id.new_spend);

@@ -151,7 +151,7 @@ public class MonthlyData {
 //			day = date.get(Calendar.DAY_OF_MONTH);
 //		}
 		accumExpense = new int[eachExpense.length];
-		accumExpense[0] = eachExpense[0];
+		maxExpense = accumExpense[0] = eachExpense[0];
 		for(int i=1; i<accumExpense.length; i++) {
 			//accumExpense[i] = 0;
 //			if(day!=0 && i <= day) {
