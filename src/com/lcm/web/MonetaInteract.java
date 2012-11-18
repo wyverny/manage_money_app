@@ -50,6 +50,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.lcm.data.ParsedData;
+
+import android.content.Context;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 /**
@@ -69,25 +73,28 @@ public class MonetaInteract {
 	private HttpResponse response;
 	private HttpEntity entity;
 	private boolean loggedIn = false;
-	private String custid;
-	private String passwd;
 	
-	public MonetaInteract(String c, String p) {
-		custid = c;
-		passwd = p;
+	private Context context;
+	
+	public MonetaInteract(Context context) {
 		httpContext = new BasicHttpContext();
-		try {
-			login();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		this.context = context;
+//		try {
+//			login(c,p);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
-	public void login() throws Exception {
+	public boolean isLoggedIn() {
+		return loggedIn;
+	}
+
+	public boolean login(String id, String pw) throws Exception {
 
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair(PARAM_ID, custid));
-		nvps.add(new BasicNameValuePair(PARAM_PWD, passwd));
+		nvps.add(new BasicNameValuePair(PARAM_ID, id));
+		nvps.add(new BasicNameValuePair(PARAM_PWD, pw));
 		nvps.add(new BasicNameValuePair("returnURL",
 				"http://mmini.moneta.co.kr/cashbook/write/pay/list.do"));
 		nvps.add(new BasicNameValuePair("event_cd", ""));
@@ -125,19 +132,29 @@ public class MonetaInteract {
 		} finally {
 			Log.v("MONETA","getAuthtoken completing");
 		}
+		return loggedIn;
 	}
 	
-	public void connectToMonetaWritePage() throws Exception {
+	public void connectToMonetaWritePage(ParsedData parsedData) throws Exception {
 		HttpPost httpPost = new HttpPost(WRITE_ACTION);
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		
-		nvps.add(new BasicNameValuePair("regDate", "20110101"));  //일자
+		MonetaUtil monetaUtil = new MonetaUtil(context);
+		nvps.add(new BasicNameValuePair("regDate", DateFormat.format("yyyyMMdd",parsedData.getDate()).toString()));  //일자
 		nvps.add(new BasicNameValuePair("cashClsfy", "2")); // ??
-		nvps.add(new BasicNameValuePair("goodsCd", ""));  //종류
-		nvps.add(new BasicNameValuePair("remark", "this is for a test")); //내역
-		nvps.add(new BasicNameValuePair("amount", "19800")); //금액
-		nvps.add(new BasicNameValuePair("itemCode", "10013")); //분류
-		nvps.add(new BasicNameValuePair("note", "hello")); //비고
+		nvps.add(new BasicNameValuePair("goodsCd", "cash"));  //종류
+		nvps.add(new BasicNameValuePair("remark", parsedData.getDetail())); //내역
+		nvps.add(new BasicNameValuePair("amount", ""+parsedData.getSpent())); //금액
+		nvps.add(new BasicNameValuePair("itemCode", monetaUtil.getCategoryValue(parsedData.getCategory()))); //분류
+		nvps.add(new BasicNameValuePair("note", "Money Tracker")); //비고
+		
+//		nvps.add(new BasicNameValuePair("regDate", "20110101"));  //일자
+//		nvps.add(new BasicNameValuePair("cashClsfy", "2")); // ??
+//		nvps.add(new BasicNameValuePair("goodsCd", ""));  //종류
+//		nvps.add(new BasicNameValuePair("remark", "this is for a test")); //내역
+//		nvps.add(new BasicNameValuePair("amount", "19800")); //금액
+//		nvps.add(new BasicNameValuePair("itemCode", "10013")); //분류
+//		nvps.add(new BasicNameValuePair("note", "hello")); //비고
 
 		httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 		response = httpClient.execute(httpPost, httpContext);

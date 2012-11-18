@@ -269,6 +269,7 @@ public class HandleParsedData extends Activity {
 			}
 		}
 	}
+	
 	private void checkDialog(String number, int index){
 		AlertDialog.Builder builder;
 		AlertDialog alertDialog;

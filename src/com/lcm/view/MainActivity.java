@@ -12,7 +12,6 @@ import org.achartengine.chart.AbstractChart;
 import com.google.android.apps.iosched.ui.widget.Workspace;
 import com.lcm.data.MonthlyData;
 import com.lcm.data.MonthlyStat;
-import com.lcm.data.SettingsPreference;
 import com.lcm.data.sms.InboxListActivity;
 import com.lcm.smsSmini.R;
 

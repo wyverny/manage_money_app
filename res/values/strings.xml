@@ -28,4 +28,5 @@
 <string name="backup_category">데이터 백업</string>
 <string name="excel_backup">백업 (엑셀 형식)</string>
 <string name="excel_email">백업 데이터 내보내기</string>
+<string name="moneta_upload">모네타 업로드</string>
 </resources>

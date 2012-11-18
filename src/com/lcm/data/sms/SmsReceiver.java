@@ -3,10 +3,10 @@ package com.lcm.data.sms;
 import java.util.Date;
 
 import com.lcm.data.ParsedData;
-import com.lcm.data.SettingsPreference;
 import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.parse.NotValidSmsDataException;
 import com.lcm.smsSmini.R;
+import com.lcm.view.SettingsPreference;
 
 import android.app.Notification;
 import android.app.NotificationManager;

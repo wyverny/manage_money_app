@@ -1,6 +1,5 @@
 package com.lcm.view;
 
-import com.lcm.data.SettingsPreference;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

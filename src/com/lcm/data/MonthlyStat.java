@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.lcm.smsSmini.R;
 import com.lcm.view.GsCalendar;
 import com.lcm.view.MainActivity;
+import com.lcm.view.SettingsPreference;
 import com.lcm.view.Util;
 
 public class MonthlyStat {

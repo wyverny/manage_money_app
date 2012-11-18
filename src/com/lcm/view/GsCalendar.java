@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.lcm.data.MonthlyData;
-import com.lcm.data.SettingsPreference;
 
 import android.R;
 import android.content.Context;

@@ -67,6 +67,7 @@
 	<PreferenceCategory android:title="@string/backup_category">
 		<Preference android:title="@string/excel_backup" android:key="excel_backup"/>
 		<Preference android:title="@string/excel_email" android:key="excel_email"/>
+		<Preference android:key="upload_moneta" android:title="@string/moneta_upload"/>
 	</PreferenceCategory>
 	
 	

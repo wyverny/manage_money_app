@@ -1,4 +1,4 @@
-package com.lcm.data;
+package com.lcm.view;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 import com.lcm.data.control.ExportDatabaseCSVTask;
 import com.lcm.smsSmini.R;
-import com.lcm.view.NotiInfoRunner;
+import com.lcm.web.WebUpdateListActivity;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -45,6 +45,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	public static final String PREF_NOTI_ICON = "noti_icon_on";
 	public static final String PREF_EXCEL_BACKUP = "excel_backup";
 	public static final String PREF_EXCEL_EMAIL = "excel_email";
+	public static final String PREF_UPLOAD_MONETA = "upload_moneta";
 	
 	private Preference mDatePreference;
 	private EditTextPreference mExpensePreference;
@@ -55,6 +56,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	private CheckBoxPreference mNotiInfoPref;
 	private Preference mExcelBackupPref;
 	private Preference mExcelEmailPref;
+	private Preference mUploadMonetaPref;
 //	private CheckBoxPreference mNotiIconPref;
 
 	PreferenceManager pm = getPreferenceManager();
@@ -137,8 +139,18 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 				}
 				return false;
 			}
-			
 		});
+		
+		mUploadMonetaPref = (Preference)findPreference(PREF_UPLOAD_MONETA);
+		mUploadMonetaPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				Intent intent = new Intent(SettingsPreference.this, WebUpdateListActivity.class);
+				startActivity(intent);
+				return false;
+			}
+		});
+		
 	}
 
 	@Override

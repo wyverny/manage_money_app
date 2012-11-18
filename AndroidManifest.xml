@@ -35,7 +35,7 @@
 			android:name="com.lcm.data.sms.HandleReceivedSms"
 			android:windowSoftInputMode="adjustPan"></activity>
 		<activity android:name="com.lcm.view.GsCalendar"></activity>
-		<activity android:name="com.lcm.data.SettingsPreference"></activity>
+		<activity android:name="com.lcm.view.SettingsPreference"></activity>
 		<activity android:name="com.lcm.view.HandleParsedData"></activity>
 		<receiver android:name="com.lcm.widget.MonetaWidget">
 			<intent-filter>
@@ -57,6 +57,7 @@
 		</receiver>
 		<service android:name="com.lcm.view.NotiInfo"></service>
 		<activity android:name="com.lcm.view.HelpView"></activity>
+		<activity android:name="com.lcm.web.WebUpdateListActivity"></activity>
 
 	</application>
 

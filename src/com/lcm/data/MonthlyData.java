@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import com.lcm.data.control.ParsedDataManager;
 import com.lcm.smsSmini.R;
+import com.lcm.view.SettingsPreference;
 
 import android.content.Context;
 import android.content.SharedPreferences;

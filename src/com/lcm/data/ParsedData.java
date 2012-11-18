@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.lcm.view.SettingsPreference;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -23,9 +25,11 @@ public class ParsedData implements Parcelable {
 	private Location location;
 	private String bank;
 	private int sms_id;
-	private boolean flag;
 	private int installment;
 	private int uploaded;
+	
+	// to handle in list activities
+	private boolean flag;
 	
 	public int getSms_id() {
 		return sms_id;

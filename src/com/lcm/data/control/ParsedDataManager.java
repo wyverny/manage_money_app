@@ -173,7 +173,7 @@ public class ParsedDataManager {
 	}
 	
 	// retrieving data
-	public Cursor getParsedDataList(Calendar from, Calendar to) {
+	private Cursor getParsedDataList(Calendar from, Calendar to) {
 		Cursor cursor;
 		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
 		exDBAdaptor.open();
@@ -187,7 +187,7 @@ public class ParsedDataManager {
 		return cursor;
 	}
 	
-	public Cursor getParsedDataList(String category) {
+	private Cursor getParsedDataList(String category) {
 		Cursor cursor;
 		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
 		exDBAdaptor.open();
@@ -198,12 +198,23 @@ public class ParsedDataManager {
 		return cursor;
 	}
 	
-	public Cursor getParsedDataList() {
+	private Cursor getParsedDataList() {
 		Cursor cursor;
 		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
 		exDBAdaptor.open();
 		
 		cursor = exDBAdaptor.fetchAllDB();
+		
+		exDBAdaptor.close();
+		return cursor;
+	}
+	
+	private Cursor getNotUploadedDataList() {
+		Cursor cursor;
+		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
+		exDBAdaptor.open();
+		
+		cursor = exDBAdaptor.fetchNotUploadedDb();
 		
 		exDBAdaptor.close();
 		return cursor;
@@ -221,9 +232,27 @@ public class ParsedDataManager {
 				new GregorianCalendar(toYear, toMonth, 1));
 	}
 	
+	public ArrayList<ParsedData> getNotUploadedDataFromDatabase() {
+		Cursor data = parsedDataManager.getNotUploadedDataList();
+		
+		return getParsedDataFromCursor(data);
+	}
+	
+	
 	public ArrayList<ParsedData> getParsedDataFromDatabase(Calendar from, Calendar to) {
-		ArrayList<ParsedData> parsedDatas = new ArrayList<ParsedData>();
 		Cursor data = parsedDataManager.getParsedDataList(from, to);
+		
+		return getParsedDataFromCursor(data);
+	}
+	
+	public ArrayList<ParsedData> getParsedDataFromDatabase() {
+		Cursor data = getParsedDataList();
+		
+		return getParsedDataFromCursor(data);
+	}
+
+	private ArrayList<ParsedData> getParsedDataFromCursor(Cursor data) {
+		ArrayList<ParsedData> parsedDatas = new ArrayList<ParsedData>();
 		if(data==null || data.getCount()==0) {
 			data.close();
 			return parsedDatas;
@@ -239,47 +268,6 @@ public class ParsedDataManager {
 		int sms_idId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_SMS_ID);
 		
 		data.moveToFirst();
-		do {
-			int spend = data.getInt(spentId);
-			String category = data.getString(categoryId);
-			Calendar date = new GregorianCalendar();
-			date.setTimeInMillis(data.getLong(dateId));
-			String detail = data.getString(detailId);
-			Location location = new Location("");
-			location.setLongitude(data.getDouble(locationLongId));
-			location.setLatitude(data.getDouble(locationLatiId));
-			String bank = data.getString(bankId);
-			int sms_id = data.getInt(sms_idId);
-			// TODO: need to check if each data item is null or contains error in it
-			ParsedData parsedData = new ParsedData(spend, 1, category, date, detail, location, bank, sms_id);
-			if(DEBUG) Log.e(TAG,parsedData.toString());
-			parsedDatas.add(parsedData);
-		} while(data.moveToNext());
-		
-		data.close();
-		
-		return parsedDatas;
-	}
-	
-	public ArrayList<ParsedData> getParsedDataFromDatabase() {
-		Cursor data = getParsedDataList();
-		if(data==null || data.getCount()==0) {
-			data.close();
-			return null;
-		}
-		
-		if(DEBUG) Log.e(TAG,"getParsedDataFromDatabase:" + data.getCount());
-		ArrayList<ParsedData> parsedDatas = new ArrayList<ParsedData>();
-		
-		int spentId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_SPEND);
-		int categoryId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_CATEGORY);
-		int dateId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_TIME);
-		int detailId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_DETAIL);
-		int locationLongId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_LOCATION_LONG);
-		int locationLatiId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_LOCATION_LATI);
-		int bankId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_BANK);
-		int sms_idId = data.getColumnIndex(ExpenditureDBAdaptor.KEY_SMS_ID);
-		
 		do {
 			int spend = data.getInt(spentId);
 			String category = data.getString(categoryId);

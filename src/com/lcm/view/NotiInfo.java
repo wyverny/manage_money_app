@@ -8,7 +8,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import com.lcm.data.MonthlyData;
-import com.lcm.data.SettingsPreference;
 import com.lcm.smsSmini.R;
 import android.app.AlarmManager;
 import android.app.Notification;

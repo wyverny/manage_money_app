@@ -165,6 +165,19 @@ public class ExpenditureDBAdaptor {
 //		return mCursor;
 //	}
 	
+	public Cursor fetchNotUploadedDb() {
+		Cursor mCursor = mDb.query(true, DATABASE_TABLE, 
+				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
+						KEY_TIME, KEY_DETAIL, KEY_LOCATION_LONG, KEY_LOCATION_LATI, 
+						KEY_BANK, KEY_SMS_ID}, 
+				KEY_WEB_UPLOADED + "=" + 0,
+				null, null, null,null,null);
+		if(mCursor!=null) {
+			mCursor.moveToFirst();
+		}
+		return mCursor;
+	}
+	
 	public Cursor fetchDB(Calendar date) throws SQLException {
 		Cursor mCursor = mDb.query(true, DATABASE_TABLE, 
 				new String[] {KEY_SPEND, KEY_CATEGORY, KEY_YEAR, KEY_MONTH, KEY_DAY,
