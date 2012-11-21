@@ -83,8 +83,8 @@ public class GraphViewFactory {
             renderer.addSeriesRenderer(r);
         }
         
-        renderer.setMargins(new int[] {10,0,0,0});
-        renderer.setChartTitle("이번달 항목별 사용");
+        renderer.setMargins(new int[] {60,0,0,0});
+//        renderer.setChartTitle("이번달 항목별 사용");
         renderer.setChartTitleTextSize(50);
         PieChart chart = new PieChart(series, renderer);
         return new LcmGraphicalView(mContext, chart);
@@ -132,7 +132,7 @@ public class GraphViewFactory {
 		myRenderer.setYLabels(5);
 		myRenderer.setLabelsTextSize(25);
 		myRenderer.setYLabelsAlign(Align.CENTER);
-		myRenderer.setYLabelsAngle(-45);
+		myRenderer.setYLabelsAngle(-20);
 		myRenderer.setYLabelsColor(0, Color.BLACK);
 		myRenderer.setXLabelsColor(Color.BLACK);
 		
@@ -141,7 +141,7 @@ public class GraphViewFactory {
 		myRenderer.setZoomEnabled(false, false);
 		myRenderer.setClickEnabled(false);
 		
-		myRenderer.setChartTitle("지난달 별 총 사용");
+//		myRenderer.setChartTitle("지난달 별 총 사용");
         myRenderer.setChartTitleTextSize(50);
         myRenderer.setLabelsColor(Color.BLACK);
 		

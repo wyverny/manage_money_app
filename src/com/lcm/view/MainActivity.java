@@ -299,7 +299,7 @@ public class MainActivity extends Activity {
 		LinearLayout categoryStatLayout = (LinearLayout) graphView.findViewById(R.id.category_stat);
 		HashMap<String,Integer> categoryData = monthlyData.getCategoryExpense();
 		LcmGraphicalView barGraph = graphViewFactory.getPieChartView(categoryData);
-		barGraph.setBackgroundResource(R.drawable.screen_background);
+//		barGraph.setBackgroundResource(R.drawable.screen_background);
 		categoryStatLayout.addView(barGraph); // TODO:
 	}
 	

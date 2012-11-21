@@ -3,24 +3,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <LinearLayout
-        android:id="@+id/category_stat"
+
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-12dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/title_tab"
+        android:text="이번달 항목별 사용"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:orientation="vertical" 
-        android:background="#BCD4E6">
-    </LinearLayout>
+        android:background="@drawable/block"
+        android:padding="10dp" >
 
-    <LinearLayout
-        android:id="@+id/month_stat"
+        <LinearLayout
+            android:id="@+id/category_stat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/TextView01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="-2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/title_tab"
+        android:text="달별 사용량"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:background="@drawable/block"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:id="@+id/month_stat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

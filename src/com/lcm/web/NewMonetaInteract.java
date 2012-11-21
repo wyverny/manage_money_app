@@ -115,8 +115,8 @@ public class NewMonetaInteract {
 							parsedData.setUploaded(1);
 							pdm.updateParsedData(parsedData);
 						}
-//						else
-//							cancel(true);
+						else
+							return false;
 					}
 				}
 				
@@ -131,9 +131,12 @@ public class NewMonetaInteract {
 		@Override
 		protected void onPostExecute(Boolean result) {
 //			Log.e("NewMonetaInteract","onPostExcute comes here");
-			Toast.makeText(context, "업로드를 완료하였습니다.", Toast.LENGTH_SHORT).show();
+			if(result)
+				Toast.makeText(context, "업로드를 완료하였습니다.", Toast.LENGTH_SHORT).show();
+			else
+				Toast.makeText(context, "업로드 중 문제가 발생하였습니다.\n연결을 확인해 주세요.", Toast.LENGTH_SHORT).show();
 			super.onPostExecute(result);
-//			context.sendBroadcast(new Intent());
+//			context.sendBroadcast(new Intent()); // to update WebUpdateListActivity
 		}
 
 		public boolean login(String id, String pw) throws Exception {
