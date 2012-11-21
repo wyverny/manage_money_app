@@ -111,8 +111,10 @@ public class NewMonetaInteract {
 				
 				for (ParsedData parsedData : parsedDatas) {
 					if(parsedData.isFlag()) {
-						if(connectToMonetaWritePage(parsedData))
+						if(connectToMonetaWritePage(parsedData)) {
+							parsedData.setUploaded(1);
 							pdm.updateParsedData(parsedData);
+						}
 //						else
 //							cancel(true);
 					}
