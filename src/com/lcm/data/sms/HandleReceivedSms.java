@@ -125,15 +125,8 @@ public class HandleReceivedSms extends Activity {
 				for(ParsedData pd:data_handled) {
 					detail_category.put(pd.getDetail(), pd.getCategory());
 				}
-				CategoryDBAdaptor cDBAdaptor = new CategoryDBAdaptor(HandleReceivedSms.this);
-				cDBAdaptor.open();
-				Iterator<String> keys = detail_category.keySet().iterator();
-				do {
-					String key = keys.next();
-					cDBAdaptor.insertDB(key, detail_category.get(key));
-					if(DEBUG) Log.e(TAG,"Insert Category: " + key +" -> "+ detail_category.get(key));
-				} while(keys.hasNext());
-				cDBAdaptor.close();
+				ParsedDataManager pdm = ParsedDataManager.getParsedDataManager(HandleReceivedSms.this);
+				pdm.storeCategories(detail_category);
 				
 				Toast.makeText(HandleReceivedSms.this, getText(R.string.data_saved), Toast.LENGTH_SHORT).show();
 				sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
@@ -150,7 +143,6 @@ public class HandleReceivedSms extends Activity {
 
 //		private Map<Integer, EditText> editTexts;
 	    private ArrayList<ParsedData> items;
-	    private boolean manipulated[];
 	    private String[] category; 
 	    private Context context;
 	    private int resource;
@@ -161,7 +153,6 @@ public class HandleReceivedSms extends Activity {
 	        this.resource = resource;
 	        this.context = context;
 	        this.items = items;
-	        manipulated = new boolean[items.size()];
 	        category = getResources().getStringArray(R.array.category);
 //	        editTexts = new HashMap<Integer, EditText>();
 	    }
@@ -304,6 +295,11 @@ public class HandleReceivedSms extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				data_handled.get(in).setDetail(detail.getText().toString());
+				
+				// TODO: if detail changed, category may change as well
+				ParsedDataManager pdm = ParsedDataManager.getParsedDataManager(HandleReceivedSms.this);
+				data_handled.get(in).setCategory(pdm.getCategory(detail.getText().toString()));
+				
 				myAdapter.notifyDataSetChanged();
 			}
 		});

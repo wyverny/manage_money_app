@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import com.lcm.data.ParsedData;
 import com.lcm.data.ParsedData.InstallmentDatePrice;
+import com.lcm.data.sms.HandleReceivedSms;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -297,5 +300,35 @@ public class ParsedDataManager {
 			parsedDataOfMonth.get(i).getDate().get(Calendar.DAY_OF_MONTH);
 		}
 		return null;
+	}
+	
+	public String getCategory(String detail) {
+		String cate = "unknown";
+		CategoryDBAdaptor cDBAdaptor = new CategoryDBAdaptor(mContext);
+		cDBAdaptor.open();
+		Cursor data = cDBAdaptor.fetchDB(CategoryDBAdaptor.KEY_DETAIL, detail);
+        data.moveToFirst();
+        if(data!=null && data.getCount()!=0) {
+//			int detailId = data.getColumnIndex(CategoryDBAdaptor.KEY_DETAIL);
+			int categoryId = data.getColumnIndex(CategoryDBAdaptor.KEY_CATEGORY);
+//			String detail = data.getString(detailId);
+			cate = data.getString(categoryId);
+//			Log.e(TAG,"CategoryFound: " + detail + " :: " + cate);
+		}
+        data.close();
+		cDBAdaptor.close();
+		return cate;
+	}
+	
+	public void storeCategories(HashMap<String, String> detail_category) {
+		CategoryDBAdaptor cDBAdaptor = new CategoryDBAdaptor(mContext);
+		cDBAdaptor.open();
+		Iterator<String> keys = detail_category.keySet().iterator();
+		do {
+			String key = keys.next();
+			cDBAdaptor.insertDB(key, detail_category.get(key));
+			if(DEBUG) Log.e(TAG,"Insert Category: " + key +" -> "+ detail_category.get(key));
+		} while(keys.hasNext());
+		cDBAdaptor.close();
 	}
 }

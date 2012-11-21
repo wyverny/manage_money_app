@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 
 import com.lcm.data.ParsedData;
 import com.lcm.data.control.CategoryDBAdaptor;
+import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.sms.SmsData;
 import com.lcm.smsSmini.R;
 
@@ -64,8 +65,10 @@ public class ParserFactory {
 		}
 		// if Date is not null, put that into parsedData so that we can get more precise data
 //		Log.e("ShinhanCheckSmsParser", date.toString()+", "+data[0]+", "+data[1]);
+		ParsedDataManager pdm = ParsedDataManager.getParsedDataManager(mContext);
+		
 		ParsedData parsedData = new ParsedData(Integer.parseInt(data[0].replace(",", "")),
-				Integer.parseInt(data[2].trim()),getCategory(data[1]),
+				Integer.parseInt(data[2].trim()),pdm.getCategory(data[1]),
 				dateCalendar, data[1], contains[index], IS_SMS);
 		return parsedData;
 	}
@@ -75,21 +78,21 @@ public class ParserFactory {
 		return null;
 	}
 	
-	private String getCategory(String detail) {
-		String cate = "unknown";
-		CategoryDBAdaptor cDBAdaptor = new CategoryDBAdaptor(mContext);
-		cDBAdaptor.open();
-		Cursor data = cDBAdaptor.fetchDB(CategoryDBAdaptor.KEY_DETAIL, detail);
-        data.moveToFirst();
-        if(data!=null && data.getCount()!=0) {
-//			int detailId = data.getColumnIndex(CategoryDBAdaptor.KEY_DETAIL);
-			int categoryId = data.getColumnIndex(CategoryDBAdaptor.KEY_CATEGORY);
-//			String detail = data.getString(detailId);
-			cate = data.getString(categoryId);
-//			Log.e(TAG,"CategoryFound: " + detail + " :: " + cate);
-		}
-        data.close();
-		cDBAdaptor.close();
-		return cate;
-	}
+//	private String getCategory(String detail) {
+//		String cate = "unknown";
+//		CategoryDBAdaptor cDBAdaptor = new CategoryDBAdaptor(mContext);
+//		cDBAdaptor.open();
+//		Cursor data = cDBAdaptor.fetchDB(CategoryDBAdaptor.KEY_DETAIL, detail);
+//        data.moveToFirst();
+//        if(data!=null && data.getCount()!=0) {
+////			int detailId = data.getColumnIndex(CategoryDBAdaptor.KEY_DETAIL);
+//			int categoryId = data.getColumnIndex(CategoryDBAdaptor.KEY_CATEGORY);
+////			String detail = data.getString(detailId);
+//			cate = data.getString(categoryId);
+////			Log.e(TAG,"CategoryFound: " + detail + " :: " + cate);
+//		}
+//        data.close();
+//		cDBAdaptor.close();
+//		return cate;
+//	}
 }
