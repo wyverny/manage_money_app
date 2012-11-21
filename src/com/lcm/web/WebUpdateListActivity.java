@@ -6,6 +6,7 @@ import com.lcm.data.ParsedData;
 import com.lcm.data.control.ParsedDataManager;
 import com.lcm.smsSmini.R;
 import com.lcm.view.MainActivity;
+import com.lcm.view.SettingsPreference;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,8 +14,10 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,12 +36,12 @@ import android.widget.Toast;
 
 public class WebUpdateListActivity extends Activity {
 	private static final String TAG = "InboxListActivity";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	
 	private String AllSelect = "모두 선택";
 	private String AllDeselect = "모두 해제";
 	
-	MonetaInteract monetaInteract;
+	SharedPreferences sPref;
 	ParsedDataManager parsedDataManager;
 	ArrayAdapter<ParsedData> notUploadedAdapter;
 	ArrayList<ParsedData> notUploadedList;
@@ -51,11 +54,14 @@ public class WebUpdateListActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		if(DEBUG) {
+			StrictMode.enableDefaults();
+		}
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.handle_list);
-
-		updateSmsList(null, null);
-		monetaInteract = new MonetaInteract(WebUpdateListActivity.this);
+		
+		updateNotUploadedList(null, null);
 		
 		notUploadedAdapter = new MyAdapter(this, R.layout.parsed_data_readonly, R.id.new_detail, notUploadedList);
 		((ListView) findViewById(R.id.handle_listview)).setAdapter(notUploadedAdapter);
@@ -71,6 +77,7 @@ public class WebUpdateListActivity extends Activity {
 				return true;
 			}
 		});
+		
 		selectButton = ((Button) findViewById(R.id.handle_createButton));
 		selectButton.setText("데이터 모두 선택");
 		selectButton.setOnTouchListener(new OnTouchListener() {
@@ -95,6 +102,9 @@ public class WebUpdateListActivity extends Activity {
 		View loginLayout = inflater.inflate(R.layout.login_dialog, null);
 		
 		login_id = (EditText)loginLayout.findViewById(R.id.login_id);
+		sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		String moneta_id = sPref.getString(SettingsPreference.PREF_MONETA_ID,"");
+		login_id.setText(moneta_id);
 		login_password = (EditText)loginLayout.findViewById(R.id.login_password);
 		AlertDialog.Builder loginDialog = new AlertDialog.Builder(WebUpdateListActivity.this);
 		loginDialog.setTitle("모네타 로그인");
@@ -102,38 +112,21 @@ public class WebUpdateListActivity extends Activity {
 		loginDialog.setPositiveButton("Login", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				boolean loginSuccess = false;
 				try{
-					loginSuccess = monetaInteract.login(login_id.getText().toString(), login_password.getText().toString());
+					sPref.edit().putString(SettingsPreference.PREF_MONETA_ID, login_id.getText().toString()).commit();
+					
+					NewMonetaInteract monetaInteract = new NewMonetaInteract(WebUpdateListActivity.this,notUploadedList);
+					monetaInteract.uploadParsedDatas(login_id.getText().toString(), login_password.getText().toString());
+//					Log.e(TAG,"getLoginInformation onClick come here");
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
-				if(!loginSuccess) {
-					Toast.makeText(WebUpdateListActivity.this, "로그인 실패", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				
-				// upload
-				if(!monetaInteract.isLoggedIn())
-					return;
-				
-				loadSelectedSms();
 			}
 		});
 		loginDialog.create();
 		loginDialog.show();
 	}
 	
-	private void loadSelectedSms() {
-		for (ParsedData parsedData : notUploadedList) {
-			if(!parsedData.isFlag())
-				continue;
-			try	{
-				monetaInteract.connectToMonetaWritePage(parsedData);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
 //		ArrayList<ParsedData> parsedData = new ArrayList<ParsedData>();//ParsedData[smsList.size()];
 //		for(ParsedData sd : notUploadedList) {
 //			if(sd.isFlag()==true) {
@@ -150,14 +143,13 @@ public class WebUpdateListActivity extends Activity {
 ////			handleIntent.putExtra("Source","InboxListActivity");
 ////			startActivity(handleIntent);
 //		}
-		finish();
-	}
+//		finish();
+//	}
 	
 	class MyAdapter extends ArrayAdapter<ParsedData> {
 
 //		private Map<Integer, EditText> editTexts;
 	    private ArrayList<ParsedData> items;
-	    private String[] category;
 	    private Context context;
 	    private int resource;
 	   
@@ -167,16 +159,8 @@ public class WebUpdateListActivity extends Activity {
 	        this.resource = resource;
 	        this.context = context;
 	        this.items = items;
-	        category = getResources().getStringArray(R.array.category);
 	    }
 	    
-	    private int findCategoryIndex(String cate) {
-	    	for(int i=0; i<category.length; i++) {
-	    		if(category[i].equals(cate)) return i;
-	    	}
-	    	return -1;
-	    }
-
 		@Override
 	    public View getView(int position, View convertView, ViewGroup parent) {
 	        View v = convertView;
@@ -267,7 +251,7 @@ public class WebUpdateListActivity extends Activity {
 	 * @param smsArg
 	 * @param smsString
 	 */
-	public void updateSmsList(String[] smsArg, String[] smsString) {
+	public void updateNotUploadedList(String[] smsArg, String[] smsString) {
 		parsedDataManager = ParsedDataManager.getParsedDataManager(this);
 		notUploadedList = parsedDataManager.getNotUploadedDataFromDatabase();
 	}

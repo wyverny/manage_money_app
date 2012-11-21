@@ -10,7 +10,8 @@
 		android:label="@string/app_name" android:debuggable="true">
 
 		<activity
-			android:name="com.lcm.data.sms.InboxListActivity">
+			android:name="com.lcm.data.sms.InboxListActivity"
+			android:screenOrientation="portrait" >
 
 		</activity>
 		<receiver
@@ -35,9 +36,12 @@
 			android:name="com.lcm.data.sms.HandleReceivedSms"
 			android:windowSoftInputMode="adjustPan"></activity>
 		<activity android:name="com.lcm.view.GsCalendar"></activity>
-		<activity android:name="com.lcm.view.SettingsPreference"></activity>
-		<activity android:name="com.lcm.view.HandleParsedData"></activity>
-		<receiver android:name="com.lcm.widget.MonetaWidget">
+		<activity android:name="com.lcm.view.SettingsPreference"
+		    android:screenOrientation="portrait" ></activity>
+		<activity android:name="com.lcm.view.HandleParsedData"
+		    android:screenOrientation="portrait" ></activity>
+		<receiver android:name="com.lcm.widget.MonetaWidget"
+		    android:screenOrientation="portrait" >
 			<intent-filter>
 				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
 			</intent-filter>
@@ -56,8 +60,10 @@
 			</intent-filter>	    
 		</receiver>
 		<service android:name="com.lcm.view.NotiInfo"></service>
-		<activity android:name="com.lcm.view.HelpView"></activity>
-		<activity android:name="com.lcm.web.WebUpdateListActivity"></activity>
+		<activity android:name="com.lcm.view.HelpView"
+		    android:screenOrientation="portrait" ></activity>
+		<activity android:name="com.lcm.web.WebUpdateListActivity"
+		    android:screenOrientation="portrait" ></activity>
 
 	</application>
 

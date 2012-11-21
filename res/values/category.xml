@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="category">
-    	<item>미분류</item>
+        <item>미분류</item>
         <item>식비</item>
         <item>주거통신</item>
         <item>생활용품</item>
@@ -15,34 +16,37 @@
         <item>이자비용</item>
         <item>카드대금</item>
     </string-array>
+
     <integer-array name="category_value">
-        <item >99</item>
-        <item >04</item>
-        <item >05</item>
-        <item >06</item>
-        <item >07</item>
-        <item >08</item>
-        <item >09</item>
-        <item >10</item>
-        <item >11</item>
-        <item >13</item>
-        <item >14</item>
-        <item >15</item>
-        <item >16</item>
+        <item>99</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
     </integer-array>
-        <integer-array name="category_child">
-        <item >99</item>
-        <item >10015</item>4
-        <item >10025</item>5
-        <item >10031</item>6
-        <item >10036</item>7
-        <item >10044</item>8
-        <item >10049</item>9
-        <item >10056</item>10
-        <item >10064</item>11
-        <item >10073</item>13
-        <item >10078</item>14
-        <item >10081</item>15
-        <item >10083</item>16
-    </integer-array>
+
+    <string-array name="category_child">
+        <item>99</item>
+        <item>10015</item>
+        <item>10025</item>
+        <item>10031</item>
+        <item>10036</item>
+        <item>10044</item>
+        <item>10049</item>
+        <item>10056</item>
+        <item>10064</item>
+        <item>10073</item>
+        <item>10078</item>
+        <item>10081</item>
+        <item>10083</item>
+    </string-array>
+
 </resources>

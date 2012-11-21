@@ -46,6 +46,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	public static final String PREF_EXCEL_BACKUP = "excel_backup";
 	public static final String PREF_EXCEL_EMAIL = "excel_email";
 	public static final String PREF_UPLOAD_MONETA = "upload_moneta";
+	public static final String PREF_MONETA_ID = "moneta_id";
 	
 	private Preference mDatePreference;
 	private EditTextPreference mExpensePreference;
