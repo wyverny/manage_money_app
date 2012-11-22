@@ -1,6 +1,8 @@
 package com.lcm.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.lcm.data.ParsedData;
 import com.lcm.data.control.ParsedDataManager;
@@ -11,9 +13,11 @@ import com.lcm.view.SettingsPreference;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +42,8 @@ public class WebUpdateListActivity extends Activity {
 	private static final String TAG = "InboxListActivity";
 	private static final boolean DEBUG = true;
 	
+	public static final String ACTION_UPDATE_WEBLIST = "com.lcm.moneytracker.UpdateWebList";
+	
 	private String AllSelect = "모두 선택";
 	private String AllDeselect = "모두 해제";
 	
@@ -61,7 +67,7 @@ public class WebUpdateListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.handle_list);
 		
-		updateNotUploadedList(null, null);
+		updateNotUploadedList();
 		
 		notUploadedAdapter = new MyAdapter(this, R.layout.parsed_data_readonly, R.id.new_detail, notUploadedList);
 		((ListView) findViewById(R.id.handle_listview)).setAdapter(notUploadedAdapter);
@@ -79,22 +85,41 @@ public class WebUpdateListActivity extends Activity {
 		});
 		
 		selectButton = ((Button) findViewById(R.id.handle_createButton));
-		selectButton.setText("데이터 모두 선택");
-		selectButton.setOnTouchListener(new OnTouchListener() {
+		selectButton.setText(AllSelect);
+		selectButton.setOnClickListener(new OnClickListener() {
+			
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public void onClick(View v) {
 				if(selectButton.getText().equals(AllSelect)) {
 					for (ParsedData parsedData : notUploadedList) {
 						parsedData.setFlag(true);
 					}
+					selectButton.setText(AllDeselect);
 				} else {
 					for (ParsedData parsedData : notUploadedList) {
 						parsedData.setFlag(false);
 					}
+					selectButton.setText(AllSelect);
 				}
-				return false;
+				notUploadedAdapter.notifyDataSetChanged();
+//				notUploadedAdapter.notifyDataSetInvalidated();
 			}
 		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+		IntentFilter updateFilter = new IntentFilter(ACTION_UPDATE_WEBLIST);
+		registerReceiver(updateEventReceiver, updateFilter);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		
+		unregisterReceiver(updateEventReceiver);
 	}
 
 	private void getLoginInformation() {
@@ -246,14 +271,10 @@ public class WebUpdateListActivity extends Activity {
 		}
 	}
 
-	/**
-	 * getting sms from sms data base
-	 * @param smsArg
-	 * @param smsString
-	 */
-	public void updateNotUploadedList(String[] smsArg, String[] smsString) {
+	public void updateNotUploadedList() {
 		parsedDataManager = ParsedDataManager.getParsedDataManager(this);
 		notUploadedList = parsedDataManager.getNotUploadedDataFromDatabase();
+		Collections.sort(notUploadedList);
 	}
 
 	@Override
@@ -263,4 +284,17 @@ public class WebUpdateListActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
+	
+	BroadcastReceiver updateEventReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+//			Toast.makeText(WebUpdateListActivity.this, "Broadcast received", Toast.LENGTH_SHORT).show();
+			updateNotUploadedList();
+//			((ListView) findViewById(R.id.handle_listview)).
+			notUploadedAdapter = new MyAdapter(WebUpdateListActivity.this, R.layout.parsed_data_readonly, R.id.new_detail, notUploadedList);
+			((ListView) findViewById(R.id.handle_listview)).setAdapter(notUploadedAdapter);
+			notUploadedAdapter.notifyDataSetInvalidated();
+		}
+	};
 }

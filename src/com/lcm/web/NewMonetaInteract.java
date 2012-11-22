@@ -136,7 +136,7 @@ public class NewMonetaInteract {
 			else
 				Toast.makeText(context, "업로드 중 문제가 발생하였습니다.\n연결을 확인해 주세요.", Toast.LENGTH_SHORT).show();
 			super.onPostExecute(result);
-//			context.sendBroadcast(new Intent()); // to update WebUpdateListActivity
+			context.sendBroadcast(new Intent(WebUpdateListActivity.ACTION_UPDATE_WEBLIST)); // to update WebUpdateListActivity
 		}
 
 		public boolean login(String id, String pw) throws Exception {

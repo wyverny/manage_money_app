@@ -15,7 +15,7 @@ import android.os.Parcelable;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-public class ParsedData implements Parcelable {
+public class ParsedData implements Parcelable, Comparable<ParsedData> {
 	private static final String TAG = "ParsedData";
 	
 	private int spent;
@@ -144,7 +144,7 @@ public class ParsedData implements Parcelable {
 	public void setDate(Calendar date) {
 		this.date = date;
 	}
-
+	
 	public String getBank() {
 		return bank;
 	}
@@ -256,5 +256,10 @@ public class ParsedData implements Parcelable {
 		public int getInstallmentPrice() {
 			return installmentPrice;
 		}
+	}
+
+	@Override
+	public int compareTo(ParsedData another) {
+		return -getDate().compareTo(another.getDate());
 	}
 }
