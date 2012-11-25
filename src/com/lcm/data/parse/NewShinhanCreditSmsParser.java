@@ -1,6 +1,6 @@
 package com.lcm.data.parse;
 
-import android.util.Log;
+//import android.util.Log;
 
 public class NewShinhanCreditSmsParser implements SmsParser {
 
@@ -12,16 +12,12 @@ public class NewShinhanCreditSmsParser implements SmsParser {
 //		Log.e("NewShinhanCheckSmsParser",spend);
 		int last = (input.contains("누적"))? input.indexOf("누적") : input.length();
 		String detail = input.substring(input.indexOf(")")+1,last);
-		String installment = input.substring(input.indexOf("(")+1,input.indexOf(")"));
-		if(installment.contains("일시불")) installment = "1";
-		else {
-			installment = installment.split("개월")[0].trim();
-		}
+		String installment = ParserUtil.getInstallment(input);
 //		Log.e("ShinhanCheckSmsParser", date.toString()+", "+spend+", "+detail);
 //		Log.e("ShinhanCheckSmsParser",spend+" ::: "+detail);
 //		for(int i=0;i<input.length();i++)
 //			Log.e("ShinhanCheckSmsParser", "charAt["+i+"]: "+input.charAt(i));
-		return new String[]{spend,detail,installment};
+		return new String[]{spend, detail, installment};
 	}
 
 }

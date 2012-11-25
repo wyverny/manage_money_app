@@ -262,14 +262,16 @@ public class InboxListActivity extends Activity {
 				SmsData sd = new SmsData(result.getString(bodyid),
 						result.getString(addrid), result.getString(dateid), Integer.parseInt(result.getString(_idid)));
 				// check if the SmsData is ok to be shown using parser
-				Log.e(TAG,"updateSMSList: "+sd.getDate() + "," + sd.getBody());
+//				Log.e(TAG,"updateSMSList: "+sd.getDate() + "," + sd.getBody());
 				if(smsConverter.isValidSms(sd) && !expenditureDBAdaptor.isDataExist(Long.parseLong(sd.getDate()))
 						// should check if sd is already put into the DB & check DB code here 
 						) {
 //					Log.e("MMS------", "address: " + result.getString(addrid)+" _id: " + result.getString(_idid));
 //					smsList.add(sd);
 					try {
-						parsedList.add(smsConverter.convertSms(sd));
+						ParsedData parsedData = smsConverter.convertSms(sd);
+						if(parsedData!=null)
+							parsedList.add(parsedData);
 					} catch (NotValidSmsDataException e) {e.printStackTrace();}
 				}
 			}

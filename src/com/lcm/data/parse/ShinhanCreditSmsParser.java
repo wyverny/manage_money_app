@@ -1,6 +1,6 @@
 package com.lcm.data.parse;
 
-import android.util.Log;
+//import android.util.Log;
 
 public class ShinhanCreditSmsParser implements SmsParser {
 

@@ -69,6 +69,9 @@ public class SmsReceiver extends BroadcastReceiver {
 								notificationManager.notify(NOTIFICATION_ID, notification);
 							} else { // automatically insert
 								parsedData = smsConverter.convertSms(messages[i]);
+								if(parsedData==null)
+									return;
+								
 								ParsedDataManager parsedDataManager = ParsedDataManager.getParsedDataManager(context);
 								parsedDataManager.insertParsedData(parsedData);
 								Toast.makeText(context, "카드 문자를 자동 저장하였습니다!!", Toast.LENGTH_SHORT).show();

@@ -51,27 +51,27 @@ public class NotiInfo extends Service {
 //		super.onDestroy();
 //	}
 
-	private void registerRestartAlarm() {
-		// TODO: if it is set not to show notification bar information, the below shouldn't run
-//		Log.e(TAG,"Register Restart Alarm");
-		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
-		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
-		PendingIntent sender = PendingIntent.getBroadcast(NotiInfo.this, 0, intent, 0);
-		long firstTime = SystemClock.elapsedRealtime();
-		firstTime += 1*1000;
-		AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-		am.setRepeating(AlarmManager.ELAPSED_REALTIME, firstTime, 10*1000, sender);
-		// excerpted from http://karyurid.tistory.com/97
-	}
-
-	private void unregisterRestartAlarm() {
-//		Log.e(TAG,"Unregister Restart Alarm");
-		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
-		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
-		PendingIntent sender = PendingIntent.getBroadcast(NotiInfo.this, 0, intent, 0);
-		AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-		am.cancel(sender);
-	}
+//	private void registerRestartAlarm() {
+//		// TODO: if it is set not to show notification bar information, the below shouldn't run
+////		Log.e(TAG,"Register Restart Alarm");
+//		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
+//		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
+//		PendingIntent sender = PendingIntent.getBroadcast(NotiInfo.this, 0, intent, 0);
+//		long firstTime = SystemClock.elapsedRealtime();
+//		firstTime += 1*1000;
+//		AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+//		am.setRepeating(AlarmManager.ELAPSED_REALTIME, firstTime, 10*1000, sender);
+//		// excerpted from http://karyurid.tistory.com/97
+//	}
+//
+//	private void unregisterRestartAlarm() {
+////		Log.e(TAG,"Unregister Restart Alarm");
+//		Intent intent = new Intent(NotiInfo.this, NotiInfoRunner.class);
+//		intent.setAction(NotiInfoRunner.ACTION_RESTART_PERSISTENTSERVICE);
+//		PendingIntent sender = PendingIntent.getBroadcast(NotiInfo.this, 0, intent, 0);
+//		AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+//		am.cancel(sender);
+//	}
 	
 	private void showNotificationInfo() {
 		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
@@ -108,7 +108,8 @@ public class NotiInfo extends Service {
 		long hiddenTime = SDK_VERSION >= 9 ? Long.MAX_VALUE : -Long.MAX_VALUE;
 //		Log.e(TAG,"HiddenTime: " + hiddenTime + "SDK: " + SDK_VERSION);
 		notification.when = showNotiIcon ? System.currentTimeMillis() : hiddenTime;
-	    notification.icon = showNotiIcon? drawbleId : R.drawable.ic_placeholder;
+//	    notification.icon = showNotiIcon? drawbleId : R.drawable.ic_placeholder;
+	    notification.icon = drawbleId;
 		
 		nm.notify(NOTI_INFO_ID, notification);
 	}

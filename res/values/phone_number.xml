@@ -18,11 +18,16 @@
         <item>KB</item>
     </string-array>
     <string-array name="Contains">
-        <item>신한체크승인</item>
-        <item>신한카드승인</item>
-        <item>신한카드정상승인</item>
-        <item>현대카드</item>
+        <item>신한체크,승인</item>
+        <item>신한,카드,승인</item>
+        <item>현대카드,승인</item>
         <item>KB카드</item>
-        <item>삼성카드</item>
+        <item>KB국민카드</item>
+        <item>KB국민체크</item>
+        <item>삼성카드,승인</item>
+        <item>외환카드,누적</item>
+        <item>씨티카드</item>
+        <item>우리카드,체크,승인</item>
+        <item>기업BC(</item>
     </string-array>
 </resources>

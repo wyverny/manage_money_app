@@ -12,6 +12,7 @@ import com.lcm.data.ParsedData;
 import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.parse.NotValidSmsDataException;
 import com.lcm.data.parse.ParserFactory;
+import com.lcm.data.parse.ParserUtil;
 import com.lcm.smsSmini.R;
 
 public class SMSConverter {
@@ -31,15 +32,10 @@ public class SMSConverter {
 	}
 	
 	public boolean isValidSms(String content) {
-		boolean isValid = false;
 		String[] contains = mContext.getResources().getStringArray(R.array.Contains);
-		for(String c:contains) {
-			if(content.contains(c) && !content.contains("취소")) { 
-				isValid = true;
-//				Log.e("SmsConverter", ""+c+"--"+content+"=="+isValid);
-			}
-		}
-		return isValid;
+		if(ParserUtil.isBankSms(content, contains)!=-1 && !content.contains("취소"))
+			return true;
+		return false;
 	}
 	
 	public String cutOffBody(String content) {
@@ -74,7 +70,8 @@ public class SMSConverter {
 		ParsedData parsedData;
 		Date date = new Date(Long.parseLong(b.getDate()));
 		parsedData = parserFactory.getParsedData(content,date);
-		parsedData.setSms_id(b.getSms_Id());
+		if(parsedData!=null)
+			parsedData.setSms_id(b.getSms_Id());
 		return parsedData;
 	}
 	

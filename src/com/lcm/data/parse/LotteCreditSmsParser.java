@@ -1,13 +1,12 @@
 package com.lcm.data.parse;
 
-public class SamsungCreditSmsParser implements SmsParser {
+public class LotteCreditSmsParser implements SmsParser {
 
 	@Override
-	public String[] parseSms(String input) {
-//		삼성카드승인 \n11/13 00:50\n7,000원\n일시불\nGS25죽전단대점\n*누적\n2,827,070원
-
+	public String[] parseSms(String input) throws NotValidSmsDataException {
+//		롯데 이정*(2*6*) 11,000원 취소 11/10 15:44 롯데쇼핑(주) 평촌점 누적639,420원   
 		String spend = ParserUtil.getSpend(input);
-		String detail = input.substring(input.indexOf("누적")).split("원")[0].trim();
+		String detail = input.substring(input.indexOf(":")+2).split("누적")[0].trim();
 		String installment = ParserUtil.getInstallment(input);
 		
 //		System.out.println("spend:"+spend+".");
