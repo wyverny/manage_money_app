@@ -9,6 +9,9 @@ import java.util.HashMap;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.AbstractChart;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 import com.google.android.apps.iosched.ui.widget.Workspace;
 import com.lcm.data.MonthlyData;
 import com.lcm.data.MonthlyStat;
@@ -44,6 +47,7 @@ public class MainActivity extends Activity {
 	private static final int DOUGHNUT_GRAPH = 2;
 	private static final String TAG = "MainActivity";
 
+//	private AdView adView;
 	private GraphicalView mView;
 	private AbstractChart mChart;
 	private Workspace mWorkspace;
@@ -68,25 +72,13 @@ public class MainActivity extends Activity {
 			Intent notiInfo = new Intent(this, NotiInfo.class);
 			startService(notiInfo);
 		}
-
-//		TabHost tabs = (TabHost) findViewById(android.R.id.tabhost);
-//		tabs.setup();
-//
-//		TabSpec tabSpec = tabs.newTabSpec("tab1");
-//		tabSpec.setContent(R.id.analyseTab);
-//		tabSpec.setIndicator(makeTabIndicator("Expense"));
-//		tabs.addTab(tabSpec);
-//
-//		tabSpec = tabs.newTabSpec("tab2");
-//		tabSpec.setContent(R.id.calendarTab);
-//		tabSpec.setIndicator(makeTabIndicator("Calendar"));
-//		tabs.addTab(tabSpec);
-
-//		tabSpec = tabs.newTabSpec("tab3");
-//		tabSpec.setContent(R.id.pieTab);
-//		tabSpec.setIndicator(makeTabIndicator("Category"));
-//		tabs.addTab(tabSpec);
 	}
+	
+//	@Override
+//	  public void onDestroy() {
+//	    adView.destroy();
+//	    super.onDestroy();
+//	  }
 
 	@Override
 	protected void onResume() {
@@ -301,6 +293,11 @@ public class MainActivity extends Activity {
 		LcmGraphicalView barGraph = graphViewFactory.getPieChartView(categoryData);
 //		barGraph.setBackgroundResource(R.drawable.screen_background);
 		categoryStatLayout.addView(barGraph); // TODO:
+		
+//		// ads
+//		adView = new AdView(this, AdSize.BANNER, "a150b227fe9e117");
+//		analyseLayout.addView(adView);
+//		adView.loadAd(new AdRequest());
 	}
 	
 	private AbstractChart getChart(int whichGraph, Date from, Date to, Date turning) {

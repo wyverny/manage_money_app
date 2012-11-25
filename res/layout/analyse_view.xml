@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:id="@+id/analyse_top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -16,10 +18,11 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginBottom="-1dip"
                 android:layout_marginLeft="10dip"
                 android:layout_marginTop="0dip"
+                android:layout_weight="1"
                 android:background="@drawable/title_tab"
                 android:text="이번달 사용량 분석"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -27,18 +30,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="1"
                 android:background="@drawable/block"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingTop="-3dp" >
 
                 <ProgressBar
                     android:id="@+id/budget_used"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dip"
+                    android:layout_margin="7dip"
                     android:progressDrawable="@drawable/progressbar_expenses" />
 
                 <TextView
@@ -80,10 +86,11 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginBottom="-1dip"
                 android:layout_marginLeft="10dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="5dip"
+                android:layout_weight="1"
                 android:background="@drawable/title_tab"
                 android:text="오늘 사용량 분석"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -92,9 +99,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="1"
                 android:background="@drawable/block"
                 android:orientation="vertical" >
 
@@ -120,7 +129,7 @@
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@android:color/black"
-                            android:textSize="40dp"
+                            android:textSize="36sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -138,17 +147,17 @@
                         android:layout_height="match_parent"
                         android:layout_weight="4"
                         android:gravity="left|center"
-                        android:minHeight="50dip"
+                        android:minHeight="35dp"
                         android:paddingLeft="15dp"
                         android:text="오늘 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
                     android:gravity="center" >
 
                     <LinearLayout
@@ -186,7 +195,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:gravity="left|center"
-                        android:minHeight="50dip"
                         android:paddingLeft="15dp"
                         android:text="추천 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -196,7 +204,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:layout_marginTop="-2dp"
+                    android:gravity="center" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -225,7 +234,6 @@
                             android:text="@string/currency"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
 
                     <TextView
@@ -234,22 +242,20 @@
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:gravity="left|center"
-                        android:minHeight="50dip"
                         android:paddingLeft="15dp"
                         android:text="계획 생활비"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginBottom="-1dip"
                 android:layout_marginLeft="10dip"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="5dip"
+                android:layout_weight="1"
                 android:background="@drawable/title_tab"
                 android:text="어드바이스"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -257,9 +263,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
+                android:layout_marginTop="-3dp"
+                android:layout_weight="1"
                 android:background="@drawable/block"
                 android:orientation="vertical" >
 
@@ -272,12 +280,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
                         android:layout_weight="3"
+                        android:background="@drawable/right_divider"
                         android:gravity="left|center"
                         android:minWidth="55dip"
-                        android:paddingLeft="10dp"
-                        android:background="@drawable/right_divider" >
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp" >
 
                         <TextView
                             android:id="@+id/plan_real_diff"
@@ -302,7 +310,6 @@
                             android:text="@string/currency"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -333,24 +340,24 @@
                             android:text="권장 사용량"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
                     android:gravity="center"
-                    android:padding="3dp"  >
+                    android:padding="3dp" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
+                        android:layout_weight="5"
+                        android:background="@drawable/right_divider"
                         android:gravity="left|center"
                         android:minWidth="55dip"
-                        android:paddingLeft="10dp"
-                        android:background="@drawable/right_divider" >
+                        android:paddingLeft="10dp" >
 
                         <TextView
                             android:id="@+id/expected_from_week"
@@ -360,7 +367,7 @@
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@android:color/black"
-                            android:textSize="30dp"
+                            android:textSize="25sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -371,37 +378,35 @@
                             android:text="@string/currency"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/velocity_week"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
+                        android:layout_weight="4"
                         android:gravity="left|center"
-                        android:minHeight="40dip"
                         android:paddingLeft="15dp"
                         android:text="권장 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
                     android:gravity="center"
-                    android:padding="3dp"  >
+                    android:padding="3dp" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
+                        android:layout_weight="5"
+                        android:background="@drawable/right_divider"
                         android:gravity="left|center"
                         android:minWidth="55dip"
-                        android:paddingLeft="10dp" 
-                        android:background="@drawable/right_divider">
+                        android:paddingLeft="10dp" >
 
                         <TextView
                             android:id="@+id/expected_from_total"
@@ -411,7 +416,7 @@
                             android:text="0"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@android:color/black"
-                            android:textSize="30dp"
+                            android:textSize="25sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -422,26 +427,32 @@
                             android:text="@string/currency"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textColor="@android:color/black" />
-
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/velocity_total"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
+                        android:layout_weight="4"
                         android:gravity="left|center"
-                        android:minHeight="40dip"
+                        android:minHeight="30dp"
                         android:paddingLeft="15dp"
                         android:text="권장 사용량"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/black" />
-
                 </LinearLayout>
-
             </LinearLayout>
+            
         </LinearLayout>
 
     </ScrollView>
-
+	<com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="a150b227fe9e117"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="42f0350426a06f25" >
+    </com.google.ads.AdView>
 </LinearLayout>

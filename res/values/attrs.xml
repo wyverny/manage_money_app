@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<declare-styleable name="GraphStyle">
-		<attr name="text" format="string" />
-		<attr name="textColor" format="color" />
-		<attr name="textSize" format="dimension" />
-	</declare-styleable>
+
+    <declare-styleable name="GraphStyle">
+        <attr name="text" format="string" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="com.admob.android.ads.AdView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="primaryTextColor" format="color" />
+        <attr name="secondaryTextColor" format="color" />
+        <attr name="keywords" format="string" />
+        <attr name="refreshInterval" format="integer" />
+    </declare-styleable>
+
 </resources>
