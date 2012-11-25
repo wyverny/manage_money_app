@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -13,9 +13,9 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/title_tab"
         android:text="이번달 항목별 사용"
-        android:textColor="@android:color/black"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             android:orientation="vertical" >
         </LinearLayout>
     </FrameLayout>
-
+
     <TextView
         android:id="@+id/TextView01"
         android:layout_width="wrap_content"
@@ -41,9 +41,9 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/title_tab"
         android:text="달별 사용량"
-        android:textColor="@android:color/black"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/black" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,18 +58,19 @@
             android:id="@+id/month_stat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="-5dp"
             android:orientation="vertical" >
         </LinearLayout>
-
     </FrameLayout>
-		<com.google.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="fill_parent" 
-                android:layout_height="wrap_content"
-                ads:adSize="BANNER"
-                ads:adUnitId="a150b227fe9e117"
-                ads:loadAdOnCreate="true"
-                ads:testDevices="42f0350426a06f25" >
-            </com.google.ads.AdView>
+
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="a150b227fe9e117"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="42f0350426a06f25" >
+    </com.google.ads.AdView>
+
 </LinearLayout>
