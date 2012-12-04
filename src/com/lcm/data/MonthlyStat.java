@@ -91,7 +91,8 @@ public class MonthlyStat {
 			double unit = 0;
 			Calendar dayFromTodayToLast = new GregorianCalendar();
 			Calendar finishDay = (Calendar)dayFromTodayToLast.clone();
-			finishDay.add(Calendar.MONTH, 1);
+			if(finishDay.get(Calendar.DATE) >= accountingDate) 
+				finishDay.add(Calendar.MONTH, 1);
 			finishDay.set(Calendar.DATE, accountingDate);
 			while(dayFromTodayToLast.get(Calendar.MONTH) != finishDay.get(Calendar.MONTH)
 					|| dayFromTodayToLast.get(Calendar.DATE) != finishDay.get(Calendar.DATE)) {

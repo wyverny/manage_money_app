@@ -117,28 +117,28 @@ public class NotiInfo extends Service {
 	private int getDrawbleIDfromPercent(int remainPercent, int todayPercent) {
 		if(remainPercent >= 66) {
 			if(todayPercent >= 66) {
-				return R.drawable.progress_100_100;
+				return R.drawable.prog_100_100;
 			} else if(todayPercent >= 33) {
-				return R.drawable.progress_100_60;
+				return R.drawable.prog_100_60;
 			} else {
-				return R.drawable.progress_100_30;
+				return R.drawable.prog_100_30;
 			}
 		}
 		if(remainPercent >= 33) {
 			if(todayPercent >= 66) {
-				return R.drawable.progress_60_100;
+				return R.drawable.prog_60_100;
 			} else if(todayPercent >= 33) {
-				return R.drawable.progress_60_60;
+				return R.drawable.prog_60_60;
 			} else {
-				return R.drawable.progress_60_30;
+				return R.drawable.prog_60_30;
 			}
 		} else {
 			if(todayPercent >= 66) {
-				return R.drawable.progress_30_100;
+				return R.drawable.prog_30_100;
 			} else if(todayPercent >= 33) {
-				return R.drawable.progress_30_60;
+				return R.drawable.prog_30_60;
 			} else {
-				return R.drawable.progress_30_30;
+				return R.drawable.prog_30_30;
 			}
 		}
 	}
