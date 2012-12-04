@@ -60,11 +60,11 @@ public class SmsReceiver extends BroadcastReceiver {
 							
 							if(!autoSave) {// if not automatically insert
 								Toast.makeText(context, "카드 문자를 받았습니다!!", Toast.LENGTH_SHORT).show();
-								Notification notification = new Notification(R.drawable.icon, "Spend Message Received", new Date().getTime());
+								Notification notification = new Notification(R.drawable.sms_icon, "카드 사용 문자 받음", new Date().getTime());
 								Intent handleIntent = new Intent(context,InboxListActivity.class);
 								PendingIntent handleMessage = PendingIntent.getActivity(context, 0, handleIntent, 0);
 								notification.flags |= Notification.FLAG_AUTO_CANCEL;
-								notification.setLatestEventInfo(context, "Spend message", "click to insert data", handleMessage);
+								notification.setLatestEventInfo(context, "카드 문자", "카드 사용 승인 문자를 받았습니다.", handleMessage);
 								NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 								notificationManager.notify(NOTIFICATION_ID, notification);
 							} else { // automatically insert

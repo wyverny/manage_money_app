@@ -272,7 +272,10 @@ public class InboxListActivity extends Activity {
 						ParsedData parsedData = smsConverter.convertSms(sd);
 						if(parsedData!=null)
 							parsedList.add(parsedData);
-					} catch (NotValidSmsDataException e) {e.printStackTrace();}
+					} catch (NotValidSmsDataException e) {
+						continue;
+//						e.printStackTrace();
+					}
 				}
 			}
 		}
