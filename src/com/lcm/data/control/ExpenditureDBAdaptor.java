@@ -51,6 +51,7 @@ public class ExpenditureDBAdaptor {
 		+ KEY_SMS_ID + " integer, "
 		+ KEY_WEB_UPLOADED + " integer);";
 	private static final String TAG = "ExpenditureDBAdaptor";
+	private static final boolean DEBUG = false;
 	
 	public static class DatabaseHelper extends SQLiteOpenHelper {
 		public DatabaseHelper(Context context) {
@@ -102,7 +103,7 @@ public class ExpenditureDBAdaptor {
 		cv.put(KEY_BANK, bank);
 		cv.put(KEY_WEB_UPLOADED, uploaded);
 //		Log.i("db_log","in createDB");
-		Log.e(TAG,"InsertDB: "+cv.toString());
+		if(DEBUG) Log.e(TAG,"InsertDB: "+cv.toString());
 		return mDb.insert(DATABASE_TABLE, null, cv);
 	}
 	
@@ -235,7 +236,7 @@ public class ExpenditureDBAdaptor {
 		while(mCursor.moveToNext()) {
 			String detail = mCursor.getString(detailid);
 			long timeV = mCursor.getLong(timeid);
-			Log.e(TAG,"db loading detail:" +detail + " time: " + timeV);
+			if(DEBUG) Log.e(TAG,"db loading detail:" +detail + " time: " + timeV);
 		}
 //		Log.e(TAG,"database count:" + mCursor.getCount());
 		if(mCursor.getCount()!=0) {

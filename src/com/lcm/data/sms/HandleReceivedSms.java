@@ -211,7 +211,7 @@ public class HandleReceivedSms extends Activity {
 		        if(false) {
 			        Cursor full = cDBAdaptor.fetchAllDB();
 			        if(full==null || full.getCount()==0)
-			        	Log.e(TAG,"Full is null or size 0!!!!");
+			        	if(DEBUG) Log.e(TAG,"Full is null or size 0!!!!");
 			        else {
 			    		int categoryId = full.getColumnIndex(CategoryDBAdaptor.KEY_CATEGORY);
 			    		int detailId = full.getColumnIndex(CategoryDBAdaptor.KEY_DETAIL);
@@ -220,7 +220,7 @@ public class HandleReceivedSms extends Activity {
 			    		do {
 			    			String category = full.getString(categoryId);
 			    			String detail = full.getString(detailId);
-			    			Log.e(TAG,"Detail: "+detail + " Category: " + category);
+			    			if(DEBUG) Log.e(TAG,"Detail: "+detail + " Category: " + category);
 			    		} while(full.moveToNext());
 			        }
 			        full.close();
@@ -240,7 +240,7 @@ public class HandleReceivedSms extends Activity {
 		        boolean temp = page.isFlag();
 	        	handleCategory.setSelection(findCategoryIndex(categ)); // this invokes itemSelected Listener
 	        	page.setFlag(temp);
-	        	Log.e(TAG,"Detail" + page.getDetail() + " Categ: " + categ + " Flag: " + page.isFlag());
+	        	if(DEBUG) Log.e(TAG,"Detail" + page.getDetail() + " Categ: " + categ + " Flag: " + page.isFlag());
 		        handleCategory.setOnItemSelectedListener(new CategorySelectedListener(position,handleCategory));
 	        }
 	        

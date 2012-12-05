@@ -17,6 +17,7 @@ import com.lcm.data.MonthlyData;
 import com.lcm.data.MonthlyStat;
 import com.lcm.data.sms.InboxListActivity;
 import com.lcm.smsSmini.R;
+import com.lcm.web.WebUpdateListActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,6 +48,7 @@ public class MainActivity extends Activity {
 	private static final int LINE_GRAPH = 1;
 	private static final int DOUGHNUT_GRAPH = 2;
 	private static final String TAG = "MainActivity";
+	private static final boolean DEBUG = false;
 
 //	private AdView adView;
 	private GraphicalView mView;
@@ -141,7 +144,7 @@ public class MainActivity extends Activity {
 		Util util = new Util();
 		// Log.e(TAG,"getFromTo: " + (today.getYear()+1900) + "," + month);
 		Calendar[] fromTo = util.getFromTo(today.get(Calendar.YEAR), month, accountingDate);
-		Log.e(TAG,"Update MonthlyData: from " + fromTo[Util.FROM].getTime() + 
+		if(DEBUG) Log.e(TAG,"Update MonthlyData: from " + fromTo[Util.FROM].getTime() + 
 				" throughout " + fromTo[Util.THROUGH].getTime() + " to " + fromTo[Util.TO].getTime());
 		int[] expense = null;
 		double maxExpense = 0;
@@ -215,9 +218,9 @@ public class MainActivity extends Activity {
 		TextView expect_week = (TextView)analyseLayout.findViewById(R.id.expected_from_week);
 		TextView lb_expect_week = (TextView)analyseLayout.findViewById(R.id.lb_expected_from_week);
 		TextView velocity_week = (TextView)analyseLayout.findViewById(R.id.velocity_week);
-		TextView expect_total = (TextView)analyseLayout.findViewById(R.id.expected_from_total);
-		TextView lb_expect_total = (TextView)analyseLayout.findViewById(R.id.lb_expected_from_total);
-		TextView velocity_total = (TextView)analyseLayout.findViewById(R.id.velocity_total);
+//		TextView expect_total = (TextView)analyseLayout.findViewById(R.id.expected_from_total);
+//		TextView lb_expect_total = (TextView)analyseLayout.findViewById(R.id.lb_expected_from_total);
+//		TextView velocity_total = (TextView)analyseLayout.findViewById(R.id.velocity_total);
 		
 		plan_real_diff.setText(decimalFormat.format(monthlyStat.compareToPlannedAndReal));
 		if(monthlyStat.compareToPlannedAndReal < 0) {
@@ -235,9 +238,37 @@ public class MainActivity extends Activity {
 		lb_expect_week.setText("원");
 		velocity_week.setText("지난 7일 일일 평균 사용량" + decimalFormat.format(monthlyStat.velocityWeek) + " 원으로 사용 시 월말 잔금");
 		
-		expect_total.setText(decimalFormat.format(monthlyStat.expectedUsedFromOverallVelocity));
-		lb_expect_total.setText("원");
-		velocity_total.setText("이번달 일일 평균 사용량 " + decimalFormat.format(monthlyStat.velocityOverall) + " 원으로 사용 시 월말 잔금");		
+//		expect_total.setText(decimalFormat.format(monthlyStat.expectedUsedFromOverallVelocity));
+//		lb_expect_total.setText("원");
+//		velocity_total.setText("이번달 일일 평균 사용량 " + decimalFormat.format(monthlyStat.velocityOverall) + " 원으로 사용 시 월말 잔금");		
+		
+		Button setting = (Button)analyseLayout.findViewById(R.id.anal_setting);
+		setting.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intentSettings = new Intent(MainActivity.this,
+						SettingsPreference.class);
+				startActivity(intentSettings);
+			}
+		});
+		Button smsLoad = (Button)analyseLayout.findViewById(R.id.anal_sms);
+		smsLoad.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(MainActivity.this, "SMS를 불러오는 중...", Toast.LENGTH_SHORT).show();
+				Intent intentInbox = new Intent(MainActivity.this,
+						InboxListActivity.class);
+				startActivity(intentInbox);
+			}
+		});
+		Button monetaUpload = (Button)analyseLayout.findViewById(R.id.anal_moneta);
+		monetaUpload.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this, WebUpdateListActivity.class);
+				startActivity(intent);
+			}
+		});
 		
 		/**
 		 *  for calendar layout

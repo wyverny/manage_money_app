@@ -43,7 +43,8 @@ public class GsCalendar {
 	// / 당연한 이야기지만 한줄에 7일씩 안들어갈 경우 휴일처리는 고려하지 않았다 -_-;;
 	public final static int ROWS = 7; // / 줄/행수
 	public final static int COLS = 7; // / 칸/열수
-	private static final String TAG = "GsCalendar";
+	private static final String TAG = "CalendarView";
+	private static final boolean DEBUG = false;
 
 	// final static int ROWS = 4 ; /// 줄/행수
 	// final static int COLS = 14 ; /// 칸/열수
@@ -518,7 +519,7 @@ public class GsCalendar {
 		iCal.add(Calendar.DATE, -1*startingDate);
 
 		m_lastDay = iCal.get(Calendar.DAY_OF_MONTH); // / 해달 달의 마지막날 겟~
-		Log.e(TAG,"m_lastDay = " + (m_lastDay));
+		if(DEBUG) Log.e(TAG,"m_lastDay = " + (m_lastDay));
 
 		// / 0부터 6번칸까지는 월화수목금토일~ 로 채워넣음
 		for (int k = 0; k < COLS; k++) {
@@ -533,7 +534,7 @@ public class GsCalendar {
 		}
 
 		// / 시작위치부터는 1부터 해서 달의 마지막날까지 숫자로 채움
-		Log.e(TAG,"m_startPos = " + (m_lastDay-startingDate));
+		if(DEBUG) Log.e(TAG,"m_startPos = " + (m_lastDay-startingDate));
 		for (int i = 0; i < (m_lastDay-startingDate+1); i++) {
 //			Log.e(TAG,"1setText at " + (i + m_startPos) + " as " + (i + startingDate));
 			if(i == 0) 
@@ -603,7 +604,7 @@ public class GsCalendar {
 						int year = clickedDay.get(Calendar.YEAR);
 						int month = clickedDay.get(Calendar.MONTH)+1;
 						int day = clickedDay.get(Calendar.DAY_OF_MONTH);
-						Log.e(TAG, year + "," + month + "," + day);
+						if(DEBUG) Log.e(TAG, year + "," + month + "," + day);
 						myClickEvent(year,month,day);
 					}
 				}
@@ -717,7 +718,7 @@ public class GsCalendar {
 	// / 달력에서 날짜를 클릭하면 이 함수를 부른다.
 	public void myClickEvent(int yyyy, int MM, int dd) {
 		int MMM = MM;
-		Log.e(TAG,"here "+ yyyy + "," + MM + "," + dd);
+		if(DEBUG) Log.e(TAG,"here "+ yyyy + "," + MM + "," + dd);
 		if(dd>=startingDate) MMM--;
 		Toast.makeText(mContext, "" + yyyy +"년 "+ (MMM+1) +"월 "+ dd + "일 사용내역", Toast.LENGTH_SHORT).show();
 
@@ -740,12 +741,12 @@ public class GsCalendar {
 	
 	public void updateMonthlyData() {
 		Util util = new Util();
-		Log.e(TAG,"GsCalendar - getFromTo: " + m_Calendar.get(Calendar.YEAR) +", " + m_Calendar.get(Calendar.MONTH-1));
+		if(DEBUG) Log.e(TAG,"GsCalendar - getFromTo: " + m_Calendar.get(Calendar.YEAR) +", " + m_Calendar.get(Calendar.MONTH-1));
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		Calendar thisMonth = (Calendar)m_Calendar.clone();
 		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
-		Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());
+		if(DEBUG) Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());
 		monthlyData = new MonthlyData(mContext, dates[0], dates[1], dates[2]);
 	}
 

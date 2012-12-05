@@ -256,8 +256,8 @@ public class MonthlyData {
 		int fIndex = 0, tIndex = 0;
 		int total = 0;
 		//to--;
-		Log.e(TAG,"from: " + from + " To: " + to);
-		Log.e(TAG,"Each Date:");
+		if(DEBUG) Log.e(TAG,"from: " + from + " To: " + to);
+		if(DEBUG) Log.e(TAG,"Each Date:");
 		for(int i=0; i<totalDays; i++) {
 			// Log.e(TAG,"" + i +"th index: " + eachDate[i]);
 			if(eachDate[i]==from) fIndex = i;
@@ -268,7 +268,7 @@ public class MonthlyData {
 		for(int i=fIndex; i<tIndex; i++) {
 			total += eachExpense[i];
 		}
-		Log.e(TAG,"Total: " + total + " tIndex: " +tIndex + " fIndex: " + fIndex);
+		if(DEBUG) Log.e(TAG,"Total: " + total + " tIndex: " +tIndex + " fIndex: " + fIndex);
 		int index = ((tIndex-fIndex)==0)? 1 :(tIndex-fIndex); 
 		return new int[]{total, index};
 	}
