@@ -146,7 +146,7 @@ public class GsCalendar {
 		// / 오늘 잘짜로 달력 생성
 		m_Calendar = Calendar.getInstance();
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		startingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		if(m_Calendar.get(Calendar.DATE) < startingDate)
 			m_Calendar.add(Calendar.MONTH, -1);
 
@@ -743,7 +743,7 @@ public class GsCalendar {
 		Util util = new Util();
 		if(DEBUG) Log.e(TAG,"GsCalendar - getFromTo: " + m_Calendar.get(Calendar.YEAR) +", " + m_Calendar.get(Calendar.MONTH-1));
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int startingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		int startingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		Calendar thisMonth = (Calendar)m_Calendar.clone();
 		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
 		if(DEBUG) Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());

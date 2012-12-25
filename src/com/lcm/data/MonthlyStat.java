@@ -53,9 +53,9 @@ public class MonthlyStat {
 		this.mContext = context;
 		
 		SharedPreferences sPref =  context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
-		weekdayBudget = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "30000"));
-		weekendBudget = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "105000"));
+		accountingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		weekdayBudget = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "30000"));
+		weekendBudget = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "105000"));
 		
 		GregorianCalendar today = new GregorianCalendar();
 		GregorianCalendar tomorrow = new GregorianCalendar();

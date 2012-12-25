@@ -20,7 +20,9 @@ import com.lcm.smsSmini.R;
 import com.lcm.web.WebUpdateListActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -69,7 +71,24 @@ public class MainActivity extends Activity {
 		mWorkspace = (Workspace)findViewById(R.id.workspace);
 		mWorkspace.setMainActivity(this);
 		
-		SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		final SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		boolean showGuidePopup = sPref.getBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, true);
+		if(showGuidePopup) {
+			new AlertDialog.Builder(this)
+			.setMessage("설정이 필요합니다. 설정창으로 이동할까요?")
+			.setPositiveButton("간다", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					sPref.edit().putBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, false).apply();
+					Intent intentSettings = new Intent(MainActivity.this,
+							SettingsPreference.class);
+					startActivity(intentSettings);
+				}
+			})
+			.setNegativeButton("나중에", null)
+			.show();
+			
+		}
 		boolean showNoti = sPref.getBoolean(SettingsPreference.PREF_NOTI_INFO,false);
 		if(showNoti) {
 			Intent notiInfo = new Intent(this, NotiInfo.class);
@@ -90,20 +109,20 @@ public class MainActivity extends Activity {
 		updateInformation();
 	}
 
-	private TextView makeTabIndicator(String text) {
-		TextView tabView = new TextView(this);
-		android.widget.LinearLayout.LayoutParams lp3 = new android.widget.LinearLayout.LayoutParams(
-				LayoutParams.WRAP_CONTENT, tabHeight, 1);
-		lp3.setMargins(1, 0, 1, 0);
-		tabView.setLayoutParams(lp3);
-		tabView.setText(text);
-		tabView.setTextColor(Color.WHITE);
-		tabView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-		tabView.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.tab_indicator));
-		tabView.setPadding(13, 0, 13, 0);
-		return tabView;
-	}
+//	private TextView makeTabIndicator(String text) {
+//		TextView tabView = new TextView(this);
+//		android.widget.LinearLayout.LayoutParams lp3 = new android.widget.LinearLayout.LayoutParams(
+//				LayoutParams.WRAP_CONTENT, tabHeight, 1);
+//		lp3.setMargins(1, 0, 1, 0);
+//		tabView.setLayoutParams(lp3);
+//		tabView.setText(text);
+//		tabView.setTextColor(Color.WHITE);
+//		tabView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+//		tabView.setBackgroundDrawable(getResources().getDrawable(
+//				R.drawable.tab_indicator));
+//		tabView.setPadding(13, 0, 13, 0);
+//		return tabView;
+//	}
 
 	class PreExistingViewFactory implements TabContentFactory {
 		private final View preExisting;
@@ -134,7 +153,7 @@ public class MainActivity extends Activity {
 		Calendar today = new GregorianCalendar();
 		// date should be according to accounting date, say every 25th
 		SharedPreferences sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		int accountingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 //		int accountingDate = 25; // its value should come from setting
 		int month = today.get(Calendar.MONTH);
 		if(today.get(Calendar.DATE)<accountingDate) {
@@ -161,8 +180,8 @@ public class MainActivity extends Activity {
 //		Date tmr = new Date(gc.getTimeInMillis());
 		
 		
-		int weekday = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "30000"));
-		int weekend = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "105000"));
+		int weekday = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "30000"));
+		int weekend = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "105000"));
 		
 		/**
 		 * Data calculation for analyze layout

@@ -15,6 +15,7 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -42,6 +44,7 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 	public static final String PREF_CAL_FROM = "calculate_from";
 	public static final String PREF_AUTO_SAVE = "auto_save";
 	public static final String PREF_NOTI_INFO = "noti_info_on";
+	public static final String PREF_SHOW_GUIDE_POPUP = "show_guide_popup";
 	public static final String PREF_NOTI_ICON = "noti_icon_on";
 	public static final String PREF_EXCEL_BACKUP = "excel_backup";
 	public static final String PREF_EXCEL_EMAIL = "excel_email";
@@ -151,7 +154,6 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 				return false;
 			}
 		});
-		
 	}
 
 	@Override
@@ -174,30 +176,70 @@ public class SettingsPreference extends PreferenceActivity implements OnSharedPr
 		mWeekDayPreference.setSummary(mWeekDayPreference.getText());
     	mWeekEndPreference.setSummary(mWeekEndPreference.getText());
     	
-		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+//		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		getSharedPreferences(PREFERENCES_NAME, 0).registerOnSharedPreferenceChangeListener(this);
 	}
 	
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		SharedPreferences sPref = getSharedPreferences(PREFERENCES_NAME, 0);
 	    if (key.equals(PREF_TOTAL_EXPENSE)) {
 	        mExpensePreference.setSummary(sharedPreferences.getString(key, "planned amount of money to spend for a month"));
+	        String totalExpString = sharedPreferences.getString(PREF_TOTAL_EXPENSE, "1500000");
+	        if(totalExpString.equals("")) {
+	        	totalExpString = "1000";
+	    		sPref.edit().putString(PREF_TOTAL_EXPENSE, "1500000").commit();
+	    		mExpensePreference.setText(totalExpString);
+	    	}
+	        int totalExpense = Integer.parseInt("0"+totalExpString);
+	        SharedPreferences.Editor editor = sPref.edit(); 
+	        editor.putString(PREF_WEND_BUDGET, ""+totalExpense/30);
+	        mWeekDayPreference.setText(""+totalExpense/30);
+	        editor.putString(PREF_WDAY_BUDGET, ""+totalExpense/30);
+	        mWeekEndPreference.setText(""+totalExpense/30);
+	        editor.commit();
 	    } else if(key.equals(PREF_CAL_FROM)) {
-	    	mCalStartPreference.setSummary(sharedPreferences.getString(key, "accumulate expense from"));
+	    	String calStart = sharedPreferences.getString(key, "accumulate expense from");
+	    	if(calStart.equals("") || Integer.parseInt(calStart) <= 0 || Integer.parseInt(calStart) >= 31) {
+	    		calStart = "1";
+	    		sPref.edit().putString(PREF_CAL_FROM, "1").commit();
+	    		mCalStartPreference.setText(calStart);
+	    	}
+	    	mCalStartPreference.setSummary(calStart);
+	    	
 	    } else if(key.equals(PREF_WDAY_BUDGET)) {
-	    	int[] eachBudget = getEachBudget(Integer.parseInt(sharedPreferences.getString(key, "0")),0);
-	    	sharedPreferences.edit().putString(PREF_WEND_BUDGET, ""+eachBudget[1]).commit();
-	    	mWeekDayPreference.setSummary(""+eachBudget[0]);
-	    	mWeekEndPreference.setSummary(""+eachBudget[1]);
+	    	String wday = sharedPreferences.getString(key, "0");
+	    	if(wday.equals("")) {
+	    		wday = "0";
+	    		sPref.edit().putString(PREF_WDAY_BUDGET, wday).commit();
+	    		mWeekDayPreference.setText(wday);
+	    	}
+	    	int[] eachBudget = getEachBudget(Integer.parseInt(wday),0);
+	    	if(!sharedPreferences.getString(PREF_WEND_BUDGET, "30000").equals(eachBudget[1]+"")) {
+	    		mWeekEndPreference.setText(""+eachBudget[1]);
+	    		sPref.edit().putString(PREF_WEND_BUDGET, ""+eachBudget[1]).commit();
+	    	}
+	    	mWeekDayPreference.setSummary(sharedPreferences.getString(PREF_WDAY_BUDGET, "30000"));
+	    	mWeekEndPreference.setSummary(sharedPreferences.getString(PREF_WEND_BUDGET, "1050000"));
 	    } else if(key.equals(PREF_WEND_BUDGET)) {
-	    	int[] eachBudget = getEachBudget(0,Integer.parseInt(sharedPreferences.getString(key, "0")));
-	    	sharedPreferences.edit().putString(PREF_WDAY_BUDGET, ""+eachBudget[0]).commit();
-	    	mWeekDayPreference.setSummary(""+eachBudget[0]);
-	    	mWeekEndPreference.setSummary(""+eachBudget[1]);
+	    	String wend = sharedPreferences.getString(key, "0");
+	    	if(wend.equals("")) {
+	    		wend = "0";
+	    		sPref.edit().putString(PREF_WDAY_BUDGET, wend).commit();
+	    		mWeekEndPreference.setText(wend);
+	    	}
+	    	int[] eachBudget = getEachBudget(0,Integer.parseInt(wend));
+	    	if(!sharedPreferences.getString(PREF_WDAY_BUDGET, "1050000").equals(eachBudget[0]+"")) {
+	    		mWeekDayPreference.setText(""+eachBudget[0]);
+	    		sPref.edit().putString(PREF_WDAY_BUDGET, ""+eachBudget[0]).commit();
+	    	}
+	    	mWeekDayPreference.setSummary(sharedPreferences.getString(PREF_WDAY_BUDGET, "30000"));
+	    	mWeekEndPreference.setSummary(sharedPreferences.getString(PREF_WEND_BUDGET, "1050000"));
 	    }
 	}
 
 	private int[] getEachBudget(int weekDay, int weekEnd) {
-		int totalBudget = Integer.parseInt(mExpensePreference.getText());
+		int totalBudget = Integer.parseInt("0"+mExpensePreference.getText());
 		if(weekDay==0 && weekEnd==0) {
 			return new int[] {totalBudget/30, totalBudget/30};
 		}

@@ -60,7 +60,7 @@
 	    <EditTextPreference android:key="weekend_budget" android:title="주말 예산" android:summary="105000" android:defaultValue="105000" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setting_optional">
-		<CheckBoxPreference android:key="auto_save" android:title="SMS 자동 저장" android:defaultValue="false"></CheckBoxPreference>
+		<!-- <CheckBoxPreference android:key="auto_save" android:title="SMS 자동 저장" android:defaultValue="false"></CheckBoxPreference> -->
 		<CheckBoxPreference android:key="noti_info_on" android:title="알림에 정보 표시" android:defaultValue="false"></CheckBoxPreference>
 		<!-- <CheckBoxPreference android:key="noti_icon_on" android:title="알림에 아이콘 표시" android:defaultValue="false"></CheckBoxPreference> -->
 	</PreferenceCategory>

@@ -1,7 +1,6 @@
 package com.lcm.data.sms;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.lcm.data.ParsedData;
 import com.lcm.data.control.ExpenditureDBAdaptor;
@@ -11,11 +10,7 @@ import com.lcm.smsSmini.R;
 import com.lcm.view.MainActivity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -28,33 +23,50 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class InboxListActivity extends Activity {
+public class InboxListActivity extends Activity implements OnScrollListener {
 	private static final String TAG = "InboxListActivity";
 	private static final boolean DEBUG = false;
 	ArrayAdapter<ParsedData> inboxAdapter;
+	
+	private ExpenditureDBAdaptor expenditureDBAdaptor;
+	Cursor smsDbCursorResult;
+	ListView smsListView;
+	String bodyIdString;
+	String addrIdString;
+	String dateIdString;
+	String _idIdString;
+	
+	
 	final ArrayList<ParsedData> parsedList = new ArrayList<ParsedData>();
 	SMSConverter smsConverter;
 	SMSDbAdapter smsDbAdapter;
 	Context context = this;
 	protected boolean confirmed = false;
+	private boolean mLockListView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.inbox);
 
+		mLockListView = true;
 		smsConverter = new SMSConverter(context);
-		updateSmsList(null, null);
+		openSmsDB(null, null);
+		loadSmsDBData(20);
 		
 		inboxAdapter = new SmsItemAdapter(this, R.layout.sms, R.id.smsStat,	parsedList);
-		((ListView) findViewById(R.id.inboxList11)).setAdapter(inboxAdapter);
+		smsListView = (ListView)findViewById(R.id.inboxList11);
+		
+		smsListView.setOnScrollListener(this);
+		smsListView.setAdapter(inboxAdapter);
 		Button button = ((Button) findViewById(R.id.inbox_loadButton));
 		button.setOnTouchListener(new OnTouchListener() {
 			@Override
@@ -181,26 +193,26 @@ public class InboxListActivity extends Activity {
 	 * @param smsArg
 	 * @param smsString
 	 */
-	public void updateSmsList(String[] smsArg, String[] smsString) {
+	public void openSmsDB(String[] smsArg, String[] smsString) {
 		// SAMSUNG GA CP URL: content://com.btb.sec.mms.provider/message
 		// SAMSUNG CP URL: content://com.sec.mms.provider/message
 			
 		// LG CP URL: content://com.lge.messageprovider/msg/inbox
 			// incoming number: sender, body: body.
 		// General: content://sms/inbox
-		String bodyIdString = "body";
-		String addrIdString = "address";
-		String dateIdString = "date";
-		String _idIdString = "_id";
+		bodyIdString = "body";
+		addrIdString = "address";
+		dateIdString = "date";
+		_idIdString = "_id";
 		
 		boolean mmsAvailable = false;
-		Cursor result = null;
+		smsDbCursorResult = null;
 		
 		if(!mmsAvailable) {
 			// for other phones
-			result = getContentResolver().query(
+			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://sms/inbox"), null, null, null, null);
-			if(result.getCount()==0) result.close();
+			if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
 			else {
 				Log.e(TAG,"Normal Phone it is!!!!!!!!");
 				mmsAvailable = true;
@@ -208,9 +220,9 @@ public class InboxListActivity extends Activity {
 		}
 		if(!mmsAvailable) {
 			// for LG phone
-			result = getContentResolver().query(
+			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://com.lge.messageprovider/msg/inbox"), null, null, null, null);
-			if(result.getCount()==0) result.close();
+			if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
 			else {
 				Log.e(TAG,"LG Phone it is!!!!!!!!");
 				mmsAvailable = true;
@@ -222,9 +234,9 @@ public class InboxListActivity extends Activity {
 		}
 		if(!mmsAvailable) {
 			// for SamSung phone
-			result = getContentResolver().query(
+			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://com.sec.mms.provider/message"), null, null, null, null);
-			if(result.getCount()==0) result.close();
+			if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
 			else {
 				Log.e(TAG,"Samsung Phone it is!!!!!!!!");
 				mmsAvailable = true;
@@ -236,9 +248,9 @@ public class InboxListActivity extends Activity {
 		}
 		if(!mmsAvailable) {
 			// for SamSungGalaxy A phone
-			result = getContentResolver().query(
+			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://com.btb.sec.mms.provider/message"), null, null, null, null);
-			if(result.getCount()==0) result.close();
+			if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
 			else {
 				Log.e(TAG,"Samsung Phone it is!!!!!!!!");
 				mmsAvailable = true;
@@ -249,18 +261,23 @@ public class InboxListActivity extends Activity {
 			}
 		}	
 		
-		int bodyid = result.getColumnIndex(bodyIdString);
-		int addrid = result.getColumnIndex(addrIdString);
-		int dateid = result.getColumnIndex(dateIdString);
-		int _idid = result.getColumnIndex(_idIdString);
-		
-		ExpenditureDBAdaptor expenditureDBAdaptor = new ExpenditureDBAdaptor(this);
+		expenditureDBAdaptor = new ExpenditureDBAdaptor(this);
 		expenditureDBAdaptor.open();
+	}
+	
+	private void loadSmsDBData(int size) {
+		int bodyid = smsDbCursorResult.getColumnIndex(bodyIdString);
+		int addrid = smsDbCursorResult.getColumnIndex(addrIdString);
+		int dateid = smsDbCursorResult.getColumnIndex(dateIdString);
+		int _idid = smsDbCursorResult.getColumnIndex(_idIdString);
 		
-		if (result != null) {
-			while (result.moveToNext()) {
-				SmsData sd = new SmsData(result.getString(bodyid),
-						result.getString(addrid), result.getString(dateid), Integer.parseInt(result.getString(_idid)));
+		int index = 0;
+		mLockListView = true;
+		
+		if (smsDbCursorResult != null) {
+			while (smsDbCursorResult.moveToNext() && index < size) {
+				SmsData sd = new SmsData(smsDbCursorResult.getString(bodyid),
+						smsDbCursorResult.getString(addrid), smsDbCursorResult.getString(dateid), Integer.parseInt(smsDbCursorResult.getString(_idid)));
 				// check if the SmsData is ok to be shown using parser
 //				Log.e(TAG,"updateSMSList: "+sd.getDate() + "," + sd.getBody());
 				if(smsConverter.isValidSms(sd) && !expenditureDBAdaptor.isDataExist(Long.parseLong(sd.getDate()))
@@ -270,8 +287,10 @@ public class InboxListActivity extends Activity {
 //					smsList.add(sd);
 					try {
 						ParsedData parsedData = smsConverter.convertSms(sd);
-						if(parsedData!=null)
+						if(parsedData!=null) {
 							parsedList.add(parsedData);
+							index++;
+						}
 					} catch (NotValidSmsDataException e) {
 						continue;
 //						e.printStackTrace();
@@ -280,9 +299,22 @@ public class InboxListActivity extends Activity {
 			}
 		}
 		
-		expenditureDBAdaptor.close();
-		result.close();
+		mLockListView = false;
+		
+		if(inboxAdapter!=null) {
+//			smsListView.removeFooterView(footer);
+			inboxAdapter.notifyDataSetChanged();
+		}
+			
 	}
+	
+	@Override
+	protected void onPause() {
+		expenditureDBAdaptor.close();
+		smsDbCursorResult.close();
+		super.onPause();
+	}
+
 
 	@Override
 	public void onBackPressed() {
@@ -290,6 +322,27 @@ public class InboxListActivity extends Activity {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 		finish();
+	}
+
+
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		int count = totalItemCount - visibleItemCount;
+		
+		if(firstVisibleItem >= count && totalItemCount != 0
+				&& mLockListView == false)
+		{
+//			smsListView.addFooterView(footer);
+//			smsListView.
+			Toast.makeText(this, "데이터 로딩 중", Toast.LENGTH_SHORT).show();
+			loadSmsDBData(20);
+		}
+	}
+
+
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
 	}
 	
 	/*

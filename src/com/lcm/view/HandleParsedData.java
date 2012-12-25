@@ -262,6 +262,7 @@ public class HandleParsedData extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				data_handled.get(index).setCategory(spinner.getSelectedItem().toString());
+				parsedDataManager.updateParsedData(data_handled);
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -288,6 +289,7 @@ public class HandleParsedData extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				data_handled.get(in).setDetail(detail.getText().toString());
 				myAdapter.notifyDataSetChanged();
+				parsedDataManager.updateParsedData(data_handled);
 			}
 		});
 		builder.setNegativeButton("√Îº“", new DialogInterface.OnClickListener() {
@@ -332,8 +334,8 @@ public class HandleParsedData extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if(!spendView.getText().toString().equals("") && 
-						!(Integer.parseInt(spendView.getText().toString()) == 0)) {
-					ParsedData pd = new ParsedData(Integer.parseInt(spendView.getText().toString()),1,
+						!(Integer.parseInt("0"+spendView.getText().toString()) == 0)) {
+					ParsedData pd = new ParsedData(Integer.parseInt("0"+spendView.getText().toString()),1,
 							categoryView.getSelectedItem().toString(), date, detailView.getText().toString());
 					data_handled.add(pd);
 					created_datas.add(pd);

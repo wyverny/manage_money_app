@@ -295,6 +295,8 @@ public class WebUpdateListActivity extends Activity {
 			notUploadedAdapter = new MyAdapter(WebUpdateListActivity.this, R.layout.parsed_data_readonly, R.id.new_detail, notUploadedList);
 			((ListView) findViewById(R.id.handle_listview)).setAdapter(notUploadedAdapter);
 			notUploadedAdapter.notifyDataSetInvalidated();
+			
+//			"mmini.kr";
 		}
 	};
 }

@@ -77,7 +77,7 @@ public class NotiInfo extends Service {
 		NotificationManager nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		
 		// 노티바 관련
-		int icon = R.drawable.icon; // 사용량 작은 아이콘으로 표시
+		int icon = R.drawable.app_icon; // 사용량 작은 아이콘으로 표시
 		CharSequence tickerText = getText(R.string.app_name); // 작은 노티 문장
 		long when = System.currentTimeMillis();
 		Notification notification = new Notification(icon,tickerText,when);
@@ -93,9 +93,15 @@ public class NotiInfo extends Service {
 		DecimalFormat format = new DecimalFormat("#,#00 원");
 		
 		contentView.setTextViewText(R.id.remain_percent, (100 - data[0]) + getText(R.string.percent).toString());
-		contentView.setTextViewText(R.id.remain_detail, "전체 생활비 " + format.format(data[1]) + " 남음");
+		if(data[1] >= 0)
+			contentView.setTextViewText(R.id.remain_detail, "전체 생활비 " + format.format(data[1]) + " 남음");
+		else
+			contentView.setTextViewText(R.id.remain_detail, "전체 생활비 " + format.format(-data[1]) + " 초과");
 		contentView.setTextViewText(R.id.today_percent, (100 - data[2]) + getText(R.string.percent).toString());
-		contentView.setTextViewText(R.id.today_detail, "오늘 생활비 "+ format.format(data[3]) + " 남음"); 
+		if(data[3] >= 0)
+			contentView.setTextViewText(R.id.today_detail, "오늘 생활비 "+ format.format(data[3]) + " 남음");
+		else
+			contentView.setTextViewText(R.id.today_detail, "오늘 생활비 "+ format.format(-data[3]) + " 초과");
 		notification.contentView = contentView;
 		
 		Intent notificationInetnt = new Intent(this,MainActivity.class);
@@ -177,7 +183,7 @@ public class NotiInfo extends Service {
 		Calendar today = new GregorianCalendar();
 		// date should be according to accounting date, say every 25th
 		SharedPreferences sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+		int accountingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		int month = today.get(Calendar.MONTH);
 		if(today.get(Calendar.DATE)<accountingDate) {
 			month = (today.get(Calendar.MONTH)==0)? 11 : today.get(Calendar.MONTH)-1;
@@ -207,8 +213,8 @@ public class NotiInfo extends Service {
 		
 		double date = monthlyData.getEachDate(remainingDays[0]);
 		int exp = monthlyData.getEachExpense(remainingDays[0]);
-		int weekday = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "20000"));
-		int weekend = Integer.parseInt(sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "45000"));
+		int weekday = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_WDAY_BUDGET, "20000"));
+		int weekend = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_WEND_BUDGET, "45000"));
 		int weekKind = (new GregorianCalendar()).get(GregorianCalendar.DAY_OF_WEEK);
 		int todayBudget = 0; 
 		if(weekKind==GregorianCalendar.SATURDAY || weekKind==GregorianCalendar.SUNDAY) {

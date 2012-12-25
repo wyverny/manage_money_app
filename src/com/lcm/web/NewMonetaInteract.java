@@ -27,15 +27,21 @@ package com.lcm.web;
  */
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.ProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.RedirectHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.conn.params.ConnManagerParams;
 //import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -65,6 +71,8 @@ import android.widget.Toast;
  * form-based logon.
  */
 public class NewMonetaInteract {
+	private static final String TAG = "NewMonetaInteract";
+	
 	private static final String PARAM_ID = "custId";
 	private static final String PARAM_PWD = "passwd";
 	private static final String AUTH_URI = "https://member.moneta.co.kr/Auth/SmLoginAuth.jsp";
@@ -112,6 +120,7 @@ public class NewMonetaInteract {
 				for (ParsedData parsedData : parsedDatas) {
 					if(parsedData.isFlag()) {
 						if(connectToMonetaWritePage(parsedData)) {
+							Log.e(TAG,"Uploaded:" + parsedData.toString());
 							parsedData.setUploaded(1);
 							pdm.updateParsedData(parsedData);
 						}
@@ -161,6 +170,7 @@ public class NewMonetaInteract {
 
 			httpClient = new DefaultHttpClient();
 			final HttpParams mParams = httpClient.getParams();
+			mParams.setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
 			HttpConnectionParams.setConnectionTimeout(mParams,REGISTRATION_TIMEOUT);
 			HttpConnectionParams.setSoTimeout(mParams, REGISTRATION_TIMEOUT);
 			ConnManagerParams.setTimeout(mParams, REGISTRATION_TIMEOUT);
@@ -185,9 +195,7 @@ public class NewMonetaInteract {
 		}
 	
 		public boolean connectToMonetaWritePage(ParsedData parsedData) throws Exception {
-			HttpPost httpPost = new HttpPost(WRITE_ACTION);
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-			
 			MonetaUtil monetaUtil = new MonetaUtil(context);
 			nvps.add(new BasicNameValuePair("regDate", DateFormat.format("yyyyMMdd",parsedData.getDate()).toString()));  //일자
 			nvps.add(new BasicNameValuePair("cashClsfy", "2")); // ??
@@ -197,7 +205,26 @@ public class NewMonetaInteract {
 			nvps.add(new BasicNameValuePair("itemCode", monetaUtil.getCategoryValue(parsedData.getCategory()))); //분류
 			nvps.add(new BasicNameValuePair("note", "Money Tracker")); //비고
 
-			httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+			HttpEntity entity = null;
+			try {
+				entity = new UrlEncodedFormEntity(nvps, HTTP.UTF_8);
+			} catch (final UnsupportedEncodingException e) {throw new AssertionError(e);}
+			HttpPost httpPost = new HttpPost(WRITE_ACTION);
+			httpPost.setHeader(entity.getContentType());
+			httpPost.setEntity(entity);
+			
+//			httpClient.setRedirectHandler(new RedirectHandler() {
+//				@Override
+//				public boolean isRedirectRequested(HttpResponse arg0, HttpContext arg1) {
+//					return false;
+//				}
+//				@Override
+//				public URI getLocationURI(HttpResponse arg0, HttpContext arg1)
+//						throws ProtocolException {
+//					return URI.create("");
+//				}
+//			});
+			
 			response = httpClient.execute(httpPost, httpContext);
 			entity = response.getEntity();
 			

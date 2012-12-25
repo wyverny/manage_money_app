@@ -219,7 +219,7 @@ public class ParsedData implements Parcelable, Comparable<ParsedData> {
 		ArrayList<InstallmentDatePrice> result = new ArrayList<ParsedData.InstallmentDatePrice>();
 		int eachPrice = spent/installment;
 		SharedPreferences sPref = context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		int accountingDate = Integer.parseInt(sPref.getString(SettingsPreference.PREF_CAL_FROM,"15"));
+		int accountingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM,"15"));
 		
 		Calendar eachDate = new GregorianCalendar(date.get(Calendar.YEAR),date.get(Calendar.MONTH),accountingDate);
 		Calendar eachDay = date; //new Date(eachDate.getTimeInMillis());

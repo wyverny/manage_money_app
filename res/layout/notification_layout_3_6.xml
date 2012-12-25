@@ -57,8 +57,7 @@
             android:layout_weight="4"
             android:gravity="left"
             android:paddingLeft="10dip"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="italic" />
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
             android:id="@+id/today_detail"
@@ -68,8 +67,7 @@
             android:layout_weight="4"
             android:gravity="left"
             android:paddingLeft="10dip"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="italic" />
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
     </LinearLayout>
 
 </LinearLayout>

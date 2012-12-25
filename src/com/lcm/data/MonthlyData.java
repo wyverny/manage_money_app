@@ -48,7 +48,7 @@ public class MonthlyData {
 		mContext = context;
 		
 		SharedPreferences sPref = mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
-		setTotalBudget(Integer.parseInt(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000")));
+		setTotalBudget(Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000")));
 		
 		int fromDays = turning.get(Calendar.DAY_OF_MONTH);
 
@@ -265,6 +265,7 @@ public class MonthlyData {
 		}
 			
 		if(fIndex > tIndex) return null;
+		if(fIndex == tIndex) tIndex = eachExpense.length;
 		for(int i=fIndex; i<tIndex; i++) {
 			total += eachExpense[i];
 		}

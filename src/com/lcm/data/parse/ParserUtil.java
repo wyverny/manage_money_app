@@ -14,6 +14,8 @@ public class ParserUtil {
 		while(data.charAt(index) == ',' || Character.isDigit(data.charAt(index))) {
 			index--;
 		}
+		index++;
+		
 		String spend = data.substring(index, wonIndex+1).replace(",", "").trim();
 		return spend;
 	}

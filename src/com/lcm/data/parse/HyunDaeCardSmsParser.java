@@ -14,7 +14,7 @@ public class HyunDaeCardSmsParser implements SmsParser {
 //		System.out.println("installment:"+detail+".");
 		
 		String installment = ParserUtil.getInstallment(input);
-		System.out.println("installment:"+installment+".");
+//		System.out.println("installment:"+installment+".");
 		
 		return new String[]{spend,detail,installment};
 	}
