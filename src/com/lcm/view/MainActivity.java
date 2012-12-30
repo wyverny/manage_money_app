@@ -266,7 +266,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intentSettings = new Intent(MainActivity.this,
-						SettingsPreference.class);
+						ConfigureView.class);
 				startActivity(intentSettings);
 			}
 		});

@@ -119,7 +119,7 @@ public class MonthlyStat {
 			plannedUsedUntilToday += planned;
 			dayFromTodayToLast.add(Calendar.DATE, -1);
 		}		
-		int spend = monthlyData.getEachExpense(dayFromTodayToLast.get(Calendar.DATE));
+		int spend = monthlyData.getDatesExpense(dayFromTodayToLast.get(Calendar.DATE));
 		int planned = (Util.isWeekEnd(dayFromTodayToLast))? weekendBudget : weekdayBudget;
 		if(spend > planned)
 			daysBudgetExceeded++;

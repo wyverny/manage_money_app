@@ -182,7 +182,7 @@ public class HandleParsedData extends Activity {
 	        if (page != null) {
 		        TextView handleSpend = (TextView)v.findViewById(R.id.handle_spend);
 		        TextView handleDate = (TextView)v.findViewById(R.id.handle_date);
-		        TextView handleDetail = (TextView)v.findViewById(R.id.handle_detail);
+		        EditText handleDetail = (EditText)v.findViewById(R.id.handle_detail);
 		        Spinner handleCategory = (Spinner)v.findViewById(R.id.handle_category);
 		        
 //		        Log.e("HandleReceivedSms","position: "+position+" : "+page+",,,,"+handleSpend);
