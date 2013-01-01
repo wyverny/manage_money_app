@@ -745,7 +745,8 @@ public class GsCalendar {
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		int startingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 		Calendar thisMonth = (Calendar)m_Calendar.clone();
-		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
+//		dates = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), startingDate);
+		dates = util.getFromTo(thisMonth, startingDate);
 		if(DEBUG) Log.e(TAG,"Update MonthlyData(inside method): from " + dates[0].getTime() + " throughout " + dates[1].getTime() + " to " + dates[2].getTime());
 		monthlyData = new MonthlyData(mContext, dates[0], dates[1], dates[2]);
 	}

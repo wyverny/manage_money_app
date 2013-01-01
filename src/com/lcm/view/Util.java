@@ -12,6 +12,31 @@ public class Util {
 	public static final int THROUGH = 1;
 	public static final int TO = 2;
 
+	public Calendar[] getFromTo(Calendar today, int accountingDate) {
+		Calendar fromCalendar = Calendar.getInstance();
+		Calendar turningCalendar = Calendar.getInstance();
+		Calendar toCalendar = Calendar.getInstance();
+		if(today.get(Calendar.DATE) < accountingDate) {
+			toCalendar.add(Calendar.DATE,accountingDate-toCalendar.get(Calendar.DATE));
+			fromCalendar = (Calendar)toCalendar.clone();
+			fromCalendar.add(Calendar.MONTH, -1);
+		} else {
+			fromCalendar.add(Calendar.DATE, fromCalendar.DATE - accountingDate);
+			toCalendar = (Calendar)fromCalendar.clone();
+			toCalendar.add(Calendar.MONTH, 1);
+		}
+		
+		turningCalendar = (Calendar)toCalendar.clone();
+		turningCalendar.add(Calendar.DATE, -accountingDate);
+		
+		toCalendar.set(Calendar.HOUR, 0);
+		toCalendar.set(Calendar.MINUTE, 0);
+		toCalendar.set(Calendar.SECOND, 0);
+		toCalendar.set(Calendar.MILLISECOND, 0);
+		
+		return new Calendar[] {fromCalendar, turningCalendar, toCalendar};
+	}
+	
 	/**
 	 * @return this method returns three values in Date array; from, to, and turning respectively
 	 * in a month period, from, to, and turning means follow
@@ -20,6 +45,7 @@ public class Util {
 	 * Turning: when month period goes to next month, it gives the info when From date's month ends
 	 * 		otherwise it is the same with To date
 	 */
+	/*
 	public Calendar[] getFromTo(int year, int month, int fromValue) {
 		// getting a month period to acquire data from database. Date[0] is from, Date[1] is to.
 		GregorianCalendar fromDate = new GregorianCalendar(year,month,fromValue); //fromDate.setDate(fromValue);
@@ -55,6 +81,7 @@ public class Util {
 		
 		return new GregorianCalendar[]{fromDate, turningPoint, toDate};
 	}
+	*/
 	
 	public static boolean isWeekEnd(Calendar dayFromTodayToLast) {
 		return dayFromTodayToLast.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||

@@ -212,52 +212,60 @@ public class InboxListActivity extends Activity implements OnScrollListener {
 			// for other phones
 			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://sms/inbox"), null, null, null, null);
-			if(smsDbCursorResult == null || smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
-			else {
-				Log.e(TAG,"Normal Phone it is!!!!!!!!");
-				mmsAvailable = true;
+			if(smsDbCursorResult != null) {
+				if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
+				else {
+					Log.e(TAG,"Normal Phone it is!!!!!!!!");
+					mmsAvailable = true;
+				}
 			}
 		}
 		if(!mmsAvailable) {
 			// for LG phone
 			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://com.lge.messageprovider/msg/inbox"), null, null, null, null);
-			if(smsDbCursorResult == null || smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
-			else {
-				Log.e(TAG,"LG Phone it is!!!!!!!!");
-				mmsAvailable = true;
-				bodyIdString = "body";
-				dateIdString = "date";
-				addrIdString = "sender";
-				_idIdString = "_id";
+			if(smsDbCursorResult != null) {
+				if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
+				else {
+					Log.e(TAG,"LG Phone it is!!!!!!!!");
+					mmsAvailable = true;
+					bodyIdString = "body";
+					dateIdString = "date";
+					addrIdString = "sender";
+					_idIdString = "_id";
+				}
 			}
 		}
 		if(!mmsAvailable) {
 			// for SamSung phone
 			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://com.sec.mms.provider/message"), null, null, null, null);
-			if(smsDbCursorResult == null || smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
-			else {
-				Log.e(TAG,"Samsung Phone it is!!!!!!!!");
-				mmsAvailable = true;
-				bodyIdString = "Title";
-				dateIdString = "RegTime";
-				addrIdString = "MDN1st";
-				_idIdString = "RootID";
+			if(smsDbCursorResult != null) {
+				if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
+				else {
+					Log.e(TAG,"Samsung Phone it is!!!!!!!!");
+					mmsAvailable = true;
+					bodyIdString = "Title";
+					dateIdString = "RegTime";
+					addrIdString = "MDN1st";
+					_idIdString = "RootID";
+				}
 			}
 		}
 		if(!mmsAvailable) {
 			// for SamSungGalaxy A phone
 			smsDbCursorResult = getContentResolver().query(
 					Uri.parse("content://com.btb.sec.mms.provider/message"), null, null, null, null);
-			if(smsDbCursorResult == null || smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
-			else {
-				Log.e(TAG,"Samsung Phone it is!!!!!!!!");
-				mmsAvailable = true;
-				bodyIdString = "Title";
-				dateIdString = "RegTime";
-				addrIdString = "MDN1st";
-				_idIdString = "RootID";
+			if(smsDbCursorResult != null) {
+				if(smsDbCursorResult.getCount()==0) smsDbCursorResult.close();
+				else {
+					Log.e(TAG,"Samsung Phone it is!!!!!!!!");
+					mmsAvailable = true;
+					bodyIdString = "Title";
+					dateIdString = "RegTime";
+					addrIdString = "MDN1st";
+					_idIdString = "RootID";
+				}
 			}
 		}
 		

@@ -191,7 +191,8 @@ public class NotiInfo extends Service {
 		// and month should be previous month
 		Util util = new Util();
 		// Log.e(TAG,"getFromTo: " + (today.getYear()+1900) + "," + month);
-		Calendar[] fromTo = util.getFromTo(today.get(Calendar.YEAR), month, accountingDate);
+//		Calendar[] fromTo = util.getFromTo(today.get(Calendar.YEAR), month, accountingDate);
+		Calendar[] fromTo = util.getFromTo(today, accountingDate);
 		int[] expense = null;
 		double maxExpense = 0;
 		MonthlyData monthlyData = new MonthlyData(this, fromTo[Util.FROM], fromTo[Util.THROUGH], fromTo[Util.TO]);

@@ -138,7 +138,8 @@ public class MonthlyStat {
 //		eachMonthExpense[5] = monthlyData.getTotalUsedUp();
 		
 		for(int i=5; i >= 0; i--) {	
-			Calendar[] fromTo = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), accountingDate);
+//			Calendar[] fromTo = util.getFromTo(thisMonth.get(Calendar.YEAR), thisMonth.get(Calendar.MONTH), accountingDate);
+			Calendar[] fromTo = util.getFromTo(thisMonth, accountingDate);
 			MonthlyData monthlyData = new MonthlyData(mContext, fromTo[Util.FROM], fromTo[Util.THROUGH], fromTo[Util.TO]);
 			monthlyData.accumulateExpense();
 			eachMonthExpense[i] = monthlyData.getTotalUsedUp();
