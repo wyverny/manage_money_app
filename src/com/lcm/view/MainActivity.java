@@ -73,21 +73,25 @@ public class MainActivity extends Activity {
 		
 		final SharedPreferences sPref = getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		boolean showGuidePopup = sPref.getBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, true);
+//		sPref.edit().putBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, true).commit();
 		if(showGuidePopup) {
-			new AlertDialog.Builder(this)
-			.setMessage("설정이 필요합니다. 설정창으로 이동할까요?")
-			.setPositiveButton("간다", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					sPref.edit().putBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, false).apply();
-					Intent intentSettings = new Intent(MainActivity.this,
-							SettingsPreference.class);
-					startActivity(intentSettings);
-				}
-			})
-			.setNegativeButton("나중에", null)
-			.show();
-			
+			Intent intentSettings = new Intent(MainActivity.this,
+					ConfigureView.class);
+			startActivity(intentSettings);
+			this.finish();
+//			new AlertDialog.Builder(this)
+//			.setMessage("설정이 필요합니다. 설정창으로 이동할까요?")
+//			.setPositiveButton("간다", new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					sPref.edit().putBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, false).apply();
+//					Intent intentSettings = new Intent(MainActivity.this,
+//							SettingsPreference.class);
+//					startActivity(intentSettings);
+//				}
+//			})
+//			.setNegativeButton("나중에", null)
+//			.show();
 		}
 		boolean showNoti = sPref.getBoolean(SettingsPreference.PREF_NOTI_INFO,false);
 		if(showNoti) {

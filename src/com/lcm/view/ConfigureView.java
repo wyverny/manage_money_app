@@ -1,9 +1,13 @@
 package com.lcm.view;
 
+import com.lcm.data.sms.InboxListActivity;
 import com.lcm.smsSmini.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +18,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -23,6 +29,7 @@ import android.widget.Toast;
 
 public class ConfigureView extends Activity {
 	TextView totalExpense;
+	TextView accountDay;
 	SeekBar weekDay;
 	SeekBar weekEnd;
 	TextView wdayBudget, wendBudget;
@@ -30,6 +37,7 @@ public class ConfigureView extends Activity {
 	CheckBox showNoti;
 	
 	SharedPreferences sPref;
+	boolean showGuidePopup;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,7 @@ public class ConfigureView extends Activity {
 		setContentView(R.layout.configure);
 		
 		sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
+		showGuidePopup = sPref.getBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, true);
 		
 		totalExpense = (TextView)findViewById(R.id.total_expense);
 		totalExpense.setText(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000"));
@@ -49,7 +58,7 @@ public class ConfigureView extends Activity {
 			public void afterTextChanged(Editable s) {
 				if(totalExpense.getText().toString().equals(""))
 					totalExpense.setText("0");
-				Toast.makeText(ConfigureView.this, "AfterTextChanged" + totalExpense.getText(), Toast.LENGTH_SHORT).show();
+//				Toast.makeText(ConfigureView.this, "AfterTextChanged" + totalExpense.getText(), Toast.LENGTH_SHORT).show();
 				int total = Integer.parseInt(totalExpense.getText().toString());
 				weekDay.setMax(total/22 - (total/22) % 500);
 				wdayMax.setText(""+(total/22 - (total/22) % 500));
@@ -57,6 +66,24 @@ public class ConfigureView extends Activity {
 				wendMax.setText(""+(total/9 - (total/9) % 500));
 			}
 		});
+		
+		accountDay = (TextView)findViewById(R.id.account_day);
+		accountDay.setText(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
+//		accountDay.addTextChangedListener(new TextWatcher() {
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count,	int after) {}
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				if(accountDay.getText().toString().equals(""))
+//					accountDay.setText("1");
+////				Toast.makeText(ConfigureView.this, "AfterTextChanged" + accountDay.getText(), Toast.LENGTH_SHORT).show();
+//				int account = Integer.parseInt(accountDay.getText().toString());
+//				if(account > 30)
+//					accountDay.setText("30");
+//			}
+//		});
 		
 		wdayBudget = (TextView)findViewById(R.id.wday_budget);
 		wendBudget = (TextView)findViewById(R.id.wend_budget);
@@ -170,18 +197,65 @@ public class ConfigureView extends Activity {
 		});
 		
 		showNoti = (CheckBox)findViewById(R.id.show_noti);
+		showNoti.setChecked(sPref.getBoolean(SettingsPreference.PREF_NOTI_INFO, false));
+		showNoti.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+				sPref.edit().putBoolean(SettingsPreference.PREF_NOTI_INFO, showNoti.isChecked()).commit();
+				sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
+			}
+		});
 		
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
 				SharedPreferences.Editor editor = sPref.edit();
+				
+				if(accountDay.getText().toString().equals(""))
+					accountDay.setText("1");
+				int account = Integer.parseInt(accountDay.getText().toString());
+				if(account > 30)
+					accountDay.setText("30");
+				
 				editor.putString(SettingsPreference.PREF_TOTAL_EXPENSE, totalExpense.getText().toString());
+				editor.putString(SettingsPreference.PREF_CAL_FROM, accountDay.getText().toString());
 				editor.putString(SettingsPreference.PREF_WDAY_BUDGET, ""+weekDay.getProgress());
 				editor.putString(SettingsPreference.PREF_WEND_BUDGET, ""+weekEnd.getProgress());
-				editor.putBoolean(SettingsPreference.PREF_NOTI_INFO, showNoti.isChecked());
+				editor.putBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, false);
 				editor.commit();
-				ConfigureView.this.finish();
+				
+				if(showGuidePopup) {
+					new AlertDialog.Builder(ConfigureView.this)
+					.setMessage("기존 문자데이터를 등록하시겠어요??")
+					.setPositiveButton("네", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Intent intentSettings = new Intent(ConfigureView.this,
+									InboxListActivity.class);
+							intentSettings.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+							startActivity(intentSettings);
+							ConfigureView.this.finish();
+						}
+					})
+					.setNegativeButton("나중에", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intentSettings = new Intent(ConfigureView.this,
+									MainActivity.class);
+							intentSettings.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+							startActivity(intentSettings);
+							ConfigureView.this.finish();
+						}
+					})
+					.show();
+				} else {
+					Intent intentSettings = new Intent(ConfigureView.this,
+							MainActivity.class);
+					startActivity(intentSettings);
+					ConfigureView.this.finish();
+				}
 			}
 		});
 	}
