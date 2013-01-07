@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class MonthlyData {
 	private static final String TAG = "MonthlyData";
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private Calendar from;
 //	private GregorianCalendar nextFromGregorianCalendar;
 	private Calendar to;
@@ -52,7 +52,8 @@ public class MonthlyData {
 		
 		int fromDays = turning.get(Calendar.DAY_OF_MONTH);
 
-		totalDays = fromDays - from.get(Calendar.DAY_OF_MONTH) + to.get(Calendar.DAY_OF_MONTH);
+//		totalDays = fromDays - from.get(Calendar.DAY_OF_MONTH) + to.get(Calendar.DAY_OF_MONTH);
+		totalDays = (int)((to.getTimeInMillis() - from.getTimeInMillis())/86400000);
 
 		/**
 		 * so the date starts from the 'From' date, say 25. then it gets the end of that month, the 'Turning' date, say 31.
@@ -64,20 +65,31 @@ public class MonthlyData {
 		if(DEBUG) Log.e(TAG,"TotalDays: " + totalDays + ", " + fromDays + ", " +
 				from.get(Calendar.DAY_OF_MONTH) + ", "+to.get(Calendar.DAY_OF_MONTH));
 		
+		Calendar indexCal = (Calendar)from.clone();
 		int index=0;
-		beginingMonth = from.get(Calendar.MONTH)+1;
-		for(int j=from.get(Calendar.DAY_OF_MONTH); j<=fromDays; j++) {
-			eachDate[index] = j;
-			index++;
+		for(int i=0; i < totalDays; i++) {
+			eachDate[i] = indexCal.get(Calendar.DATE);
+			indexCal.add(Calendar.DATE, 1);
 		}
-		for(int j=1; j<=to.get(Calendar.DAY_OF_MONTH)-1; j++) {
-			eachDate[index] = j;
-			index++;
-		}
+//		for(;!indexCal.equals(to);indexCal.add(Calendar.DATE, 1)) {
+//			eachDate[index] = indexCal.get(Calendar.DATE);
+//			index++;
+//		}
+		
+//		index=0;
+//		beginingMonth = from.get(Calendar.MONTH)+1;
+//		for(int j=from.get(Calendar.DAY_OF_MONTH); j<=fromDays; j++) {
+//			eachDate[index] = j;
+//			index++;
+//		}
+//		for(int j=1; j<=to.get(Calendar.DAY_OF_MONTH)-1; j++) {
+//			eachDate[index] = j;
+//			index++;
+//		}
 		
 		// getting expense data for each day 
 		eachDaysData = new HashMap<Integer, ArrayList<ParsedData>>(totalDays);
-		for(int i=0; i< totalDays; i++) {
+		for(int i=0; i < totalDays; i++) {
 			if(DEBUG) Log.e(TAG,"initializing day: " + eachDate[i]);
 			eachDaysData.put(eachDate[i], new ArrayList<ParsedData>());
 		}

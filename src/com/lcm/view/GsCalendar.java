@@ -147,8 +147,9 @@ public class GsCalendar {
 		m_Calendar = Calendar.getInstance();
 		SharedPreferences sPref =  mContext.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		startingDate = Integer.parseInt("0"+sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
-		if(m_Calendar.get(Calendar.DATE) < startingDate)
-			m_Calendar.add(Calendar.MONTH, -1);
+//		if(m_Calendar.get(Calendar.DATE) < startingDate) {
+//			m_Calendar.add(Calendar.MONTH, -1);
+//		}
 
 		// / 표시할 각각의 레이어 생성
 		m_lineLy = new LinearLayout[COLS]; // / 7줄의 레이아웃 생성
@@ -602,7 +603,7 @@ public class GsCalendar {
 						printView();
 //						v.setBackgroundColor(Color.RED);
 						int year = clickedDay.get(Calendar.YEAR);
-						int month = clickedDay.get(Calendar.MONTH)+1;
+						int month = clickedDay.get(Calendar.MONTH);
 						int day = clickedDay.get(Calendar.DAY_OF_MONTH);
 						if(DEBUG) Log.e(TAG, year + "," + month + "," + day);
 						myClickEvent(year,month,day);

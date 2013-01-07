@@ -13,21 +13,27 @@ public class Util {
 	public static final int TO = 2;
 
 	public Calendar[] getFromTo(Calendar today, int accountingDate) {
-		Calendar fromCalendar = Calendar.getInstance();
-		Calendar turningCalendar = Calendar.getInstance();
-		Calendar toCalendar = Calendar.getInstance();
+		Calendar fromCalendar = (Calendar)today.clone();
+		Calendar turningCalendar = (Calendar)today.clone();
+		Calendar toCalendar = (Calendar)today.clone();
 		if(today.get(Calendar.DATE) < accountingDate) {
-			toCalendar.add(Calendar.DATE,accountingDate-toCalendar.get(Calendar.DATE));
+			toCalendar.add(Calendar.DATE,accountingDate - toCalendar.get(Calendar.DATE));
 			fromCalendar = (Calendar)toCalendar.clone();
 			fromCalendar.add(Calendar.MONTH, -1);
 		} else {
-			fromCalendar.add(Calendar.DATE, fromCalendar.DATE - accountingDate);
+			fromCalendar.add(Calendar.DATE, accountingDate - fromCalendar.get(Calendar.DATE));
 			toCalendar = (Calendar)fromCalendar.clone();
 			toCalendar.add(Calendar.MONTH, 1);
+//			toCalendar.set(Calendar.DATE,accountingDate);
 		}
 		
 		turningCalendar = (Calendar)toCalendar.clone();
 		turningCalendar.add(Calendar.DATE, -accountingDate);
+		
+		fromCalendar.set(Calendar.HOUR, 0);
+		fromCalendar.set(Calendar.MINUTE, 0);
+		fromCalendar.set(Calendar.SECOND, 0);
+		fromCalendar.set(Calendar.MILLISECOND, 0);
 		
 		toCalendar.set(Calendar.HOUR, 0);
 		toCalendar.set(Calendar.MINUTE, 0);
