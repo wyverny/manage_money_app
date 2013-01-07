@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -28,8 +29,8 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class ConfigureView extends Activity {
-	TextView totalExpense;
-	TextView accountDay;
+	EditText totalExpense;
+	EditText accountDay;
 	SeekBar weekDay;
 	SeekBar weekEnd;
 	TextView wdayBudget, wendBudget;
@@ -43,11 +44,12 @@ public class ConfigureView extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.configure);
+		this.setTitle("생활비 알림 설정");
 		
 		sPref =  getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 		showGuidePopup = sPref.getBoolean(SettingsPreference.PREF_SHOW_GUIDE_POPUP, true);
 		
-		totalExpense = (TextView)findViewById(R.id.total_expense);
+		totalExpense = (EditText)findViewById(R.id.total_expense);
 		totalExpense.setText(sPref.getString(SettingsPreference.PREF_TOTAL_EXPENSE, "1000000"));
 		totalExpense.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -60,14 +62,18 @@ public class ConfigureView extends Activity {
 					totalExpense.setText("0");
 //				Toast.makeText(ConfigureView.this, "AfterTextChanged" + totalExpense.getText(), Toast.LENGTH_SHORT).show();
 				int total = Integer.parseInt(totalExpense.getText().toString());
+				if(!totalExpense.getText().toString().equals(""+total))
+					totalExpense.setText(""+total);
 				weekDay.setMax(total/22 - (total/22) % 500);
 				wdayMax.setText(""+(total/22 - (total/22) % 500));
 				weekEnd.setMax(total/9 - (total/9) % 500);
 				wendMax.setText(""+(total/9 - (total/9) % 500));
+				int cursorPos = Math.min(totalExpense.length(), 2000);
+				totalExpense.setSelection(cursorPos, cursorPos);
 			}
 		});
 		
-		accountDay = (TextView)findViewById(R.id.account_day);
+		accountDay = (EditText)findViewById(R.id.account_day);
 		accountDay.setText(sPref.getString(SettingsPreference.PREF_CAL_FROM, "15"));
 //		accountDay.addTextChangedListener(new TextWatcher() {
 //			@Override
@@ -258,5 +264,8 @@ public class ConfigureView extends Activity {
 				}
 			}
 		});
+		
+		int cursorPos = Math.min(totalExpense.length(), 2000);
+		totalExpense.setSelection(cursorPos, cursorPos);
 	}
 }
