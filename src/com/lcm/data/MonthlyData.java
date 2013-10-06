@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class MonthlyData {
 	private static final String TAG = "MonthlyData";
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private Calendar from;
 //	private GregorianCalendar nextFromGregorianCalendar;
 	private Calendar to;

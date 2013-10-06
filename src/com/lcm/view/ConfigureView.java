@@ -109,7 +109,7 @@ public class ConfigureView extends Activity {
 		int wdayProgress = (prefWday.equals("")) ? initWeekDay : Integer.parseInt(prefWday);
 		weekDay.setProgress(wdayProgress);
 		wdayBudget.setText(""+wdayProgress);
-		wdayMax.setText(""+wdayProgress);
+		wdayMax.setText(""+initWeekDay);
 		weekDay.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			int prog;
 			@Override

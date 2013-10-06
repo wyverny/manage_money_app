@@ -132,10 +132,11 @@ public class ExpenditureDBAdaptor {
 //				, null) > 0;
 //	}
 	
-	public boolean deleteDB(Calendar date) {
+	public boolean deleteDB(Calendar date, String detail) {
 		return mDb.delete(DATABASE_TABLE, 
 				KEY_YEAR + "=" + date.get(Calendar.YEAR) + " AND " + KEY_MONTH + "=" + date.get(Calendar.MONTH) + " AND " +  
-				KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTimeInMillis()
+				KEY_DAY + "=" + date.get(Calendar.DAY_OF_MONTH) + " AND " + KEY_TIME + "=" + date.getTimeInMillis() + " AND " +
+						KEY_DETAIL + "='" + detail + "'"
 				, null) > 0;
 	}
 	
@@ -271,7 +272,8 @@ public class ExpenditureDBAdaptor {
 		
 		return mDb.update(DATABASE_TABLE, args, 
 				KEY_YEAR + "=" + year + " AND " + KEY_MONTH + "=" + month + " AND " +  
-				KEY_DAY + "=" + day + " AND " + KEY_TIME + "=" + time
+				KEY_DAY + "=" + day + " AND " + KEY_TIME + "=" + time + " AND " +
+						KEY_DETAIL + "='" + detail + "'"  
 				, null) > 0;
 	}
 }

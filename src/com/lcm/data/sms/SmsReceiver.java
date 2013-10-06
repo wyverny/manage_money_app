@@ -3,9 +3,11 @@ package com.lcm.data.sms;
 import java.util.Date;
 
 import com.lcm.data.ParsedData;
+import com.lcm.data.control.CategoryDBAdaptor;
 import com.lcm.data.control.ParsedDataManager;
 import com.lcm.data.parse.NotValidSmsDataException;
 import com.lcm.smsSmini.R;
+import com.lcm.view.MainActivity;
 import com.lcm.view.SettingsPreference;
 
 import android.app.Notification;
@@ -58,8 +60,13 @@ public class SmsReceiver extends BroadcastReceiver {
 							SharedPreferences sPref = context.getSharedPreferences(SettingsPreference.PREFERENCES_NAME, 0);
 							boolean autoSave = sPref.getBoolean(SettingsPreference.PREF_AUTO_SAVE,false);
 							
-							if(!autoSave) {// if not automatically insert
+							CategoryDBAdaptor cDbA = new CategoryDBAdaptor(context).open();
+							parsedData = smsConverter.convertSms(messages[i]);
+							boolean categoryExist = cDbA.isDataExist(parsedData.getDetail());
+							
+							if(!categoryExist) {// if not automatically insert
 								Toast.makeText(context, "카드 문자를 받았습니다!!", Toast.LENGTH_SHORT).show();
+								
 								Notification notification = new Notification(R.drawable.sms_icon, "카드 사용 문자 받음", new Date().getTime());
 								Intent handleIntent = new Intent(context,InboxListActivity.class);
 								PendingIntent handleMessage = PendingIntent.getActivity(context, 0, handleIntent, 0);
@@ -71,10 +78,18 @@ public class SmsReceiver extends BroadcastReceiver {
 								parsedData = smsConverter.convertSms(messages[i]);
 								if(parsedData==null)
 									return;
-								
 								ParsedDataManager parsedDataManager = ParsedDataManager.getParsedDataManager(context);
+								parsedData.setCategory(parsedDataManager.getCategory(parsedData.getDetail()));
 								parsedDataManager.insertParsedData(parsedData);
-								Toast.makeText(context, "카드 문자를 자동 저장하였습니다!!", Toast.LENGTH_SHORT).show();
+								Toast.makeText(context, "카드 사용 문자를 자동 저장하였습니다!!", Toast.LENGTH_SHORT).show();
+								
+								Notification notification = new Notification(R.drawable.sms_icon, "카드 사용 문자 받음", new Date().getTime());
+								Intent handleIntent = new Intent(context,MainActivity.class);
+								PendingIntent handleMessage = PendingIntent.getActivity(context, 0, handleIntent, 0);
+								notification.flags |= Notification.FLAG_AUTO_CANCEL;
+								notification.setLatestEventInfo(context, "카드 문자", "카드 사용 문자를 자동 저장하였습니다!!", handleMessage);
+								NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+								notificationManager.notify(NOTIFICATION_ID, notification);
 								/*
 								parsedData.setSms_id(-1);
 								Notification notification = new Notification(R.drawable.icon, "spend message", new Date().getTime());
@@ -89,6 +104,8 @@ public class SmsReceiver extends BroadcastReceiver {
 								// TODO: parsedData should be processed further and inserted directly into the DB.
 								*/
 							}
+							
+							cDbA.close();
 						} catch (NotValidSmsDataException e) {e.printStackTrace();}
 					}
 				}

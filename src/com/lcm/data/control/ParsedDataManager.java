@@ -157,7 +157,7 @@ public class ParsedDataManager {
 		exDBAdaptor = new ExpenditureDBAdaptor(mContext);
 		exDBAdaptor.open();
 		
-		exDBAdaptor.deleteDB(parsedData.getDate());
+		exDBAdaptor.deleteDB(parsedData.getDate(),parsedData.getDetail());
 		
 		exDBAdaptor.close();
 		return false;
@@ -169,7 +169,7 @@ public class ParsedDataManager {
 		exDBAdaptor.open();
 		
 		for(ParsedData parsedData:parsedDatas)
-			exDBAdaptor.deleteDB(parsedData.getDate());
+			exDBAdaptor.deleteDB(parsedData.getDate(),parsedData.getDetail());
 		
 		exDBAdaptor.close();
 		return false;

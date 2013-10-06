@@ -543,14 +543,14 @@ public class GsCalendar {
 			else 
 				m_cellTextBtn[i + m_startPos].setText((i + startingDate) + "");
 			int expense = monthlyData.getDatesExpense((i + startingDate));
-			String exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
+			String exp = (expense/10000!=0)? (expense/10000) + "만" : (expense/1000!=0)? (expense/1000) + "천" : "0";
 			m_cellStatBtn[i + m_startPos].setText(exp+"");
 			m_cellLy[i + m_startPos].setBackgroundColor(getColor(expense));
 		}
 		
 		m_cellTextBtn[(m_lastDay-startingDate)+1 + m_startPos].setText((dates[2].get(Calendar.MONTH)+1) + ".1");
 		int expense = monthlyData.getDatesExpense(1);
-		String exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
+		String exp = (expense/10000!=0)? (expense/10000) + "만" : (expense/1000!=0)? (expense/1000) + "천" : "0";
 		m_cellStatBtn[(m_lastDay-startingDate)+1 + m_startPos].setText(exp+"");
 		m_cellLy[(m_lastDay-startingDate)+1 + m_startPos].setBackgroundColor(getColor(expense));
 		
@@ -558,7 +558,7 @@ public class GsCalendar {
 //			Log.e(TAG,"2setText at " + (i + (m_lastDay-startingDate) + m_startPos) + " as " + (i + 1));
 			m_cellTextBtn[i + (m_lastDay-startingDate+1) + m_startPos].setText((i + 1) + "");
 			expense = monthlyData.getDatesExpense(i+1);
-			exp = (expense/1000!=0)? (expense/1000)+"k" : "0";
+			exp = (expense/10000!=0)? (expense/10000) + "만" : (expense/1000!=0)? (expense/1000) + "천" : "0";
 			m_cellStatBtn[i + (m_lastDay-startingDate+1) + m_startPos].setText(exp + "");
 			m_cellLy[i + (m_lastDay-startingDate+1) + m_startPos].setBackgroundColor(getColor(expense));
 		}
@@ -602,6 +602,8 @@ public class GsCalendar {
 									.get(Calendar.DAY_OF_MONTH) + "");
 						printView();
 //						v.setBackgroundColor(Color.RED);
+						if(clickedDay.get(Calendar.DAY_OF_MONTH) < startingDate) 
+							clickedDay.add(Calendar.MONTH, 1);
 						int year = clickedDay.get(Calendar.YEAR);
 						int month = clickedDay.get(Calendar.MONTH);
 						int day = clickedDay.get(Calendar.DAY_OF_MONTH);
@@ -720,7 +722,7 @@ public class GsCalendar {
 	public void myClickEvent(int yyyy, int MM, int dd) {
 		int MMM = MM;
 		if(DEBUG) Log.e(TAG,"here "+ yyyy + "," + MM + "," + dd);
-		if(dd>=startingDate) MMM--;
+//		if(dd<startingDate) MMM++;
 		Toast.makeText(mContext, "" + yyyy +"년 "+ (MMM+1) +"월 "+ dd + "일 사용내역", Toast.LENGTH_SHORT).show();
 
 		// start handleParsedData class

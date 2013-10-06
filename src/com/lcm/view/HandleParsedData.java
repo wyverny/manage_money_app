@@ -214,8 +214,8 @@ public class HandleParsedData extends Activity {
 					alertDialog.setMessage("삭제하시겠습니까?").setPositiveButton("네", new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							parsedDataManager.deleteParsedData(page);
 							data_handled.remove(page);
+							parsedDataManager.deleteParsedData(page);
 							myAdapter.notifyDataSetChanged();
 							sendBroadcast(new Intent(NotiInfoRunner.ACTION_RUN_INFORUNNER));
 						}
@@ -261,7 +261,14 @@ public class HandleParsedData extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
+//				Log.e(TAG,"========================================================================================");
+//				for(int i=0; i<data_handled.size(); i++)
+//					Log.e(TAG,"Data_handled[" + i + "]" +data_handled.get(i).getDetail() + ", " + data_handled.get(i).getCategory());
+//				Log.e(TAG,"Data: " + data_handled.get(index).getDetail() + " change to" + spinner.getSelectedItem().toString());
 				data_handled.get(index).setCategory(spinner.getSelectedItem().toString());
+//				for(int i=0; i<data_handled.size(); i++)
+//					Log.e(TAG,"Data_handled[" + i + "]" +data_handled.get(i).getDetail() + ", " + data_handled.get(i).getCategory());
+//				Log.e(TAG,"========================================================================================");
 				parsedDataManager.updateParsedData(data_handled);
 			}
 			@Override
@@ -287,9 +294,15 @@ public class HandleParsedData extends Activity {
 		builder.setPositiveButton("저장", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				data_handled.get(in).setDetail(detail.getText().toString());
+				ParsedData parsedData = data_handled.get(in);
+				data_handled.remove(parsedData);
+				parsedDataManager.deleteParsedData(parsedData);
+				
+				parsedData.setDetail(detail.getText().toString());
+				data_handled.add(parsedData);
+				parsedDataManager.insertParsedData(parsedData);
+				
 				myAdapter.notifyDataSetChanged();
-				parsedDataManager.updateParsedData(data_handled);
 			}
 		});
 		builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {

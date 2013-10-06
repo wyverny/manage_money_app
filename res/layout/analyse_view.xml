@@ -476,15 +476,6 @@
 
             </LinearLayout>
             
-            <com.google.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="a150b227fe9e117"
-        ads:loadAdOnCreate="true" >
-    </com.google.ads.AdView>
-            
         </LinearLayout>
 
     </ScrollView>
